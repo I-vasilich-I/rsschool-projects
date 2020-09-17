@@ -1,0 +1,62 @@
+
+/* not_phototime_layout */
+.wrapper {
+  position: relative;
+  /*visibility: hidden;*/
+  margin: auto;
+  width: 1600px;
+  height: 4182px;
+
+  background: #ffffff;
+}
+
+
+/* bg-image-wrapper */
+.bg-image-wrapper {
+    position: absolute;
+    width: 1600px;
+    height: 744px;
+    left: 0px;
+    top: 0px;
+}
+
+#big-image {
+    position: absolute;
+    width: 1600px;
+    height: 788px;
+    left: 0px;
+    top: -22px;
+    
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(ales-nesetril-Im7lZjxeLhg-unsplash.jpg);
+}
+
+/* bg-2 */
+.back-ground-2 {
+    position: absolute;
+    width: 1600px;
+    height: 842px;
+    left: 0px;
+    top: 0px;
+    
+    background: #FFFFFF;
+}
+
+
+/* 2 */
+.second-slide-wrapper {
+    position: absolute;
+    width: 1600px;
+    height: 842px;
+    left: 0px;
+    top: 744px;
+}
+/* content-image-1 */
+#content-image-1 {
+    position: absolute;
+    width: 407px;
+    height: 582px;
+    left: 923px;
+    top: 864px;
+    
+    background: url(pexels-thisisengineering-3862131.jpg), url(pexels-thisisengineering-3861964.jpg);
+}
