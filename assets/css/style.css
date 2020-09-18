@@ -726,4 +726,139 @@ textarea {
     margin-left: 248px;
   }
 
-  /*  second styles end*/
+  /*  second styles end */
+
+
+  /*  third styles start  */
+  .third {
+    height: 504px;
+    left: 0px;
+    top: 0px;
+
+    background: #F5F6F7;
+    padding-top: 80px;
+  }
+  
+  .third__wrapper {
+    max-width: 1331px;
+    margin-left: 269px;
+  }
+
+  .third__content {
+    height: 284px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .third__content-block {
+    position: absolute;
+    width: 298px;
+    height: 175px;
+    margin-top: 75px;
+  }
+
+  .third__slide-block {
+    width: 894px;
+
+  }
+
+
+
+  /*  third styles end  */
+
+
+
+  /*  fourth styles start */
+
+  .fourth {
+    height: 842px;
+    left: 0px;
+    top: 0px;
+
+    background: #FFFFFF;
+    padding-top: 120px;
+  }
+
+  .fourth__content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .fourth__content-block {
+    width: 407px;
+    height: 184px;
+    margin-top: 199px;
+    margin-left: 139px;
+  }
+
+  .fourth__tittle {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+    display: flex;
+    align-items: flex-end;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    color: #373737;
+    margin-bottom: 20px;
+  }
+
+  .fourth.subtittle {
+
+  }
+
+  .fourth__subtittle-p {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    
+    color: #4E4E4E;
+  }
+
+  .fourth__subtittle-strong {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    
+    color: #373737;
+  }
+
+  .fourth__btn {
+    width: 180px;
+    height: 46px;
+    left: 0px;
+    padding: 15px 47px;
+    background: #00AFDB;
+    margin-top: 30px;
+   
+  }
+
+  .fourth__btn-text {
+    width: 90px;
+    height: 16px;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    user-select: none;
+    color: #FFFFFF;
+
+    /* Inside Auto Layout */
+
+    flex: none;
+    order: 0;
+    align-self: center;
+    margin: 0px 0px;
+    
+  }
+
+  .fourth__btn:hover, .fourth__btn:focus, .fourth__btn:active {
+    background: #009CC2;
+  }
+
+
+  /*  fourth styles end */
