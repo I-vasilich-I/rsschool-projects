@@ -413,11 +413,11 @@ textarea {
     width: 1600px;
     margin: auto;
   }
-
+  /*
   .body__wrapper {
     
   }
-
+  */
   /* header styles start*/
   
   header {
@@ -426,12 +426,7 @@ textarea {
     left: 0;
     width: 100%;
   }
-/*
-  .wrapper {
-    margin: auto;
-    width: 1600px;
-  }
-*/
+
   .wrapper {
     max-width: 1062px;
     margin: 0 auto;
@@ -862,3 +857,107 @@ textarea {
 
 
   /*  fourth styles end */
+
+
+
+
+  /*  fifth styles start  */
+
+  .fifth {
+    height: 598px;
+    background: url(../images/fifth-background.png) no-repeat;
+  }
+
+  .fifth__content {
+    position: absolute;
+    width: 406px;
+    height: 104px;
+    margin-top: 217px;
+    margin-left: 328px;
+  }
+
+  .fifth__tittle {
+    left: 13px;
+    margin-left: 13px;
+
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    
+    color: #FFFFFF;
+  }
+
+  /*  fifth styles end  */
+
+
+
+
+  /*  sixth styles start  */
+
+  .sixth {
+    height: 468px;
+    
+    background: #F5F6F7;
+    padding-top: 120px;
+  }
+
+  .sixth__content {
+    width: 483px;
+    height: 168px;
+    
+    margin-left: 290px;
+  }
+
+  .sixth__tittle {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+    display: flex;
+    margin-left: 116px;
+    
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    
+    color: #373737;
+    margin-bottom: 20px;
+  }
+
+  .sixth__subtittle {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;    
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+    color: #4E4E4E;
+  }
+
+
+
+
+  /*  sixth styles end  */
+
+
+
+
+  /*  footer styles start */
+
+
+  .footer {
+    width: 1600px;
+    height: 184px;
+    left: 0px;
+    top: 3998px;
+    
+    background: #000000;
+  }
+
+
+  /*  footer styles end */
