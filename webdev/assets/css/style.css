@@ -560,8 +560,10 @@ textarea {
 
   .header__link:hover, .header__link:focus, .header__link:active {
     opacity: 1;
-    
+  }
 
+  .header__logo-link:hover, .header__logo-link:focus, .header__logo-link:active {
+    opacity: .85;
   }
 
   /* header styles end*/
@@ -892,6 +894,7 @@ textarea {
 
   .third__arrow-left:hover, .third__arrow-left:focus {
     opacity: .5;
+    cursor: pointer;
   }
 
   .third__nav-middle {
@@ -953,6 +956,7 @@ textarea {
 
   .third__arrow-right:hover, .third__arrow-right:focus {
     opacity: .5;
+    cursor: pointer;
   }
 
   .third__2column-3columns {
