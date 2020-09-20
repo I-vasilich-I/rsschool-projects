@@ -1132,7 +1132,7 @@ textarea {
     position: absolute;
     width: 66px;
     height: 46px;
-    background: url(/assets/images/svg/check-icon.svg) no-repeat center;
+    background: url(../images/svg/check-icon.svg) no-repeat center;
     
     border: none;
   }
@@ -1149,12 +1149,6 @@ textarea {
   .form__btn:hover, .form__btn:focus {
     background: #009CC2;
   }
-  
-  input[type=value] {
-    background: url(/assets/images/svg/check-icon.svg) no-repeat center;
-  }
-  
-  
 
   input[type=email] {
     font-size: 14px;
