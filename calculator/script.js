@@ -31,23 +31,48 @@ class Calculator {
     }
 
     equals(){
+        
 
     }
 
     appendNumber(number){
-        this.currentOperand = parseFloat(this.currentOperand.toString()+number.toString());
+        if (number==='.' && this.currentOperand.includes('.')) return;
+        this.currentOperand = this.currentOperand.toString()+number.toString();
     }
 
     chooseOperation(operation){
-
+        if (this.currentOperand==='') return;
+        if (this.previousOperand!=='') {
+            this.compute();
+        }
+        this.operation = operation;
+        this.previousOperand = this.currentOperand;
+        this.currentOperand = '';
     }
 
     compute(){
-
+        let computation;
+        const previous = parseFloat(this.previousOperand);
+        const current = pasrseFloat(this.currentOperand);
+        if (isNaN(previous) || isNaN(current)) return;
+        switch (this.operation){
+            case '+' :
+                computation = previous + current;
+                break;
+            case '-' : 
+                computation = previous - current;
+                break;
+            default :
+                return;
+        }
+        this.currentOperand = computation;
+        this.previousOperand = '';
+        this.operation = undefined; 
     }
 
     updateDisplay(){
         this.currentOperandTextArea.innerText = this.currentOperand;
+        this.previousOperandTextArea.innerText = this.previousOperand;
     }
 
 
@@ -84,7 +109,7 @@ equalsButton.addEventListener('click', () => {
 
 operationButtons.forEach(button => {
     button.addEventListener('click', () => {
-        colculator.chooseOperation();
+        colculator.chooseOperation(button.innerText);
         colculator.updateDisplay();
     })
 })
