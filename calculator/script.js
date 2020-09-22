@@ -79,6 +79,7 @@ class Calculator {
     }
 
     compute(){
+        let operationOnCurrent = false;
         let computation;
         const previous = parseFloat(this.previousOperand);
         const current = parseFloat(this.currentOperand);
@@ -96,14 +97,20 @@ class Calculator {
             case '÷' : 
                 computation = previous / current;
                 break;
-            
+            case '1/x' : 
+            operationOnCurrent = true;
+                computation = parseFloat(1 / current);
+                break;
             default :
             return;
         }
         this.readyToReset = true;
         this.currentOperand = computation;
-        this.previousOperand = '';
-        this.operation = undefined; 
+        if (operationOnCurrent == false){
+            this.previousOperand = '';
+            this.operation = undefined; 
+        }
+        
     }
 
     getDisplayNumber(number){
@@ -128,7 +135,7 @@ class Calculator {
         if (this.operation != null) {
             this.previousOperandTextArea.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`;
         }else{
-            this.previousOperandTextArea.innerText = this.getDisplayNumber(this.previousOperand);
+            this.previousOperandTextArea.innerText = '';
         }
     }
 
