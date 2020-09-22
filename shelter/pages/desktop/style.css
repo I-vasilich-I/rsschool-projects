@@ -1,0 +1,63 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+body {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* header styles start*/
+
+header {
+    position: fixed;
+    top: 0;
+    width: 1920px;
+    background: indigo;
+}
+
+.hidden {
+    position: absolute;
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+    padding: 0;
+    border: 0;
+
+  }
+
+  .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+  }
+
+/* header styles end*/
+
+/* Start screen styles start */
+
+.start {
+    height: 100vh;
+    background: url(../../assets/images/start-screen-background.png) no-repeat center;
+    background-size: auto;
+}
+
+.start__img {
+    position: relative;
+    width: 698px;
+    height: 728px;
+    left: 862px;
+    top: 197px;
+    
+    background: url(image.png);
+}
+
+/* Start screen styles end */
