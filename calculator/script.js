@@ -60,7 +60,8 @@ class Calculator {
         if (isNaN(current)) return;
         switch (this.operation){
             case '1/x' : 
-                computation = 1 / current;
+            operationOnCurrent = true;
+                computation = parseFloat(1 / current);
                 break;
             case 'x^2' : 
                 computation = Math.pow(current, 2);
@@ -79,7 +80,6 @@ class Calculator {
     }
 
     compute(){
-        let operationOnCurrent = false;
         let computation;
         const previous = parseFloat(this.previousOperand);
         const current = parseFloat(this.currentOperand);
@@ -97,20 +97,13 @@ class Calculator {
             case '÷' : 
                 computation = previous / current;
                 break;
-            case '1/x' : 
-            operationOnCurrent = true;
-                computation = parseFloat(1 / current);
-                break;
             default :
             return;
         }
         this.readyToReset = true;
         this.currentOperand = computation;
-        if (operationOnCurrent == false){
-            this.previousOperand = '';
-            this.operation = undefined; 
-        }
-        
+        this.previousOperand = '';
+        this.operation = undefined; 
     }
 
     getDisplayNumber(number){
