@@ -7,7 +7,7 @@ const clearButton = document.querySelector('[data-clear]');
 const currentEraseButton = document.querySelector('[data-current-erase');
 const previousOperandTextArea = document.querySelector('[data-previous-operand]');
 const currentOperandTextArea = document.querySelector('[data-current-operand]');
-
+const errorString = 'Don\'t be so negative, cheer up!\nBTW all of your countings will be cleared, so stay positive with square root and you\'ll be fine.'
 
 
 class Calculator {
@@ -24,6 +24,7 @@ class Calculator {
         this.currentOperand = '';
         this.operation = undefined;
         this.readyToReset = false;
+        this.equals = false;
     }
 
     currentErase(){
@@ -33,7 +34,6 @@ class Calculator {
     delete(){
         this.currentOperand = this.currentOperand.toString().slice(0,-1);
     }
-
 
     appendNumber(number){
         if (number==='.' && this.currentOperand.includes('.')) return;
@@ -49,8 +49,7 @@ class Calculator {
         if (this.currentOperand==='') return;
         this.readyToReset = false;
         if (this.operationOnCurrent==true) {
-            this.operation = operation;
-            this.compute();
+            this.compute(operation);
         } else if (this.previousOperand!=='') {
             this.compute();
             this.operation = operation;
@@ -62,14 +61,19 @@ class Calculator {
         
     }
 
-
-    compute(){
+    compute(operation = this.operation){
         let computation;
         const previous = parseFloat(this.previousOperand);
         const current = parseFloat(this.currentOperand);
-        let k = 1000000000000000;
+        let k = 100000000000000;
+        if (isNaN(current)&&this.equals){
+            this.currentOperand = this.previousOperand;
+            this.previousOperand = '';
+            this.operation = undefined;
+            return;
+        }
         if ((isNaN(previous)&&this.operationOnCurrent==false) || isNaN(current)) return;
-        switch (this.operation){
+        switch (operation){
             case '+' :
                 computation = ((previous*k) + (current*k))/k;
             break;
@@ -85,14 +89,22 @@ class Calculator {
             case '1/x' : 
                 computation = parseFloat(1 / current);
                 break;
-            case 'x^2' :  
+            case 'x²' :  
                 computation = Math.pow(current, 2);
                 break;
             case '√' : 
-                computation = current<0 ? 'Don\'t be so negative, cheer up!' : Math.sqrt(current, 2);
+                computation = current<0 ? errorString : Math.sqrt(current, 2);
                 break;
-            case '+/-':
+            case '+/-' :
                 computation = -1 * current;
+                break;
+            case '%' :
+                if (isNaN(previous)){
+                    this.readyToReset = false;
+                    this.operationOnCurrent = false;
+                    return;
+                }
+                computation = previous*current/100;
                 break;
             default :
             return;
@@ -120,8 +132,9 @@ class Calculator {
             }
         }
         
-        
-        this.operation = undefined; 
+        if (operation===this.operation){
+            this.operation = undefined; 
+        } 
     }
 
     getDisplayNumber(number){
@@ -150,14 +163,12 @@ class Calculator {
         }
     }
 
-
 };
 
 const colculator = new Calculator(previousOperandTextArea, currentOperandTextArea);
 
 numberButtons.forEach(button => {
     button.addEventListener("click", () => {
-        
         colculator.appendNumber(button.innerText);
         colculator.updateDisplay();
     })
