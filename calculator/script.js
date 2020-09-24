@@ -1,3 +1,4 @@
+const currentOperationButtons = document.querySelectorAll('[data-current-operation]');
 const operationButtons = document.querySelectorAll('[data-operation]');
 const numberButtons = document.querySelectorAll('[data-number]');
 const equalsButton = document.querySelector('[data-equals]');
@@ -13,6 +14,8 @@ class Calculator {
     constructor(previousOperandTextArea, currentOperandTextArea){
         this.previousOperandTextArea = previousOperandTextArea;
         this.currentOperandTextArea = currentOperandTextArea;
+        this.operationOnCurrent = false;
+        this.equals = false;
         this.clear();
     }
 
@@ -31,11 +34,10 @@ class Calculator {
         this.currentOperand = this.currentOperand.toString().slice(0,-1);
     }
 
-    
 
     appendNumber(number){
         if (number==='.' && this.currentOperand.includes('.')) return;
-        if (this.readyToReset == true) {
+        if (this.readyToReset == true && this.operation == undefined) {
             colculator.clear();
             colculator.updateDisplay();
             this.readyToReset = false;
@@ -46,50 +48,33 @@ class Calculator {
     chooseOperation(operation){
         if (this.currentOperand==='') return;
         this.readyToReset = false;
-        if (this.previousOperand!=='') {
+        if (this.operationOnCurrent==true) {
+            this.operation = operation;
             this.compute();
+        } else if (this.previousOperand!=='') {
+            this.compute();
+            this.operation = operation;
+        } else {
+            this.operation = operation;
+            this.previousOperand = this.currentOperand;
+            this.currentOperand = '';
         }
-        this.operation = operation;
-        this.previousOperand = this.currentOperand;
-        this.currentOperand = '';
+        
     }
 
-    computeOncurrent(){
-        let computation;
-        const current = parseFloat(this.currentOperand);
-        if (isNaN(current)) return;
-        switch (this.operation){
-            case '1/x' : 
-            operationOnCurrent = true;
-                computation = parseFloat(1 / current);
-                break;
-            case 'x^2' : 
-                computation = Math.pow(current, 2);
-                break;
-            case '√' : 
-                computation = Math.sqrt(current, 2);
-                break;
-            default :
-                return;
-        } 
-        this.readyToReset = true;
-        this.currentOperand = computation;
-        this.previousOperand = '';
-        this.operation = undefined; 
-
-    }
 
     compute(){
         let computation;
         const previous = parseFloat(this.previousOperand);
         const current = parseFloat(this.currentOperand);
-        if (isNaN(previous) || isNaN(current)) return;
+        let k = 1000000000000000;
+        if ((isNaN(previous)&&this.operationOnCurrent==false) || isNaN(current)) return;
         switch (this.operation){
             case '+' :
-                computation = previous + current;
+                computation = ((previous*k) + (current*k))/k;
             break;
             case '-' : 
-                computation = previous - current;
+                computation = ((previous*k) - (current*k))/k;
                 break;
             case '*' : 
                 computation = previous * current;
@@ -97,12 +82,45 @@ class Calculator {
             case '÷' : 
                 computation = previous / current;
                 break;
+            case '1/x' : 
+                computation = parseFloat(1 / current);
+                break;
+            case 'x^2' :  
+                computation = Math.pow(current, 2);
+                break;
+            case '√' : 
+                computation = current<0 ? 'Don\'t be so negative, cheer up!' : Math.sqrt(current, 2);
+                break;
+            case '+/-':
+                computation = -1 * current;
+                break;
             default :
             return;
         }
-        this.readyToReset = true;
-        this.currentOperand = computation;
-        this.previousOperand = '';
+        if (typeof computation =='string') {
+            alert(computation);
+            this.clear();
+            this.operationOnCurrent = false;
+            this.equals = false;
+            return;
+        }
+        if (this.operationOnCurrent == true) {
+            this.readyToReset = false;
+            this.operationOnCurrent = false;
+            this.currentOperand = computation;
+        } else {
+            this.previousOperand = computation;
+            this.readyToReset = true;
+            if (this.equals) {
+                this.currentOperand = computation; 
+                this.previousOperand = '';
+                this.equals = false;
+            } else {
+                this.currentOperand = '';
+            }
+        }
+        
+        
         this.operation = undefined; 
     }
 
@@ -139,6 +157,7 @@ const colculator = new Calculator(previousOperandTextArea, currentOperandTextAre
 
 numberButtons.forEach(button => {
     button.addEventListener("click", () => {
+        
         colculator.appendNumber(button.innerText);
         colculator.updateDisplay();
     })
@@ -160,6 +179,7 @@ currentEraseButton.addEventListener('click', () => {
 })
 
 equalsButton.addEventListener('click', () => {
+    colculator.equals = true;
     colculator.compute();
     colculator.updateDisplay();
 })
@@ -170,3 +190,12 @@ operationButtons.forEach(button => {
         colculator.updateDisplay();
     })
 })
+
+currentOperationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        colculator.operationOnCurrent = true;
+        colculator.chooseOperation(button.innerText);
+        colculator.updateDisplay();
+    })
+})
+
