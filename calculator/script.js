@@ -37,7 +37,8 @@ class Calculator {
     }
 
     appendNumber(number){
-        if (number==='.' && this.currentOperand.includes('.')) return;
+
+        if (number==='.' && this.currentOperand.toString().includes('.') && colculator.readyToReset==false) return;
         if (this.readyToReset == true && this.operation == undefined) {
             colculator.clear();
             colculator.updateDisplay();
@@ -66,7 +67,7 @@ class Calculator {
         let computation;
         const previous = parseFloat(this.previousOperand);
         const current = parseFloat(this.currentOperand);
-        let k = 100000000000000;
+        let k = 1000000000000000;
         if (isNaN(current)&&this.equals){
             this.currentOperand = this.previousOperand;
             this.previousOperand = '';
@@ -91,7 +92,7 @@ class Calculator {
                 computation = parseFloat(1 / current);
                 break;
             case '**' :  
-                computation = Math.pow(previous, current);
+                computation = Math.pow(previous*1000, current)/Math.pow(1000,current);
                 if(isNaN(computation)){
                     alert('Pal, stop messing with my calculator, please');
                     this.clear();
@@ -125,12 +126,12 @@ class Calculator {
         if (this.operationOnCurrent == true) {
             this.readyToReset = false;
             this.operationOnCurrent = false;
-            this.currentOperand = computation;
+            this.currentOperand = computation;//.toFixed(15);
         } else {
-            this.previousOperand = computation;
+            this.previousOperand = computation;//.toFixed(15);
             this.readyToReset = true;
             if (this.equals) {
-                this.currentOperand = computation; 
+                this.currentOperand = computation;//.toFixed(15); 
                 this.previousOperand = '';
                 this.equals = false;
             } else {
