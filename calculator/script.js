@@ -1,3 +1,4 @@
+const powOperationButton = document.querySelector('[data-pow-operation]');
 const currentOperationButtons = document.querySelectorAll('[data-current-operation]');
 const operationButtons = document.querySelectorAll('[data-operation]');
 const numberButtons = document.querySelectorAll('[data-number]');
@@ -7,7 +8,7 @@ const clearButton = document.querySelector('[data-clear]');
 const currentEraseButton = document.querySelector('[data-current-erase');
 const previousOperandTextArea = document.querySelector('[data-previous-operand]');
 const currentOperandTextArea = document.querySelector('[data-current-operand]');
-const errorString = 'Don\'t be so negative, cheer up!\nBTW all of your countings will be cleared, so stay positive with square root and you\'ll be fine.'
+const errorString = 'Don\'t be so negative, cheer up!\nBTW all of your countings will be cleared, so stay positive (with square root) and you\'ll be fine.'
 
 
 class Calculator {
@@ -46,7 +47,7 @@ class Calculator {
     }
 
     chooseOperation(operation){
-        if (this.currentOperand==='') return;
+        if (this.currentOperand==='') this.currentOperand=0;//return;
         this.readyToReset = false;
         if (this.operationOnCurrent==true) {
             this.compute(operation);
@@ -89,8 +90,13 @@ class Calculator {
             case '1/x' : 
                 computation = parseFloat(1 / current);
                 break;
-            case 'x²' :  
-                computation = Math.pow(current, 2);
+            case '**' :  
+                computation = Math.pow(previous, current);
+                if(isNaN(computation)){
+                    alert('Pal, stop messing with my calculator, please');
+                    this.clear();
+                    return;
+                }
                 break;
             case '√' : 
                 computation = current<0 ? errorString : Math.sqrt(current, 2);
@@ -191,6 +197,7 @@ currentEraseButton.addEventListener('click', () => {
 
 equalsButton.addEventListener('click', () => {
     colculator.equals = true;
+    colculator.readyToReset = true;
     colculator.compute();
     colculator.updateDisplay();
 })
@@ -210,3 +217,7 @@ currentOperationButtons.forEach(button => {
     })
 })
 
+powOperationButton.addEventListener('click', () => {
+    colculator.chooseOperation(powOperationButton.innerText);
+    colculator.updateDisplay();
+})
