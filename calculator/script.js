@@ -43,8 +43,15 @@ class Calculator {
             colculator.clear();
             colculator.updateDisplay();
             this.readyToReset = false;
+        } else if (this.readyToReset == true) {
+            this.currentOperand = number.toString();
+            this.readyToReset = false;
+        } else {
+            this.currentOperand = this.currentOperand.toString()+number.toString();
         }
-        this.currentOperand = this.currentOperand.toString()+number.toString();
+        if (this.currentOperand == ''){
+            this.currentOperand = this.currentOperand.toString()+number.toString();
+        }
     }
 
     chooseOperation(operation){
@@ -83,10 +90,10 @@ class Calculator {
                 computation = ((previous*k) - (current*k))/k;
                 break;
             case '*' : 
-                computation = previous * current;
+                computation = (previous*100000) * (current*100000)/10000000000;
                 break;
             case '÷' : 
-                computation = previous / current;
+                computation = (previous*100000) / (current*100000);
                 break;
             case '1/x' : 
                 computation = parseFloat(1 / current);
@@ -124,7 +131,7 @@ class Calculator {
             return;
         }
         if (this.operationOnCurrent == true) {
-            this.readyToReset = false;
+            this.readyToReset = true;
             this.operationOnCurrent = false;
             this.currentOperand = computation;//.toFixed(15);
         } else {
