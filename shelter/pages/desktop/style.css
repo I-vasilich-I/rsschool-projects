@@ -387,7 +387,7 @@ img {
 }
 
 body {
-    width: 100%;
+    
 }
 
 .wrapper {
@@ -399,7 +399,7 @@ body {
 
 header {
     position: absolute;
-    width: 100vw;
+    width: 100%;
     top: 60px;
 }
 
@@ -491,7 +491,8 @@ header {
 /* Start screen styles start */
 
 .start {
-    width: 100vw;
+    width: 100%;
+    height: 908px;
     background: url(noise_lines_transparent@2X.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
     background-size: auto;
     padding-top: 180px;
@@ -562,12 +563,14 @@ header {
 
 /* About styles start */
 .about {
-    width: 100vw;
+    width: 100%;
+    height: 588px;
     background: #FFFFFF;
 }
 
 .about__wrapper {
-    margin-top: 80px;
+    position: relative;
+    top: 80px;
     padding-bottom: 100px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -612,14 +615,15 @@ header {
 /* Pets styles start */
 
 .pets {
-    width: 100vw;
-    
+    width: 100%;
+    height: 870px;
     background: #F6F6F6;
 }
 
 .pets__wrapper {
+    position: relative;
     height: 697px;
-    padding-top: 80px;
+    top: 80px;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -650,3 +654,320 @@ header {
     box-sizing: border-box;
     border-radius: 100px;
 }
+
+/* Pets styles end */
+
+
+
+
+/* Help styles start */
+
+.help {
+    width: 100%;
+    background: #FFFFFF;
+    height: 611px;
+}
+
+.help__wrapper {
+    position: relative;
+    top: 80px;
+    height: 431px;
+    padding-left: 83px;
+    padding-right: 83px;
+    align-items: center;
+}
+
+.help__title {
+    margin-top: 0;
+    margin: auto;
+    width: 308px;
+    height: 90px;
+
+    /* h3 */
+
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 35px;
+    line-height: 130%;
+    /* or 45px */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.06em;
+
+    /* color-dark-l */
+
+    color: #545454;
+}
+
+.help__list {
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    column-gap: 100px;
+    align-content: center;
+
+}
+
+.help__lis-item {
+    height: 113px;
+    margin-bottom: 53px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 115%;
+    text-align: center;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.help__lis-item img {
+    margin: auto;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 30px;
+}
+/* Help styles end */
+
+
+
+/* Donation styles start */
+
+.donation {
+    width: 100%;
+    height: 464px;
+    background: #F6F6F6;
+}
+
+.donation__wrapper {
+    position: relative;
+    top: 80px;
+    height: 284px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+.donation__img {
+    width: 505px;
+    height: 261px;
+
+}
+
+.donation__information {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.donation__title {
+    width: 300px;
+    height: 90px;
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 35px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.donation h5 {
+    
+    height: 17px;
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 110%;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.donation__credit__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 0px 0px 15px;
+    
+    width: 349px;
+    height: 43px;
+    background: #F1CDB3;
+    border-radius: 9px;
+}
+
+.credit__card__content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.credit__card__icon {
+    width: 30px;
+}
+
+.credit__card__number {
+   
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 115%;
+    letter-spacing: 0.06em; 
+    color: #545454;
+}
+
+.donation__info {
+    width: 380px;
+    font-family: Arial;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    color: #B2B2B2;
+}
+
+/* Donation styles end */
+
+
+/* Footer styles start */
+
+.footer {
+    width: 100%;
+    height: 355px;
+    background: url(noise_lines_transparent@2X.png), 
+    radial-gradient(110.67% 538.64% at 5.73% 50%, 
+    #513D2F 0%, #1A1A1C 100%), #211F20;
+}
+
+.footer__wrapper {
+    position: relative;
+    top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.footer__contacts {
+    position: relative;
+    top: 21px;
+    width: 279px;
+    height: 234px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+.footer__contacts-title {
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 35px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
+}
+
+.footer__contacts-mail {
+    width: 251px;
+    height: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__contacts-phone {
+    width: 239px;
+    height: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__contacts-icon {
+    width: 40px;
+    height: 32px;
+}
+
+.footer__contacts-text {
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 115%;
+    letter-spacing: 0.06em;
+    color: #F1CDB3;
+}
+
+.footer__location {
+    position: relative;
+    top: 21px;
+    width: 302px;
+    height: 234px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+.footer__location-address1 {
+    width: 302px;
+    height: 46px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__location-address2 {
+    width: 302px;
+    height: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__contacts-text1 {
+    width: 260px;
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 115%;
+    letter-spacing: 0.06em;
+    color: #F1CDB3;
+}
+
+
+
+.footer__location-icon {
+    width: 22px;
+    height: 32px;
+}
+
+.footer__puppy {
+    height: 315px;
+}
+
+
+/* Footer styles end */
