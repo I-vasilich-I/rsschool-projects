@@ -16,6 +16,10 @@ body {
   color: #000000;
 }
 
+.date {
+  font-size: 8rem;
+}
+
 .time {
   font-size: 8rem;
 }
