@@ -624,12 +624,16 @@ header {
     position: relative;
     height: 697px;
     top: 80px;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
-.pets__title {    
+.pets__title {   
+    width: 400px; 
+    
     font-family: Georgia;
     font-style: normal;
     font-weight: normal;
@@ -637,10 +641,65 @@ header {
     line-height: 130%;
     text-align: center;
     letter-spacing: 0.06em;
-    
-    /* color-dark-l */
-    
     color: #545454;
+}
+
+.cards__wrapper {
+    height: 435px;
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cards {
+    width: 990px;
+    height: 435px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cards__card {
+    width: 270px;
+    height: 435px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.cards__card p {
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.card__img {
+    width: 200px;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+}
+
+.button__secondary {
+    width: 187px;
+    height: 52px;
+    border: 2px solid #F1CDB3;
+    box-sizing: border-box;
+    border-radius: 100px;
+
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    color: #292929;
 }
 
 .btn__arrow {
@@ -653,6 +712,21 @@ header {
     border: 2px solid #F1CDB3;
     box-sizing: border-box;
     border-radius: 100px;
+}
+
+.button__primary {
+    width: 261px;
+    height: 52px;
+    background: #F1CDB3;
+    border-radius: 100px;
+
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    color: #292929;
 }
 
 /* Pets styles end */
