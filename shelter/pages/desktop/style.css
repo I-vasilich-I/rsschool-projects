@@ -368,8 +368,29 @@ textarea {
 }
 /* reset.css end */
 
+@font-face {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: normal;
+	src: url('../../assets/fonts/Arial.eot');
+	src: local('Arial'), url('../../assets/fonts/Arial.woff') format('woff'), url('../../assets/fonts/Arial.ttf') format('truetype');
+}
 
+@font-face {
+    font-family: 'Georgia Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Georgia Regular'), url('../../assets/fonts/georgia.woff') format('woff');
+    }
 
+    @font-face {font-family: "Arial-Italic"; 
+        src: url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.eot"); 
+        src: url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.eot?#iefix") 
+        format("embedded-opentype"), url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.woff2") 
+        format("woff2"), url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.woff") 
+        format("woff"), url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.ttf") 
+        format("truetype"), url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.svg#Arial") 
+        format("svg"); }
 
 
 
@@ -386,9 +407,8 @@ img {
     height: auto;
 }
 
-body {
-    
-}
+
+
 
 .wrapper {
     max-width: 1200px;
@@ -422,68 +442,50 @@ header {
 }
 
 .header__logo {
+    width: 186px;
+    height: 60px;
     display: flex;
-    flex-flow: column wrap;
-    align-content: space-between;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;    
 }
 
-.header__logo-tittle {
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+.logo__tittle {
+    font-family: Georgia !important;
     font-size: 32px;
     line-height: 110%;
     letter-spacing: 0.06em;
     color: #F1CDB3;
 }
 
-.header__logo-subtittle {
-    font-family: Arial;
-    font-style: normal;
-    font-weight: normal;
+.logo__subtitle {
+    font-family: 'Arial' !important;
     font-size: 13px;
-    line-height: 110%;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
     letter-spacing: 0.1em;
     color: #FFFFFF;
 }
 
 .header__nav {
     width: 443px;
+    height: 27px;
 }
 
 .header__list {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
     justify-content: space-between;
-}
-
-.list__item {
-    display: flex;
     align-items: center;
 }
 
 .list__link {
     text-decoration: none;
     /* paragraph-l */
-    font-family: Arial;
-    font-style: normal;
-    font-weight: normal;
+    font-family: 'Arial' !important;
     font-size: 15px;
-    line-height: 160%;
-    /* identical to box height, or 24px */
-
-     /* color-dark-s */
-
-     color: #CDCDCD;
-
-     /* Inside Auto Layout */
-     flex: none;
-     order: 0;
-     align-self: center;
-     flex-grow: 0;
-   
+    line-height: 24px;
+    color: #CDCDCD;
 }
 
 /* header styles end*/
@@ -499,6 +501,8 @@ header {
 }
 
 .start__wrapper {
+    width: 1200px;
+    height: 728px;
     display: flex;
     flex-wrap: wrap;
     align-content: flex-end;
@@ -518,9 +522,7 @@ header {
 
 .content__heading {
     width: 310px;
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    font-family: Georgia !important;
     font-size: 44px;
     line-height: 130%;
     color: #FFFFFF;
@@ -529,12 +531,10 @@ header {
 .content__subheading {
     width: 460px;
     height: 72px;
-    font-family: Arial;
-    font-style: normal;
-    font-weight: normal;
+    font-family: 'Arial' !important;
     font-size: 15px;
     line-height: 160%;
-    
+    letter-spacing: 0.017em;
     color: #CDCDCD;
     
 }
@@ -545,9 +545,7 @@ header {
     background: #F1CDB3;
     border-radius: 100px;
 
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    font-family: Georgia !important;
     font-size: 17px;
     line-height: 130%;
     /* identical to box height, or 22px */
@@ -566,36 +564,35 @@ header {
     width: 100%;
     height: 588px;
     background: #FFFFFF;
+    padding-top: 80px;
+    padding-bottom: 100px;
 }
 
 .about__wrapper {
-    position: relative;
-    top: 80px;
-    padding-bottom: 100px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    
-    justify-content: center;
+    padding-left: 175px;
+    padding-right: 175px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     
 }
 
 .about__pets {
     width: 300px;
+    height: 408px;
 }
 .about__text {
     width: 430px;
     height: 380px;
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
 .text__heading {
-    padding-right: 60px;
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    width: 370px;
+    font-family: Georgia !important;
     font-size: 35px;
     line-height: 130%;
     letter-spacing: 0.06em;
@@ -603,11 +600,11 @@ header {
 }
 
 .text__subheading {
-    font-family: Arial;
-    font-style: normal;
-    font-weight: normal;
+    width: 430px;
+    font-family: Arial !important;
     font-size: 15px;
     line-height: 160%;
+    letter-spacing: 0.015em;
     color: #4C4C4C;
 }
 /* About styles end */
@@ -616,14 +613,14 @@ header {
 
 .pets {
     width: 100%;
-    height: 870px;
+    height: 877px;
+    padding-top: 80px;
+    padding-bottom: 100px;
     background: #F6F6F6;
 }
 
 .pets__wrapper {
-    position: relative;
     height: 697px;
-    top: 80px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -634,9 +631,7 @@ header {
 .pets__title {   
     width: 400px; 
     
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    font-family: Georgia !important;
     font-size: 35px;
     line-height: 130%;
     text-align: center;
@@ -662,16 +657,15 @@ header {
 .cards__card {
     width: 270px;
     height: 435px;
+    padding-bottom: 30px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
 .cards__card p {
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    font-family: Georgia !important;
     font-size: 20px;
     line-height: 23px;
     text-align: center;
@@ -680,8 +674,8 @@ header {
 }
 
 .card__img {
-    width: 200px;
-    height: 240px;
+    width: 270px;
+    height: 270px;
     display: flex;
     justify-content: center;
 }
@@ -693,9 +687,7 @@ header {
     box-sizing: border-box;
     border-radius: 100px;
 
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    font-family: Georgia !important;
     font-size: 17px;
     line-height: 130%;
     letter-spacing: 0.06em;
@@ -706,7 +698,9 @@ header {
    
     width: 52px;
     height: 52px;
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* color-primary */
     
     border: 2px solid #F1CDB3;
@@ -720,9 +714,7 @@ header {
     background: #F1CDB3;
     border-radius: 100px;
 
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    font-family: Georgia !important;
     font-size: 17px;
     line-height: 130%;
     letter-spacing: 0.06em;
@@ -738,65 +730,55 @@ header {
 
 .help {
     width: 100%;
-    background: #FFFFFF;
     height: 611px;
+    padding-top: 80px;
+    padding-bottom: 100px;
+    background: #FFFFFF;
 }
 
 .help__wrapper {
-    position: relative;
-    top: 80px;
     height: 431px;
-    padding-left: 83px;
-    padding-right: 83px;
+    width: 1200px;
+    padding-left: 87px;
+    padding-right: 87px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
 }
 
 .help__title {
-    margin-top: 0;
-    margin: auto;
-    width: 308px;
+    width: 380px;
     height: 90px;
-
-    /* h3 */
-
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    font-family: Georgia !important;
     font-size: 35px;
     line-height: 130%;
-    /* or 45px */
-
-    display: flex;
-    align-items: center;
     text-align: center;
     letter-spacing: 0.06em;
-
-    /* color-dark-l */
-
     color: #545454;
 }
 
 .help__list {
-    margin-top: 60px;
-    display: flex;
-    flex-wrap: wrap;
+    width: 1026px;
+    height: 281px;
+    display: inline-grid;
+    grid-template-columns: repeat(5, 1fr);
+   
+    row-gap: 55px;
     justify-content: space-between;
-    column-gap: 100px;
-    align-content: center;
+    align-items: center;
 
 }
 
-.help__lis-item {
+.help__lis-item{
+    margin: auto;
     height: 113px;
-    margin-bottom: 53px;
     display: flex;
     flex-direction: column;
-    align-content: center;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
 
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    font-family: Georgia !important;
     font-size: 20px;
     line-height: 115%;
     text-align: center;
@@ -805,11 +787,39 @@ header {
 }
 
 .help__lis-item img {
+    
+    width: 60px;
+    height: 60px;
+  
+}
+
+
+
+.help__list-item {
+
+    margin: auto;
+    height: 113px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    font-family: Georgia !important;
+    font-size: 20px;
+    line-height: 115%;
+    text-align: center;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.help__list-item img {
     margin: auto;
     width: 60px;
     height: 60px;
-    margin-bottom: 30px;
+  
 }
+
+
 /* Help styles end */
 
 
@@ -819,17 +829,18 @@ header {
 .donation {
     width: 100%;
     height: 464px;
+    padding-top: 80px;
+    padding-bottom: 100px;
     background: #F6F6F6;
 }
 
 .donation__wrapper {
-    position: relative;
-    top: 80px;
     height: 284px;
+    padding-left: 142px;
+    padding-right: 143px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .donation__img {
@@ -840,11 +851,11 @@ header {
 
 .donation__information {
     width: 380px;
+    height: 282px;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     justify-content: space-between;
-    align-content: space-between;
+    
 }
 
 .donation__title {
@@ -862,9 +873,7 @@ header {
 .donation h5 {
     
     height: 17px;
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    font-family: Georgia !important;
     font-size: 15px;
     line-height: 110%;
     letter-spacing: 0.06em;
@@ -873,9 +882,9 @@ header {
 
 .donation__credit__card {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 0px 0px 15px;
+    justify-content: center;
+    align-items: center;
+
     
     width: 349px;
     height: 43px;
@@ -884,10 +893,11 @@ header {
 }
 
 .credit__card__content {
+    width: 320px;
+    height: 23px;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    align-content: space-between;
+    align-items: center;
 }
 
 .credit__card__icon {
@@ -895,23 +905,23 @@ header {
 }
 
 .credit__card__number {
-   
-    font-family: Georgia;
-    font-style: normal;
-    font-weight: normal;
+    width: 274px;
+    height: 23px;
+    font-family: Georgia !important;
     font-size: 20px;
     line-height: 115%;
-    letter-spacing: 0.06em; 
+    letter-spacing: 0.058em; 
     color: #545454;
 }
 
 .donation__info {
     width: 380px;
-    font-family: Arial;
+    font-family: Arial-Italic;
     font-style: italic;
     font-weight: normal;
     font-size: 12px;
     line-height: 18px;
+    text-align: left;
     color: #B2B2B2;
 }
 
@@ -922,23 +932,20 @@ header {
 
 .footer {
     width: 100%;
-    height: 355px;
+    height: 350px;
+    padding-top: 40px;
     background: url(noise_lines_transparent@2X.png), 
-    radial-gradient(110.67% 538.64% at 5.73% 50%, 
-    #513D2F 0%, #1A1A1C 100%), #211F20;
+    radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%), #211F20;
 }
 
 .footer__wrapper {
-    position: relative;
-    top: 40px;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
 }
 
 .footer__contacts {
     position: relative;
-    top: 21px;
+    top: 16px;
     width: 279px;
     height: 234px;
     display: flex;
@@ -993,7 +1000,7 @@ header {
 
 .footer__location {
     position: relative;
-    top: 21px;
+    top: 16px;
     width: 302px;
     height: 234px;
     display: flex;
@@ -1040,7 +1047,7 @@ header {
 }
 
 .footer__puppy {
-    height: 315px;
+    height: 310px;
 }
 
 
