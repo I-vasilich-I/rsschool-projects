@@ -488,6 +488,36 @@ header {
     color: #CDCDCD;
 }
 
+
+    /* Pets1280 header start */
+
+    .header--pets1280 {
+        position: unset;
+        background: #FFFFFF;
+        top: 0px
+    }
+
+    .header__wrapper--pets1280 {
+        height: 120px;
+    }
+
+    .logo__tittle--color {
+        color: #545454;
+    }
+
+    .logo__subtitle--color {
+        color: #292929;
+    }
+
+    .list__link--color {
+        color: #545454;
+    }
+
+    /* Pets1280 header end */
+
+    
+
+
 /* header styles end*/
 
 /* Start screen styles start */
@@ -721,6 +751,53 @@ header {
     color: #292929;
 }
 
+
+    /* Pets1280 styles start */
+
+    .pets--pets1280 {
+        height: 1342px;
+    }
+
+    .pets__wrapper--pets1280 {
+        height: 1162px;
+    }
+
+
+    .cards--pets1280 {
+        width: 1200px;
+        height: 930px;
+        flex-wrap: wrap;
+    }
+
+    .cards__card--pets1280 {
+        padding-bottom: 15px;
+        padding-top: 15px;
+    }
+
+    .nav__wrapper {
+        width: 340px;
+        height: 52px;
+        
+    }
+
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn__arrow--inactive {
+        color: #CDCDCD;
+        border: 2px solid #CDCDCD;
+    }
+
+    .btn__arrow--active {
+        background: #F1CDB3;
+    }
+
+    /* Pets1280 styles end */
+
+
+
 /* Pets styles end */
 
 
@@ -912,6 +989,7 @@ header {
     line-height: 115%;
     letter-spacing: 0.058em; 
     color: #545454;
+    text-decoration: none;
 }
 
 .donation__info {
@@ -1050,5 +1128,9 @@ header {
     height: 310px;
 }
 
+.footer__link {
+    direction: none;
+    text-decoration: none;
+}
 
 /* Footer styles end */
