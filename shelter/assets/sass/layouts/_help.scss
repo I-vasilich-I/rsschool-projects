@@ -1,0 +1,95 @@
+/* Help styles start */
+
+.help {
+    width: 100%;
+    height: 611px;
+    padding-top: 80px;
+    padding-bottom: 100px;
+    background: #FFFFFF;
+}
+
+.help__wrapper {
+    height: 431px;
+    width: 1200px;
+    padding-left: 87px;
+    padding-right: 87px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.help__title {
+    width: 380px;
+    height: 90px;
+    font-family: Georgia !important;
+    font-size: 35px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.help__list {
+    width: 1026px;
+    height: 281px;
+    display: inline-grid;
+    grid-template-columns: repeat(5, 1fr);
+   
+    row-gap: 55px;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.help__lis-item{
+    margin: auto;
+    height: 113px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    font-family: Georgia !important;
+    font-size: 20px;
+    line-height: 115%;
+    text-align: center;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.help__lis-item img {
+    
+    width: 60px;
+    height: 60px;
+  
+}
+
+
+
+.help__list-item {
+
+    margin: auto;
+    height: 113px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    font-family: Georgia !important;
+    font-size: 20px;
+    line-height: 115%;
+    text-align: center;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.help__list-item img {
+    margin: auto;
+    width: 60px;
+    height: 60px;
+  
+}
+
+
+/* Help styles end */

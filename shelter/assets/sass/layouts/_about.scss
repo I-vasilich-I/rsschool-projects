@@ -1,0 +1,49 @@
+/* About styles start */
+.about {
+    width: 100%;
+    height: 588px;
+    background: #FFFFFF;
+    padding-top: 80px;
+    padding-bottom: 100px;
+}
+
+.about__wrapper {
+    padding-left: 175px;
+    padding-right: 175px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.about__pets {
+    width: 300px;
+    height: 408px;
+}
+.about__text {
+    width: 430px;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.text__heading {
+    width: 370px;
+    font-family: Georgia !important;
+    font-size: 35px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.text__subheading {
+    width: 430px;
+    font-family: Arial !important;
+    font-size: 15px;
+    line-height: 160%;
+    letter-spacing: 0.015em;
+    color: #4C4C4C;
+}
+/* About styles end */

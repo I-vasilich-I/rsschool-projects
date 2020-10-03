@@ -1,0 +1,103 @@
+/* Donation styles start */
+
+.donation {
+    width: 100%;
+    height: 464px;
+    padding-top: 80px;
+    padding-bottom: 100px;
+    background: #F6F6F6;
+}
+
+.donation__wrapper {
+    height: 284px;
+    padding-left: 142px;
+    padding-right: 143px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.donation__img {
+    width: 505px;
+    height: 261px;
+
+}
+
+.donation__information {
+    width: 380px;
+    height: 282px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.donation__title {
+    width: 300px;
+    height: 90px;
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 35px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.donation h5 {
+    
+    height: 17px;
+    font-family: Georgia !important;
+    font-size: 15px;
+    line-height: 110%;
+    letter-spacing: 0.06em;
+    color: #545454;
+}
+
+.donation__credit__card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    
+    width: 349px;
+    height: 43px;
+    background: #F1CDB3;
+    border-radius: 9px;
+}
+
+.credit__card__content {
+    width: 320px;
+    height: 23px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.credit__card__icon {
+    width: 30px;
+}
+
+.credit__card__number {
+    width: 274px;
+    height: 23px;
+    font-family: Georgia !important;
+    font-size: 20px;
+    line-height: 115%;
+    letter-spacing: 0.058em; 
+    color: #545454;
+    text-decoration: none;
+}
+
+.donation__info {
+    width: 380px;
+    font-family: Arial-Italic;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: left;
+    color: #B2B2B2;
+}
+
+/* Donation styles end */
