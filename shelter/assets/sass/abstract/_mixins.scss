@@ -1,0 +1,9 @@
+@mixin font($size, $height, $color, $family: 'Georgia', $style: normal, $weight: normal, $spacing: unset) {
+    font-family: $family;
+    font-style: $style;
+    font-weight: $weight;
+    font-size: $size;
+    line-height: $height;
+    letter-spacing: $spacing;
+    color: $color;
+}

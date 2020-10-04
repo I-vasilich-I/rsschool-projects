@@ -1,0 +1,11 @@
+.button {
+    width: 207px;
+    height: 52px;
+    background: $color-primary;
+    border-radius: 100px;
+    @include font(17px, 130%, $color-dark-xl, $spacing: 00.06em);
+    @extend %transition;
+    &:hover {
+        background: $color-primary-light;
+    }
+}

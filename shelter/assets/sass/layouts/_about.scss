@@ -31,19 +31,10 @@
 
 .text__heading {
     width: 370px;
-    font-family: Georgia !important;
-    font-size: 35px;
-    line-height: 130%;
-    letter-spacing: 0.06em;
-    color: #545454;
 }
 
 .text__subheading {
     width: 430px;
-    font-family: Arial !important;
-    font-size: 15px;
-    line-height: 160%;
-    letter-spacing: 0.015em;
-    color: #4C4C4C;
+    color: $color-dark-xl;
 }
 /* About styles end */
