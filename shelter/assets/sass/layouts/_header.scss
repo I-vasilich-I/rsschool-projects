@@ -33,22 +33,12 @@ header {
     align-items: center;    
 }
 
-.logo__tittle {
-    font-family: Georgia !important;
-    font-size: 32px;
-    line-height: 110%;
-    letter-spacing: 0.06em;
-    color: #F1CDB3;
+.logo__title {
+    @include font(3.2rem, 110%, $color-primary, $spacing: 0.06em);
 }
 
 .logo__subtitle {
-    font-family: 'Arial' !important;
-    font-size: 13px;
-    line-height: 15px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.1em;
-    color: #FFFFFF;
+    @include font(1.3rem, 1.5rem, $color-light-xl, 'Arial', $spacing: 0.1em);
 }
 
 .header__nav {
@@ -62,13 +52,16 @@ header {
     align-items: center;
 }
 
+.list__item {
+    &-active {
+        border-bottom: 3px solid $color-primary;
+    }
+}
+
 .list__link {
     text-decoration: none;
-    /* paragraph-l */
-    font-family: 'Arial' !important;
-    font-size: 15px;
-    line-height: 24px;
-    color: #CDCDCD;
+    @include font(1.5rem, 2.1rem, $color-dark-s, 'Arial');
+    
 }
 
 

@@ -29,7 +29,7 @@ h5 {
 }
 
 p {
-    @include font(1.5rem, 160%, $color-dark-s, 'Arial', $spacing:0.016em);
+    @include font(1.5rem, 160%, $color-dark-s, 'Arial');
 }
 
 .paragraph-s {
