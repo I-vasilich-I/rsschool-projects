@@ -21,7 +21,7 @@ h3 {
 }
 
 h4 {
-    @include font(2rem, 115%, $color-dark-l, $spacing:0.06em);
+    @include font(2rem, 115%, $color-dark-l, $spacing:0.058em);
 }
 
 h5 {
@@ -33,5 +33,5 @@ p {
 }
 
 .paragraph-s {
-    @include font(1.2rem, 150%, $color-dark-m, 'Arial', 'italic');
+    @include font(1.2rem, 150%, $color-dark-m, 'Arial-italic');
 }

@@ -4,6 +4,9 @@
     padding-top: 80px;
     padding-bottom: 100px;
     background: $color-light-l;
+    @include media-tablet {
+        padding: 42px 0;
+    }
 }
 
 .pets__wrapper {
@@ -17,14 +20,26 @@
     width: 400px; 
     text-align: center;
     margin-bottom: 60px;
+    @include media-tablet {
+        width: unset;
+        font-size: 25px;
+        line-height: 130%;
+        margin-bottom: 42px;
+    }
 }
 
 .cards__wrapper {
     width: 100%;
     margin-bottom: 60px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    @include media-tablet {
+        width: 300px;
+        margin-bottom: 42px;
+        justify-content: center;
+    }
 }
 
 .cards {
@@ -37,6 +52,9 @@
     }
     @include media-tablet {
         width: 270px;
+        order: -1;
+        margin-bottom: 20px;
+        
     }
 }
 
@@ -66,6 +84,9 @@
     height: 270px;
     display: flex;
     justify-content: center;
+    @include media-tablet {
+        
+    }
 }
 
 .button__secondary {
@@ -85,6 +106,12 @@
     border-radius: 100px;
 }
 
+.left {
+    @include media-tablet {
+        margin-right: 80px;
+    }
+}
+
 .button__primary {
     width: 261px;
     height: 52px;
@@ -93,7 +120,6 @@
     border: none;
     @include font(1.7rem, 130%, $color-dark-3xl, $spacing: 0.06em);
 }
-
 
     /* Pets1280 styles start */
 

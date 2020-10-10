@@ -1,8 +1,11 @@
 /* About styles start */
 .about {
-    background: #FFFFFF;
+    background: $color-light-xl;
     padding-top: 80px;
     padding-bottom: 100px;
+    @include media-tablet {
+        padding: 42px 0;
+    }
 }
 
 .about__wrapper {
@@ -10,12 +13,22 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    @include media-laptop {
+        flex-direction: column-reverse;
+    }
 }
 
 .about__pets {
     width: 300px;
-    height: 408px;
+    //height: 408px;
     margin-right: 120px;
+    @include media-laptop {
+        margin-right: unset;
+        align-self: center;
+    }
+    @include media-tablet {
+        width: 260px;
+    }
 }
 .about__text {
     width: 430px;
@@ -24,14 +37,37 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    @include media-laptop {
+        margin-bottom: 80px;
+    }
+    @include media-tablet {
+        align-items: center;
+        text-align: justify;
+        width: 300px;
+        height: 494.5px;
+        margin-bottom: 42px;
+        h3 {
+            font-size: 2.5rem;
+            line-height: 130%;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+    }
 }
 
 .text__heading {
     width: 370px;
+    @include media-tablet {
+        width: 250px;
+    }
 }
 
 .text__subheading {
     width: 430px;
     color: $color-dark-xl;
+    @include media-tablet {
+        width: 270px;
+    }
 }
 /* About styles end */

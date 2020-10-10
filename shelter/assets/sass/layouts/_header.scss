@@ -4,6 +4,9 @@ header {
     position: absolute;
     width: 100%;
     top: 60px;
+    @include media-laptop {
+        top: 30px;
+    }
 }
 
 .hidden {
@@ -50,6 +53,9 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @include media-tablet {
+        display: none;
+    }
 }
 
 .list__item {
@@ -63,7 +69,6 @@ header {
     @include font(1.5rem, 2.1rem, $color-dark-s, 'Arial');
     
 }
-
 
     /* Pets1280 header start */
 

@@ -1,10 +1,12 @@
 /* Start screen styles start */
 
 .start {
-    width: 100%;
     background: url(noise_lines_transparent@2X.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
     background-size: auto;
     padding-top: 180px;
+    @include media-laptop {
+        padding-top: 150px;
+    }
 }
 
 .start__wrapper {
@@ -12,15 +14,52 @@
     flex-wrap: wrap;
     align-content: flex-end;
     justify-content: space-between;
+    @include media-laptop {
+        justify-content: center;
+        img {
+            width: 569px;
+            margin-left: 139px;
+        }
+    }
+    @include media-tablet {
+        width: 300px;
+        text-align: center;
+        h2 {
+            width: 200px;
+            font-size: 2.5rem;
+            line-height: 130%; 
+            letter-spacing: 0.06em;
+        }
+        p {
+            width: 300px;
+        }
+        img {
+            width: 260px;
+            margin-left: 40px;
+        }
+    }
 }
 
 .start__content {
     margin-top: 163px;
-    height: 321px;
+    height: 322px;
     width: 460px;
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
+    @include media-laptop {
+        margin-top: unset;
+        margin-bottom: 100px;
+        .button {
+            align-self: center;
+        }
+    }
+    @include media-tablet {
+        align-items: center;
+        height: 296px;
+        width: 300px;
+        margin-bottom: 105px;
+    }
 }
 
 .content__heading {
