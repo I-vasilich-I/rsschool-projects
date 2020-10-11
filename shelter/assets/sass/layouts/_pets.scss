@@ -42,6 +42,9 @@
         @include media-laptop {
             margin-bottom: 30px;
         }
+        @include media-tablet {
+            margin-bottom: 42px;
+        }
     }
 }
 
@@ -86,8 +89,8 @@
         }
         @include media-tablet {
             width: 270px;
-            //order: -1;
-            margin-bottom: 40px;
+            order: unset;
+            margin-bottom: 42px;
         }
     }
 }
@@ -112,9 +115,13 @@
     }
 
     &--pets {
-        margin-bottom: 30px;
-        //margin-top: 15px;
+        margin-bottom: 15px;
+        margin-top: 15px;
         margin-right: 0px;
+        @include media-laptop {
+            margin-bottom: 30px;
+            margin-top: 0px; 
+        }
     }
 }
 
@@ -144,6 +151,10 @@
     height: 52px;
     @include media-laptop {
         margin-bottom: 6px;
+    }
+    @include media-tablet {
+        width: 300px;
+        margin-bottom: unset;
     }
 }
 

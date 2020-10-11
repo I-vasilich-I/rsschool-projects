@@ -66,15 +66,16 @@
 .header__nav {
     width: 443px;
     height: 27px;
+    @include media-tablet {
+        display: none;
+    }
 }
 
 .header__list {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    @include media-tablet {
-        display: none;
-    }
+    
 }
 
 .list__item {

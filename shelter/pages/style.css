@@ -645,16 +645,16 @@ p {
   width: 443px;
   height: 27px;
 }
+@media (max-width: 767px) {
+  .header__nav {
+    display: none;
+  }
+}
 
 .header__list {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-@media (max-width: 767px) {
-  .header__list {
-    display: none;
-  }
 }
 
 .list__item-active {
@@ -692,7 +692,7 @@ p {
 /* header styles end*/
 /* Start screen styles start */
 .start {
-  background: url(noise_lines_transparent@2X.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
+  background: url(../assets/images/noise_transparent@2x.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
   background-size: auto;
   padding-top: 180px;
 }
@@ -705,15 +705,18 @@ p {
 .start__wrapper {
   display: flex;
   flex-wrap: wrap;
-  align-content: flex-end;
   justify-content: space-between;
 }
 @media (max-width: 1279px) {
+  .start__wrapper img {
+    width: 569px;
+  }
+}
+@media (max-width: 1090px) {
   .start__wrapper {
     justify-content: center;
   }
   .start__wrapper img {
-    width: 569px;
     margin-left: 139px;
   }
 }
@@ -911,6 +914,11 @@ p {
     margin-bottom: 30px;
   }
 }
+@media (max-width: 767px) {
+  .pets__title--pets {
+    margin-bottom: 42px;
+  }
+}
 
 .cards__wrapper {
   width: 100%;
@@ -962,7 +970,8 @@ p {
 @media (max-width: 767px) {
   .cards--pets {
     width: 270px;
-    margin-bottom: 40px;
+    order: unset;
+    margin-bottom: 42px;
   }
 }
 
@@ -986,8 +995,15 @@ p {
   cursor: pointer;
 }
 .cards__card--pets {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+  margin-top: 15px;
   margin-right: 0px;
+}
+@media (max-width: 1279px) {
+  .cards__card--pets {
+    margin-bottom: 30px;
+    margin-top: 0px;
+  }
 }
 
 .cards__card p {
@@ -1020,6 +1036,12 @@ p {
 @media (max-width: 1279px) {
   .nav__wrapper {
     margin-bottom: 6px;
+  }
+}
+@media (max-width: 767px) {
+  .nav__wrapper {
+    width: 300px;
+    margin-bottom: unset;
   }
 }
 
@@ -1312,7 +1334,7 @@ p {
 /* Footer styles start */
 .footer {
   padding-top: 40px;
-  background: url(noise_lines_transparent@2X.png), radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%), #211F20;
+  background: url(../assets/images/noise_transparent@2x.png), radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%), #211F20;
 }
 @media (max-width: 1279px) {
   .footer {

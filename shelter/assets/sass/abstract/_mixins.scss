@@ -12,6 +12,10 @@
     @media (max-width: $content-width) { @content; }
 }
 
+@mixin media-laptop-small {
+    @media (max-width: 1090px) { @content; }
+}
+
 @mixin media-tablet {
     @media (max-width: $tablet-width) { @content; }
 }
