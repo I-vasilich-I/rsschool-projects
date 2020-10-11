@@ -7,6 +7,16 @@
     @include media-tablet {
         padding: 42px 0;
     }
+    &--pets {
+        padding-top: 200px;
+        @include media-laptop {
+            padding-bottom: 70px;
+        }
+        @include media-tablet {
+            padding-top: 162px;
+            padding-bottom: 42px;
+        }
+    }
 }
 
 .pets__wrapper {
@@ -26,6 +36,13 @@
         line-height: 130%;
         margin-bottom: 42px;
     }
+
+    &--pets {
+        margin-bottom: 45px;
+        @include media-laptop {
+            margin-bottom: 30px;
+        }
+    }
 }
 
 .cards__wrapper {
@@ -44,7 +61,7 @@
 
 .cards {
     width: 990px;
-    display: inline-flex;
+    display: flex;
     overflow: hidden;
     justify-content: space-between;
     @include media-laptop {
@@ -54,7 +71,24 @@
         width: 270px;
         order: -1;
         margin-bottom: 20px;
-        
+    }
+
+    &--pets {
+        width: 1200px;
+        //height: 930px;
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 45px;
+        @include media-laptop {
+            width: 580px;
+            height: 1365px;
+            margin-bottom: 40px;
+        }
+        @include media-tablet {
+            width: 270px;
+            //order: -1;
+            margin-bottom: 40px;
+        }
     }
 }
 
@@ -72,6 +106,16 @@
     align-items: center;
     background: $color-light-s;
     border-radius: 9px;
+    &:hover {
+        box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+        cursor: pointer;
+    }
+
+    &--pets {
+        margin-bottom: 30px;
+        //margin-top: 15px;
+        margin-right: 0px;
+    }
 }
 
 .cards__card p {
@@ -89,88 +133,24 @@
     }
 }
 
-.button__secondary {
-    width: 187px;
-    height: 52px;
-    border: 2px solid $color-primary;
-    box-sizing: border-box;
-    border-radius: 100px;
-    background: none;
-    @include font(1.7rem, 130%, $color-dark-3xl, $spacing: 0.06em);
-}
-
-.btn__arrow {
-    width: 52px;
-    height: 52px;
-    border: 2px solid $color-primary;
-    border-radius: 100px;
-}
-
 .left {
     @include media-tablet {
         margin-right: 80px;
     }
 }
 
-.button__primary {
-    width: 261px;
+.nav__wrapper {
+    width: 340px;
     height: 52px;
-    background: $color-primary;
-    border-radius: 100px;
-    border: none;
-    @include font(1.7rem, 130%, $color-dark-3xl, $spacing: 0.06em);
+    @include media-laptop {
+        margin-bottom: 6px;
+    }
 }
 
-    /* Pets1280 styles start */
-
-    .pets--pets1280 {
-        height: 1342px;
-    }
-
-    .pets__wrapper--pets1280 {
-        height: 1162px;
-    }
-
-
-    .cards--pets1280 {
-        width: 1200px;
-        height: 930px;
-        flex-wrap: wrap;
-        
-    }
-
-    .cards__card--pets1280 {
-        margin-bottom: 15px;
-        margin-top: 15px;
-    }
-
-    .nav__wrapper {
-        width: 340px;
-        height: 52px;
-        
-    }
-
-    .navigation {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .btn__arrow--inactive {
-        color: #CDCDCD;
-        border: 2px solid #CDCDCD;
-    }
-
-    .btn__arrow:disabled {
-        color: #CDCDCD;
-        border: 2px solid #CDCDCD;
-    }
-
-    .btn__arrow--active {
-        background: #F1CDB3;
-    }
-
-    /* Pets1280 styles end */
-
+.navigation {
+    display: flex;
+    justify-content: space-between;
+}
 
 
 /* Pets styles end */

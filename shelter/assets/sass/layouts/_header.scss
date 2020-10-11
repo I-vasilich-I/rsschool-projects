@@ -1,13 +1,23 @@
 /* header styles start*/
 
-header {
+.header {
     position: absolute;
     width: 100%;
     top: 60px;
+    &--pets {
+        position: fixed;
+        background: $color-light-xl;
+        top: 0px;
+    }
     @include media-laptop {
         top: 30px;
+        &--pets {
+            top: 0px;
+        }
     }
 }
+
+
 
 .hidden {
     position: absolute;
@@ -24,6 +34,9 @@ header {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    &--pets {
+        height: 120px;
+    }
     
 }
 
@@ -38,10 +51,16 @@ header {
 
 .logo__title {
     @include font(3.2rem, 110%, $color-primary, $spacing: 0.06em);
+    &--color {
+        color: $color-dark-l;
+    }
 }
 
 .logo__subtitle {
     @include font(1.3rem, 1.5rem, $color-light-xl, 'Arial', $spacing: 0.1em);
+    &--color {
+        color: $color-dark-3xl;
+    }
 }
 
 .header__nav {
@@ -61,41 +80,33 @@ header {
 .list__item {
     &-active {
         border-bottom: 3px solid $color-primary;
+        a {
+            color: $color-light-l;
+        }
+    }
+    &--pets {
+        &-active {
+            a {
+                color: $color-dark-3xl;
+            } 
+        }
     }
 }
 
 .list__link {
     text-decoration: none;
     @include font(1.5rem, 2.1rem, $color-dark-s, 'Arial');
-    
+    &:hover {
+        cursor: pointer;
+        color: $color-light-l;
+    } 
+    &--color {
+        color: $color-dark-l;
+        &:hover {
+            cursor: pointer;
+            color: $color-dark-3xl;
+        } 
+    }
 }
-
-    /* Pets1280 header start */
-
-    .header--pets1280 {
-        position: unset;
-        background: #FFFFFF;
-        top: 0px
-    }
-
-    .header__wrapper--pets1280 {
-        height: 120px;
-    }
-
-    .logo__tittle--color {
-        color: #545454;
-    }
-
-    .logo__subtitle--color {
-        color: #292929;
-    }
-
-    .list__link--color {
-        color: #545454;
-    }
-
-    /* Pets1280 header end */
-
-    
 
 /* header styles end*/

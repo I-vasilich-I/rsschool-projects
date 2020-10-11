@@ -12,6 +12,12 @@ img {
     height: auto;
 }
 
+body {
+    @include media-mobile {
+        width: $mobile-width;
+    }
+}
+
 h2 {
     @include font(4.4rem, 130%, $color-light-xl);
 }
