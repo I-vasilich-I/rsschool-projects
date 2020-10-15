@@ -525,6 +525,7 @@ p {
   height: 52px;
   border: 2px solid #F1CDB3;
   border-radius: 100px;
+  background: transparent;
 }
 .btn__arrow--active {
   background: #F1CDB3;
@@ -539,6 +540,12 @@ p {
 }
 .btn__arrow:disabled:hover {
   background: unset;
+}
+
+@media (max-width: 767px) {
+  .left {
+    margin-right: 80px;
+  }
 }
 
 .button__primary {
@@ -640,7 +647,6 @@ p {
   height: 120px;
 }
 .header__logo {
-  width: 186px;
   height: 60px;
   display: flex;
   flex-direction: column;
@@ -1056,12 +1062,6 @@ p {
   display: flex;
   justify-content: center;
 }
-@media (max-width: 767px) {
-  .left {
-    margin-right: 80px;
-  }
-}
-
 .nav__wrapper {
   width: 340px;
   height: 52px;
