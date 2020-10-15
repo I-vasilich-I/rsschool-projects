@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: normal;
+	src: url('../assets/fonts/Arial.eot');
+	src: local('Arial'), url('../assets/fonts/Arial.woff') format('woff'), url('../assets/fonts/Arial.ttf') format('truetype');
+}
+
+@font-face {font-family: "Arial-Italic"; 
+    src: url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.eot"); 
+    src: url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.eot?#iefix") 
+    format("embedded-opentype"), url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.woff2") 
+    format("woff2"), url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.woff") 
+    format("woff"), url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.ttf") 
+    format("truetype"), url("//db.onlinewebfonts.com/t/f1ce4d38f041ee34a6b4a0336e9ea3a0.svg#Arial") 
+    format("svg"); 
+}
+
+@font-face {
+    font-family: 'Georgia Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Georgia Regular'), url('../assets/fonts/georgia.woff') format('woff');
+}

@@ -1,0 +1,167 @@
+/* Footer styles start */
+
+.footer {
+    padding-top: 40px;
+    background: $footer-gradient-background;
+    @include media-laptop {
+        padding-top: 30px;
+    }
+}
+
+.footer__wrapper {
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @include media-laptop {
+        align-items: center;
+        flex-direction: column;
+    }
+}
+
+.footer__content {
+    width: 740px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    h3 {
+        color: $color-light-xl;
+    }
+    @include media-laptop {
+        width: 708px;
+        align-items: center;
+        margin-bottom: 65px;
+        padding: 0 34px;
+    }
+
+    @include media-tablet {
+        flex-direction: column;
+        align-content: center;
+        width: 300px;
+        height: 470px;
+        margin-bottom: 40px;
+        padding: 0 0;
+        
+        h3 {
+            width: 270px;
+            font-size: 2.5rem;
+            line-height: 130%;
+            text-align: center;
+        }
+    }
+}
+
+.footer__contacts {
+    position: relative;
+    top: 16px;
+    width: 279px;
+    height: 234px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: space-between;
+    justify-content: space-between;
+    h4 {
+        color: $color-primary;
+    }
+    @include media-laptop {
+        top: 0;
+    }
+    @include media-tablet {
+        width: 278px;
+        height: 208px;
+        top: 0;
+        align-content: center;
+        align-items: center;
+    }
+}
+
+.footer__contacts-mail {
+    width: 251px;
+    height: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__contacts-phone {
+    width: 239px;
+    height: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__contacts-icon {
+    width: 40px;
+    height: 32px;
+}
+
+.footer__location {
+    position: relative;
+    top: 16px;
+    width: 302px;
+    height: 234px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: space-between;
+    justify-content: space-between;
+
+    h4 {
+        width: 260px;
+        color: $color-primary;
+    }
+    @include media-laptop {
+        top: 0;
+    }
+    @include media-tablet {
+        width: 300px;
+        height: 222px;
+        top: 0;
+        align-content: center;
+        align-items: center;
+    }
+}
+
+.footer__location-address1 {
+    width: 302px;
+    height: 46px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__location-address2 {
+    width: 302px;
+    height: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__location-icon {
+    width: 22px;
+    height: 32px;
+}
+
+.footer__puppy {
+    height: 310px;
+    @include media-laptop {
+       justify-self: center;
+    }
+    @include media-tablet {
+        height: 269px;
+    }
+}
+
+.footer__link {
+    direction: none;
+    text-decoration: none;
+}
+
+/* Footer styles end */
