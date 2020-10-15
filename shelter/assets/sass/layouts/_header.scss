@@ -37,6 +37,9 @@
     &--pets {
         height: 120px;
     }
+    @include media-mobile {
+      //  justify-content: unset;
+    }
     
 }
 

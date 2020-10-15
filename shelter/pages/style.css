@@ -468,6 +468,40 @@ p {
   color: #B2B2B2;
 }
 
+.burger__line, .burger:after, .burger:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  border: 2px solid #F1CDB3;
+}
+
+.burger {
+  display: none;
+  position: relative;
+  width: 30px;
+  height: 22px;
+  margin-right: 43px;
+}
+.burger:before {
+  top: 2px;
+  left: 0;
+}
+.burger:after {
+  top: 22px;
+  left: 0;
+}
+@media (max-width: 767px) {
+  .burger {
+    display: inline-block;
+  }
+}
+
+.burger__line {
+  top: 12px;
+  left: 0;
+}
+
 .button {
   width: 207px;
   height: 52px;
@@ -605,7 +639,6 @@ p {
 .header__wrapper--pets {
   height: 120px;
 }
-
 .header__logo {
   width: 186px;
   height: 60px;
