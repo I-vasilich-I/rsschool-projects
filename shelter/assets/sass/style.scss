@@ -1,0 +1,23 @@
+//Abstract
+@import "abstract/constants";
+@import "abstract/plaseholders";
+@import "abstract/mixins";
+
+//Base
+@import "base/reset";
+@import "base/fonts";
+@import "base/base";
+@import "base/burger";
+
+//Components
+@import "components/buttons";
+
+//Layouts
+@import "layouts/wrapper";
+@import "layouts/header";
+@import "layouts/start-screen";
+@import "layouts/about";
+@import "layouts/pets";
+@import "layouts/help";
+@import "layouts/donation";
+@import "layouts/footer";

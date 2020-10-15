@@ -1,0 +1,14 @@
+.wrapper {
+    max-width: $content-width+1px;
+    padding: 0 40px;
+    @include media-laptop {
+        padding: 0 30px;
+    }
+    @include media-tablet {
+        padding: 0 10px
+    }
+    @include media-mobile {
+        width: $mobile-width; 
+    }
+    margin: 0 auto;
+}

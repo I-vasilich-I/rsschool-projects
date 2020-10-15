@@ -1,0 +1,117 @@
+/* Donation styles start */
+
+.donation {
+    padding-top: 80px;
+    padding-bottom: 100px;
+    background: $color-light-l;
+    @include media-tablet {
+        padding: 42px 0;
+    }
+}
+
+.donation__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    @include media-laptop {
+        flex-direction: column-reverse;
+    }
+}
+
+.donation__img {
+    width: 505px;
+    height: 261px;
+    margin-right: 30px;
+    @include media-laptop {
+        margin-right: 0px;
+    }
+    @include media-tablet {
+        width: 260px;
+        height: 135.2px;
+    }
+}
+
+.donation__information {
+    width: 380px;
+    height: 282px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @include media-laptop {
+        margin-bottom: 60px;
+    }
+    @include media-tablet {
+        align-items: center;
+        width: 300px;
+        margin-bottom: 42px;
+        h3 {
+            width: 220px;
+            font-size: 2.5rem;
+            line-height: 130%;
+            text-align: center;
+        }
+        h5 {
+            font-size: 1.5rem;
+            line-height: 160%;
+            letter-spacing: unset;
+        }
+        p {
+            text-align: justify;
+            width: 280px;
+        }
+    }
+}
+
+.donation__title {
+    width: 300px;
+}
+
+
+
+.donation__credit__card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 349px;
+    height: 43px;
+    background: $color-primary;
+    border-radius: 9px;
+
+    @include media-tablet {
+        width: 281px;
+    }
+}
+
+.credit__card__content {
+    width: 320px;
+    height: 23px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include media-tablet {
+        width: 251px;
+        h4 {
+            font-size: 15px;
+            line-height: 110%;
+        }
+    }
+}
+
+.credit__card__icon {
+    width: 30px;
+}
+
+.credit__card__number {
+    width: 274px;
+    height: 23px;
+    text-decoration: none;
+    @include media-tablet {
+        width: 206px;
+        height: 17px;
+    }
+}
+
+/* Donation styles end */

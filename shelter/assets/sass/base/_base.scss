@@ -1,0 +1,43 @@
+html {
+    box-sizing: border-box;
+    font-size: 10px;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+body {
+    @include media-mobile {
+        width: $mobile-width;
+    }
+}
+
+h2 {
+    @include font(4.4rem, 130%, $color-light-xl);
+}
+
+h3 {
+    @include font(3.5rem, 130%, $color-dark-l, $spacing:0.06em);
+}
+
+h4 {
+    @include font(2rem, 115%, $color-dark-l, $spacing:0.058em);
+}
+
+h5 {
+    @include font(1.5rem, 110%, $color-dark-l, $spacing:0.06em);
+}
+
+p {
+    @include font(1.5rem, 160%, $color-dark-s, 'Arial');
+}
+
+.paragraph-s {
+    @include font(1.2rem, 150%, $color-dark-m, 'Arial-italic');
+}

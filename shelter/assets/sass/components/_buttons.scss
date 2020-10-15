@@ -1,0 +1,62 @@
+.button {
+    width: 207px;
+    height: 52px;
+    background: $color-primary;
+    border-radius: 100px;
+    border: none;
+    @include font(1.7rem, 130%, $color-dark-xl, $spacing: 0.06em);
+    @extend %transition;
+    &:hover {
+        background: $color-primary-light;
+    }
+}
+
+.btn__arrow {
+    width: 52px;
+    height: 52px;
+    border: 2px solid $color-primary;
+    border-radius: 100px;
+    &--active {
+        background: $color-primary;
+    }
+    &:hover {
+        background: $color-primary-light;
+        border: unset;
+    }
+    &:disabled {
+        color: $color-dark-s;
+        border: 2px solid $color-dark-s;
+        &:hover {
+            background: unset;
+        }
+    }
+}
+
+
+.button__primary {
+    width: 261px;
+    height: 52px;
+    background: $color-primary;
+    border-radius: 100px;
+    border: none;
+    @include font(1.7rem, 130%, $color-dark-3xl, $spacing: 0.06em);
+    @extend %transition;
+    &:hover { 
+        background: $color-primary-light;
+    }
+}
+
+
+.button__secondary {
+    width: 187px;
+    height: 52px;
+    border: 2px solid $color-primary;
+    box-sizing: border-box;
+    border-radius: 100px;
+    background: none;
+    @include font(1.7rem, 130%, $color-dark-3xl, $spacing: 0.06em);
+    &:hover {
+        background: $color-primary-light;
+        border: unset;
+    }
+}

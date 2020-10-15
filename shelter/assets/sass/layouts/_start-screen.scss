@@ -1,0 +1,73 @@
+/* Start screen styles start */
+
+.start {
+    background: $start-screen-gradient-background;
+    background-size: auto;
+    padding-top: 180px;
+    @include media-laptop {
+        padding-top: 150px;
+    }
+}
+
+.start__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    //align-content: flex-end;
+    justify-content: space-between;
+    @include media-laptop {
+        img {
+            width: 569px;
+        }
+    }
+    @include media-laptop-small {
+        justify-content: center;
+        img {
+            margin-left: 139px;
+        }   
+    }
+    @include media-tablet {
+        width: 300px;
+        text-align: center;
+        h2 {
+            width: 200px;
+            font-size: 2.5rem;
+            line-height: 130%; 
+            letter-spacing: 0.06em;
+        }
+        p {
+            width: 300px;
+        }
+        img {
+            width: 260px;
+            margin-left: 40px;
+        }
+    }
+}
+
+.start__content {
+    margin-top: 163px;
+    height: 322px;
+    width: 460px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    @include media-laptop {
+        margin-top: unset;
+        margin-bottom: 100px;
+        .button {
+            align-self: center;
+        }
+    }
+    @include media-tablet {
+        align-items: center;
+        height: 296px;
+        width: 300px;
+        margin-bottom: 105px;
+    }
+}
+
+.content__heading {
+    width: 310px;
+}
+
+/* Start screen styles end */

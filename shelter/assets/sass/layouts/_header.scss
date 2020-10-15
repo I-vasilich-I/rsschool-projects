@@ -1,0 +1,116 @@
+/* header styles start*/
+
+.header {
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    &--pets {
+        position: fixed;
+        background: $color-light-xl;
+        top: 0px;
+    }
+    @include media-laptop {
+        top: 30px;
+        &--pets {
+            top: 0px;
+        }
+    }
+}
+
+
+
+.hidden {
+    position: absolute;
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+    padding: 0;
+    border: 0;
+}
+
+.header__wrapper {
+    height: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    &--pets {
+        height: 120px;
+    }
+    @include media-mobile {
+      //  justify-content: unset;
+    }
+    
+}
+
+.header__logo {
+    width: 186px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;    
+}
+
+.logo__title {
+    @include font(3.2rem, 110%, $color-primary, $spacing: 0.06em);
+    &--color {
+        color: $color-dark-l;
+    }
+}
+
+.logo__subtitle {
+    @include font(1.3rem, 1.5rem, $color-light-xl, 'Arial', $spacing: 0.1em);
+    &--color {
+        color: $color-dark-3xl;
+    }
+}
+
+.header__nav {
+    width: 443px;
+    height: 27px;
+    @include media-tablet {
+        display: none;
+    }
+}
+
+.header__list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.list__item {
+    &-active {
+        border-bottom: 3px solid $color-primary;
+        a {
+            color: $color-light-l;
+        }
+    }
+    &--pets {
+        &-active {
+            a {
+                color: $color-dark-3xl;
+            } 
+        }
+    }
+}
+
+.list__link {
+    text-decoration: none;
+    @include font(1.5rem, 2.1rem, $color-dark-s, 'Arial');
+    &:hover {
+        cursor: pointer;
+        color: $color-light-l;
+    } 
+    &--color {
+        color: $color-dark-l;
+        &:hover {
+            cursor: pointer;
+            color: $color-dark-3xl;
+        } 
+    }
+}
+
+/* header styles end*/
