@@ -496,6 +496,11 @@ p {
     display: inline-block;
   }
 }
+.burger-menu {
+  display: unset;
+  margin-left: 43px;
+  transform: rotate(90deg);
+}
 
 .burger__line {
   top: 12px;
@@ -647,6 +652,7 @@ p {
   height: 120px;
 }
 .header__logo {
+  width: 188px;
   height: 60px;
   display: flex;
   flex-direction: column;
@@ -729,6 +735,76 @@ p {
 }
 
 /* header styles end*/
+.mobile__menu {
+  position: fixed;
+  right: 0;
+  top: 0;
+  background: #292929;
+  height: 823px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mobile__menu .header__nav {
+  width: unset;
+  height: unset;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.mobile__menu .header__list {
+  position: relative;
+  height: 327px;
+  width: 243px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.mobile__menu .list__item-active {
+  border-bottom: 3px solid #F1CDB3;
+}
+.mobile__menu .list__item-active a {
+  color: #F6F6F6;
+}
+.mobile__menu .list__item--pets-active a {
+  color: #292929;
+}
+.mobile__menu .list__link {
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 3.2rem;
+  line-height: 160%;
+  letter-spacing: unset;
+  color: #CDCDCD;
+}
+@media (min-width: 767px) {
+  .mobile__menu {
+    display: none;
+  }
+}
+
+.menu__header {
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 158px;
+  display: flex;
+  align-items: center;
+}
+
+.blackout {
+  position: fixed;
+  display: none;
+  height: 100%;
+  width: 100%;
+  background: rgba(41, 41, 41, 0.6);
+}
+.blackout-active {
+  display: unset;
+}
+
 /* Start screen styles start */
 .start {
   background: url(../assets/images/noise_transparent@2x.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
@@ -1422,7 +1498,6 @@ p {
 }
 
 .footer__contacts {
-  position: relative;
   top: 16px;
   width: 279px;
   height: 234px;
@@ -1474,7 +1549,6 @@ p {
 }
 
 .footer__location {
-  position: relative;
   top: 16px;
   width: 302px;
   height: 234px;

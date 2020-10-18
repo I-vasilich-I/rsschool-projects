@@ -26,6 +26,13 @@
     @include media-tablet {
         display: inline-block;
     }
+
+    &-menu {
+        display: unset;
+        //margin-right: unset;
+        margin-left: 43px;
+        transform: rotate(90deg);
+    }
 }
 
 .burger__line {
