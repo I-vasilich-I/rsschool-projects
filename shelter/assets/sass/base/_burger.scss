@@ -11,7 +11,10 @@
     position: relative;
     width: 30px;
     height: 22px;
+    z-index: 2;
+
     margin-right: 43px;
+    @extend %transition;
     &:before {
         @extend %burger-line;
         top: 2px;
@@ -29,9 +32,22 @@
 
     &-menu {
         display: unset;
+        position: fixed;
+        right: 10px;
         //margin-right: unset;
         margin-left: 43px;
         transform: rotate(90deg);
+        @extend %transition;
+
+        @include media-min {
+            display: none;
+            position: relative;
+            width: 30px;
+            height: 22px;
+            z-index: 2;   
+            transform: rotate(90deg);     
+        }
+
     }
 }
 

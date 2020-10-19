@@ -1,4 +1,4 @@
-.button__primary, .button {
+.mobile__menu-toggled, .button__primary, .button, .burger-menu, .burger {
   transition: all 0.2s ease-out;
 }
 
@@ -481,6 +481,7 @@ p {
   position: relative;
   width: 30px;
   height: 22px;
+  z-index: 2;
   margin-right: 43px;
 }
 .burger:before {
@@ -498,8 +499,20 @@ p {
 }
 .burger-menu {
   display: unset;
+  position: fixed;
+  right: 10px;
   margin-left: 43px;
   transform: rotate(90deg);
+}
+@media (min-width: 767px) {
+  .burger-menu {
+    display: none;
+    position: relative;
+    width: 30px;
+    height: 22px;
+    z-index: 2;
+    transform: rotate(90deg);
+  }
 }
 
 .burger__line {
@@ -659,6 +672,9 @@ p {
   justify-content: space-between;
   align-items: center;
 }
+.header__logo-toggled {
+  opacity: 0;
+}
 
 .logo__title {
   font-family: "Georgia";
@@ -737,14 +753,14 @@ p {
 /* header styles end*/
 .mobile__menu {
   position: fixed;
-  right: 0;
+  right: -320px;
   top: 0;
-  background: #292929;
   height: 823px;
   width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #292929;
 }
 .mobile__menu .header__nav {
   width: unset;
@@ -752,6 +768,9 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.mobile__menu .header__logo {
+  margin-right: 126px;
 }
 .mobile__menu .header__list {
   position: relative;
@@ -784,6 +803,9 @@ p {
     display: none;
   }
 }
+.mobile__menu-toggled {
+  right: 0;
+}
 
 .menu__header {
   margin-top: 30px;
@@ -791,6 +813,7 @@ p {
   margin-right: 10px;
   margin-bottom: 158px;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
 }
 
