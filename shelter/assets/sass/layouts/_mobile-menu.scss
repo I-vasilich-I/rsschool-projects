@@ -50,10 +50,6 @@
         @include font(3.2rem, 160%, $color-dark-s, 'Arial');
     }
 
-    @include media-min {
-        display: none;
-    }
-
     &-toggled {
         @extend %transition;
         right: 0;

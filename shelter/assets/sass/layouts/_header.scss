@@ -17,8 +17,6 @@
     }
 }
 
-
-
 .hidden {
     position: absolute;
     overflow: hidden;
@@ -37,10 +35,6 @@
     &--pets {
         height: 120px;
     }
-    @include media-mobile {
-      //  justify-content: unset;
-    }
-    
 }
 
 .header__logo {
