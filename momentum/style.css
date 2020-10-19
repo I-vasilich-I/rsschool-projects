@@ -13,7 +13,7 @@ body {
   text-align: center;
   height: 100vh;
   background-size: cover;
-  color: #000000;
+  color: black;
 }
 
 .date {
@@ -22,6 +22,7 @@ body {
 
 .time {
   font-size: 8rem;
+  padding: ;
 }
 
 h1 {
@@ -35,6 +36,10 @@ h2 {
 
 @media (max-width: 700px) {
   .time {
-    font-size: 6rem;
+    font-size: 5rem;
+  }
+
+  .date {
+    font-size: 4rem;
   }
 }
