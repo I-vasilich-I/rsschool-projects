@@ -772,6 +772,7 @@ p {
 }
 .mobile__menu .header__logo {
   margin-right: 126px;
+  margin-left: 10px;
 }
 .mobile__menu .header__list {
   position: relative;
