@@ -16,6 +16,7 @@
     height: 52px;
     border: 2px solid $color-primary;
     border-radius: 100px;
+    background: transparent;
     &--active {
         background: $color-primary;
     }
@@ -29,6 +30,12 @@
         &:hover {
             background: unset;
         }
+    }
+}
+
+.left {
+    @include media-tablet {
+        margin-right: 80px;
     }
 }
 

@@ -17,8 +17,6 @@
     }
 }
 
-
-
 .hidden {
     position: absolute;
     overflow: hidden;
@@ -37,19 +35,18 @@
     &--pets {
         height: 120px;
     }
-    @include media-mobile {
-      //  justify-content: unset;
-    }
-    
 }
 
 .header__logo {
-    width: 186px;
+    width: 188px;
     height: 60px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;    
+    align-items: center;   
+    &-toggled {
+        opacity: 0;
+    } 
 }
 
 .logo__title {
