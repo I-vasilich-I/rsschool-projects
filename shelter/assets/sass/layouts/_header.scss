@@ -8,6 +8,10 @@
         position: fixed;
         background: $color-light-xl;
         top: 0px;
+        &-toggled {
+            position: fixed;
+            background: rgba(41, 41, 41, 0);
+        }
     }
     @include media-laptop {
         top: 30px;

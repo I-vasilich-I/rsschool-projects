@@ -11,6 +11,9 @@
 
 <!-- Body start -->
 <body>
+    <!-- blackout for mobile menu -->
+    <div class="blackout" onclick="onClickMenu()"></div>
+    <!-- blackout for mobile menu -->
     <!-- Header start -->
     <header class="header header--pets">
         <h1 class="hidden">Cozy House</h1>
@@ -19,6 +22,9 @@
                 <div class="logo__title logo__title--color">Cozy House</div>
                 <div class="logo__subtitle logo__subtitle--color">Shelter for pets in Boston</div>
             </div>
+            <span id="burger-2" class="burger burger-pets" onclick="onClickMenu()">
+                <span id="burger__line" class="burger__line burger__line-pets"></span>
+            </span>
             <nav class="header__nav">
                 <ul class="header__list">
                     <li class="list__item">
@@ -35,6 +41,31 @@
                     </li>
                 </ul>
             </nav>
+            <div class="mobile__menu">
+                <div class="menu__header">
+                    <div class="header__logo">
+                        <div class="logo__title">Cozy House</div>
+                        <div class="logo__subtitle">Shelter for pets in Boston</div>
+                    </div>
+                </div>
+                <nav class="header__nav">
+                    <ul class="header__list">
+                        <li class="list__item">
+                            <a href="main.html" class="list__link">About the shelter</a>
+                        </li>
+                        <li class="list__item-active">
+                            <a href="#!" class="list__link">Our pets</a>
+                        </li>
+                        <li class="list__item">
+                            <a href="#!" class="list__link">Help the shelter</a>
+                        </li>
+                        <li class="list__item">
+                            <a href="#!" class="list__link">Contacts</a>
+                        </li>
+                    </ul>
+                </nav>
+                
+            </div>
         </div>
     </header>
     <!-- Header end -->
@@ -183,6 +214,6 @@
     </footer>
    
     <!-- Footer end -->
-
+    <script src="script.js"></script>
 </body>
 </html>
