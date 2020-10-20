@@ -836,13 +836,9 @@ p {
 
 .blackout {
   position: fixed;
-  display: none;
   height: 100%;
   width: 100%;
   background: rgba(41, 41, 41, 0.6);
-}
-.blackout-active {
-  display: unset;
 }
 
 /* Start screen styles start */

@@ -68,15 +68,9 @@
     align-items: center;
 }
 
-
-
 .blackout {
     position: fixed;
-    display: none;
     height: 100%;
     width: 100%;
     background: rgba(41, 41, 41, 0.6);
-    &-active {
-        display: unset;
-    }
 }
