@@ -51,6 +51,11 @@
     &-toggled {
         opacity: 0;
     } 
+    &-pets {
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 
 .logo__title {
