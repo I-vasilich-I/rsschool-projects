@@ -1,5 +1,5 @@
-.mobile__menu-toggled, .button__primary, .button, .burger-menu, .burger {
-  transition: all 0.2s ease-out;
+.mobile__menu-toggled, .mobile__menu, .button__primary, .button, .burger-menu, .burger {
+  transition: all 0.3s ease-out;
 }
 
 /*reset.css*/
@@ -492,6 +492,12 @@ p {
   top: 22px;
   left: 0;
 }
+.burger-pets:before {
+  border: 2px solid #000000;
+}
+.burger-pets:after {
+  border: 2px solid #000000;
+}
 @media (max-width: 767px) {
   .burger {
     display: inline-block;
@@ -518,6 +524,13 @@ p {
 .burger__line {
   top: 12px;
   left: 0;
+}
+.burger__line-pets {
+  border: 2px solid #000000;
+}
+.burger__line-pets-menu {
+  border: unset;
+  border: 2px solid #F1CDB3;
 }
 
 .button {
@@ -635,6 +648,10 @@ p {
   position: fixed;
   background: #FFFFFF;
   top: 0px;
+}
+.header--pets-toggled {
+  position: fixed;
+  background: rgba(41, 41, 41, 0);
 }
 @media (max-width: 1279px) {
   .header {
@@ -754,7 +771,6 @@ p {
 /* header styles end*/
 .mobile__menu {
   position: fixed;
-  right: -320px;
   top: 0;
   height: 823px;
   width: 320px;
@@ -762,6 +778,7 @@ p {
   flex-direction: column;
   align-items: center;
   background: #292929;
+  right: -350px;
 }
 .mobile__menu .header__nav {
   width: unset;

@@ -25,6 +25,16 @@
         top: 22px;
         left: 0;
     }
+
+    &-pets {
+        &:before {
+            border: 2px solid #000000; 
+        }
+        &:after {
+            border: 2px solid #000000; 
+        }
+        
+    }
     
     @include media-tablet {
         display: inline-block;
@@ -35,6 +45,7 @@
         position: fixed;
         right: 10px;
         //margin-right: unset;
+        
         margin-left: 43px;
         transform: rotate(90deg);
         @extend %transition;
@@ -55,5 +66,13 @@
     @extend %burger-line;
     top: 12px;
     left: 0;
+    &-pets {
+        border: 2px solid #000000; 
+        &-menu {
+            border: unset;
+            border: 2px solid $color-primary; 
+        }
+    }
+    
 }
 
