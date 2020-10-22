@@ -51,6 +51,11 @@
     &-toggled {
         opacity: 0;
     } 
+    &-pets {
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 
 .logo__title {
@@ -106,11 +111,26 @@
         color: $color-light-l;
     } 
     &--color {
-        color: $color-dark-l;
+        text-decoration: none;
+        @include font(1.5rem, 2.1rem, $color-dark-l, 'Arial');
         &:hover {
-            cursor: pointer;
             color: $color-dark-3xl;
-        } 
+        }
+    }
+    &-inactive {
+        text-decoration: none;
+        @include font(1.5rem, 2.1rem, $color-dark-s, 'Arial');
+        &:hover {
+            cursor: default; 
+            color: $color-dark-s;
+        }
+        &--color {
+            text-decoration: none;
+            @include font(1.5rem, 2.1rem, $color-dark-l, 'Arial');
+            &:hover {
+                cursor: default; 
+            }
+        }
     }
 }
 

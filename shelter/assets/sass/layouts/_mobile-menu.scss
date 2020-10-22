@@ -1,7 +1,6 @@
 .mobile__menu {
     position: fixed;
     top: 0;
-    
     height: 823px;
     width: 320px;
     display: flex;
@@ -49,6 +48,13 @@
 
     .list__link {
         @include font(3.2rem, 160%, $color-dark-s, 'Arial');
+        &-inactive {
+            &:hover {
+                cursor: default; 
+                color: $color-dark-s;
+            }
+            
+        }
     }
 
     &-toggled {
@@ -68,15 +74,10 @@
     align-items: center;
 }
 
-
-
 .blackout {
     position: fixed;
-    display: none;
+    
     height: 100%;
     width: 100%;
     background: rgba(41, 41, 41, 0.6);
-    &-active {
-        display: unset;
-    }
 }
