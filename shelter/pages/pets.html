@@ -11,9 +11,6 @@
 
 <!-- Body start -->
 <body>
-    <!-- blackout for mobile menu -->
-    
-    <!-- blackout for mobile menu -->
     <!-- Header start -->
     <header class="header header--pets">
         <h1 class="hidden">Cozy House</h1>
@@ -34,16 +31,16 @@
                         <a href="#" class="list__link list__link--color">Our pets</a>
                     </li>
                     <li class="list__item">
-                        <a href="#!" class="list__link list__link--color">Help the shelter</a>
+                        <a href="#!" class="list__link-inactive--color">Help the shelter</a>
                     </li>
                     <li class="list__item">
-                        <a href="#!" class="list__link list__link--color">Contacts</a>
+                        <a href="#!" class="list__link-inactive--color">Contacts</a>
                     </li>
                 </ul>
             </nav>
             <div class="mobile__menu">
                 <div class="menu__header">
-                    <div class="header__logo">
+                    <div class="header__logo" onclick="window.open('main.html')">
                         <div class="logo__title">Cozy House</div>
                         <div class="logo__subtitle">Shelter for pets in Boston</div>
                     </div>
@@ -54,13 +51,13 @@
                             <a href="main.html" class="list__link">About the shelter</a>
                         </li>
                         <li class="list__item-active">
-                            <a href="pets.html" class="list__link">Our pets</a>
+                            <a href="#" class="list__link" onclick="onClickMenu()">Our pets</a>
                         </li>
                         <li class="list__item">
-                            <a href="#!" class="list__link">Help the shelter</a>
+                            <a href="#!" class="list__link list__link-inactive">Help the shelter</a>
                         </li>
                         <li class="list__item">
-                            <a href="#!" class="list__link">Contacts</a>
+                            <a href="#!" class="list__link list__link-inactive">Contacts</a>
                         </li>
                     </ul>
                 </nav>

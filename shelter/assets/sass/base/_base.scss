@@ -41,3 +41,8 @@ p {
 .paragraph-s {
     @include font(1.2rem, 150%, $color-dark-m, 'Arial-italic');
 }
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}

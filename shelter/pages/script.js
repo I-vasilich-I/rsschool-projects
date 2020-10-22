@@ -7,12 +7,18 @@ window.onload = function() {
 // runs on both pages: main & pets
 function onClickMenu() {
     let blackout = document.querySelector('.blackout');
+    
     if (blackout!=null) {
        document.body.removeChild(blackout);
+       document.body.classList.remove('stop-scrolling');
     } else {
         let el = document.createElement('div');
+        
         el.classList.toggle('blackout');
+        el.setAttribute('onclick', 'onClickMenu()');
         document.body.prepend(el);
+        
+        document.body.classList.add('stop-scrolling');
     }
 
     let mainBurger = document.getElementById('burger-1');
@@ -43,6 +49,7 @@ function onClickMenu() {
 function resetClass() {
     window.addEventListener("resize", () => {
         if(window.innerWidth > 767) {
+            document.body.classList.remove('stop-scrolling');
             let mainBurger = document.getElementById('burger-1');
             if (mainBurger!=null) {
                 mainBurger.classList.remove('burger-menu');
@@ -73,3 +80,14 @@ function resetClass() {
         }
     })
 }
+
+
+function slider() {
+    let cardsContaner = document.querySelector('.cards');
+    let cards = document.querySelectorAll('.cards__card');
+    //cardsContaner.removeChild(cards[0]);
+    //cardsContaner.innerHTML = '';
+
+}
+
+slider();

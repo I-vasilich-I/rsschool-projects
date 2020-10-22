@@ -52,7 +52,7 @@
 }
 
 .footer__contacts {
-   // position: relative;
+    position: relative;
     top: 16px;
     width: 279px;
     height: 234px;
@@ -68,12 +68,14 @@
         top: 0;
     }
     @include media-tablet {
+        position: static;
         width: 278px;
         height: 208px;
         top: 0;
         align-content: center;
         align-items: center;
     }
+    
 }
 
 .footer__contacts-mail {
@@ -100,7 +102,7 @@
 }
 
 .footer__location {
-  //  position: relative;
+    position: relative;
     top: 16px;
     width: 302px;
     height: 234px;
@@ -118,6 +120,7 @@
         top: 0;
     }
     @include media-tablet {
+        position: static;
         width: 300px;
         height: 222px;
         top: 0;
