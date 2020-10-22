@@ -4,6 +4,8 @@ const time = document.querySelector('.time');
 const focus = document.querySelector('.focus');
 const date = document.querySelector('.date');
 const greeting = document.querySelector('.greeting');
+let day = new Date();
+let h = day.getHours();
 
 // Months&Days
 const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -38,26 +40,52 @@ function addZero(num) {
 function setBackgroundAndGreeting() {
     let today = new Date();
     let hour = today.getHours();
+    setImgAndGreeting(hour);
+}
+
+function setBackgroundAndGreetingOnClick() {
+    
+
+    setImgAndGreeting(h, false);
+    if (h == 23) {
+        h = 0;
+    } else {
+        h++;
+    }
+   
+}
+
+
+function setImgAndGreeting(hour, greet = true) {
     if (hour < 6) {
         let path = './assets/images/night/';
         document.body.style.backgroundImage = `url(${path}${addZero(getRandomInt(19)+1)}.jpg)`;
-        greeting.textContent = 'Good Night, ';
+        if (greet === true) {
+            greeting.textContent = 'Good Night, ';
+        }
     } else if (hour < 12) {
         let path = './assets/images/morning/';
         document.body.style.backgroundImage = `url(${path}${addZero(getRandomInt(19)+1)}.jpg)`;
-        greeting.textContent = 'Good Morning, ';
+        if (greet === true) {
+            greeting.textContent = 'Good Morning, ';
+        }
     } else if (hour < 18) {
         let path = './assets/images/day/';
         document.body.style.backgroundImage = `url(${path}${addZero(getRandomInt(19)+1)}.jpg)`;
         document.body.style.color = 'black';
-        greeting.textContent = 'Good Afternoon, ';
+        if (greet === true) {
+            
+            greeting.textContent = 'Good Afternoon, ';
+        }      
     } else {
         let path = './assets/images/evening/';
         document.body.style.backgroundImage = `url(${path}${addZero(getRandomInt(19)+1)}.jpg)`;
         document.body.style.color = 'white';
-        greeting.textContent = 'Good Evening, ';
+        if (greet === true) {
+            
+            greeting.textContent = 'Good Evening, ';
+        }
     }
-    
 }
 
 function getRandomInt(max) {
