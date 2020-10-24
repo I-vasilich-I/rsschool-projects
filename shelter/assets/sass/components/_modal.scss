@@ -1,22 +1,26 @@
 .modal {
-    position: relative;
-    margin: auto;
+    position: fixed;
+    margin: 0 auto;
+    left: calc(50vw - 476px);
+    top: calc(50vh - 290px);
     z-index: 2;
     width: 952px;
     height: 552px;
-    top: calc(50vh - 226px);
+    
     display: flex;
     justify-content: flex-start;
     &-768 {
         width: 682px;
         height: 402px;
         top: calc(50vh - 201px);
+        left: calc(50vw - 330px);
     }
 
     &-320 {
         width: 270px;
         height: 393px;
         top: calc(50vh - 196.5px);
+        left: calc(50vw - 135px);
     }
 }
 
