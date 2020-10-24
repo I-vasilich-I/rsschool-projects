@@ -99,9 +99,12 @@
     width: 270px;
     height: 435px;
     padding-bottom: 30px;
-    margin-right: 40px;
+    margin-right: 90px; //40 
     &:last-child {
         margin-right: 0px;
+    }
+    @include media-laptop {
+        margin-right: 40px; 
     }
     display: flex;
     flex-direction: column;

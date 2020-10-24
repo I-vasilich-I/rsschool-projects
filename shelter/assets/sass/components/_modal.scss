@@ -1,10 +1,12 @@
 .modal {
-    position: relative;
-    margin: auto;
+    position: fixed;
+    margin: 0 auto;
+    left: calc(50vw - 476px);
+    top: calc(50vh - 290px);
     z-index: 2;
     width: 952px;
     height: 552px;
-    top: calc(50vh - 226px);
+    
     display: flex;
     justify-content: flex-start;
     &-768 {
