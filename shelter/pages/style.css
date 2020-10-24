@@ -639,11 +639,13 @@ p {
   width: 682px;
   height: 402px;
   top: calc(50vh - 201px);
+  left: calc(50vw - 330px);
 }
 .modal-320 {
   width: 270px;
   height: 393px;
   top: calc(50vh - 196.5px);
+  left: calc(50vw - 135px);
 }
 
 .modal__window {

@@ -205,7 +205,15 @@ function cardClickHandler() {
         if (e.target.closest('.cards__card')) {
             let clickedCard = e.target.closest('.cards__card').getAttribute('data-id');
             let pet = pets[clickedCard];
-            let modal = new Modal(pet);
+            let modal;
+            if (document.querySelector("body").offsetWidth >= 1280) {
+                modal = new Modal(pet);
+            } else if (document.querySelector("body").offsetWidth >= 768 
+                    && document.querySelector("body").offsetWidth < 1280) {
+               modal = new Modal(pet, 'modal modal-768', false, true);
+            } else if (document.querySelector("body").offsetWidth < 768) {
+               modal = new Modal(pet, 'modal modal-320',true, false);
+            }
             document.body.append(modal.generateModal());
             
             let el = document.createElement('div');
@@ -238,7 +246,7 @@ function modalClickHandler() {
 }
 
 class Modal {
-    constructor(pet, className='modal') {
+    constructor(pet, className='modal', modal320 = false, modal768 = false) {
         this.id = pet.id;
         this.className = className;
         this.name = pet.name;
@@ -250,6 +258,8 @@ class Modal {
         this.inoculations = pet.inoculations;
         this.diseases = pet.diseases;
         this.parasites = pet.parasites;
+        this.modal320 = modal320;
+        this.modal768 = modal768;
     }
 
     generateModal() {
@@ -262,9 +272,12 @@ class Modal {
         <button class="btn__arrow btn__arrow-modal">
             <img src="/assets/icons/cross-on-button.svg" alt="close">
         </button>
-        <div class="modal__window">
-            <img class="modal__img" src="${this.img}" alt="${this.name}">
-            <div class="modal__content">
+        <div class="modal__window${this.modal320 === true ? ' modal__window-320' : ''}
+                                ${this.modal768 === true ? ' modal__window-768' : ''}">
+            <img class="modal__img${this.modal320 === true ? ' modal__img-320' : ''}
+                                 ${this.modal768 === true ? ' modal__img-768' : ''}" src="${this.img}" alt="${this.name}">
+            <div class="modal__content${this.modal320 === true ? ' modal__content-320' : ''}
+                                        ${this.modal768 === true ? ' modal__content-768' : ''}">
                 <h3>${this.name}</h3>
                 <h4>${this.type} ${this.breed}</h4>
                 <h5>${this.description}</h5>
