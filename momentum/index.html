@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="owfont-regular.css">
   <link rel="stylesheet" href="style.css">
   <title>momentum</title>
 </head>
 <body>
+  <div class="quote"></div>
   <div class="weather">
     <div class="city" contenteditable="true">enter city</div>
     <div class="weather-icon"></div>
@@ -25,9 +29,13 @@
   </h1>
   <h2>What Is Your Focus For Today?</h2>
   <h2 class="focus" contenteditable="true"></h2>
-  
-  <button class="button">Change Background</button>
-  <div class="time-of-day"></div>
+  <div class="buttons">
+    <button id="bckgr" class="button">Change background</button>
+    <button id="qbtn" class="button">Change quote</button>
+  </div>
+  <!--
+    <div class="time-of-day"></div>
+  -->
   <script src="script.js"></script>
 </body>
 </html>

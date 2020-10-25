@@ -4,13 +4,15 @@ const time = document.querySelector('.time');
 const focus = document.querySelector('.focus');
 const date = document.querySelector('.date');
 const greeting = document.querySelector('.greeting');
-const timeOfDay = document.querySelector('.time-of-day');
+//const timeOfDay = document.querySelector('.time-of-day');
 const city = document.querySelector('.city');
 const weatherIcon = document.querySelector('.weather-icon');
 const temp = document.querySelector('.temp');
 const humidity = document.querySelector('.humidity');
 const wind = document.querySelector('.wind');
-const button = document.querySelector('.button');
+const button = document.querySelector('#bckgr');
+const quote = document.querySelector('.quote');
+const quotebtn = document.querySelector('#qbtn');
 
 let day = new Date();
 let h = day.getHours()+1;
@@ -78,6 +80,10 @@ function showTime() {
     }
 }
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 function addZero(num) {
     return num < 10 ? `0${num}` : num;
 }
@@ -89,7 +95,7 @@ async function setBackgroundAndGreeting() {
     await setImgAndGreeting(hour);
 }
 
-async function setBackgroundAndGreetingOnClick() {
+async function setBackgroundAndOnClick() {
     await setImgAndGreeting(h, false);
     if (h == 23) {
         h = 0;
@@ -118,34 +124,30 @@ function getImg(path) {
     return `${path}${addZero(random)}.jpg`;
 }
 
-const delay = ms => {
-    return new Promise(r => setTimeout(() => r(), ms));
-}
-
 async function setImgAndGreeting(hour, greet = true) {
     if (hour < 6) {
-        timeOfDay.innerHTML = 'Night';
+        //timeOfDay.innerHTML = 'Night';
         document.body.style.color = 'white';
         document.body.classList.add('text-shadow');
         if (greet === true) {
             greeting.textContent = 'Good Night, ';
         }
     } else if (hour < 12) {
-        timeOfDay.innerHTML = 'Morning';
+       // timeOfDay.innerHTML = 'Morning';
         document.body.style.color = 'black';
         document.body.classList.remove('text-shadow');
         if (greet === true) {
             greeting.textContent = 'Good Morning, ';
         }
     } else if (hour < 18) {
-        timeOfDay.innerHTML = 'Afternoon';
+        //timeOfDay.innerHTML = 'Afternoon';
         document.body.style.color = 'black';
         document.body.classList.remove('text-shadow');
         if (greet === true) {
             greeting.textContent = 'Good Afternoon, ';
         }      
     } else {
-        timeOfDay.innerHTML = 'Evening';
+        //timeOfDay.innerHTML = 'Evening';
         document.body.style.color = 'white';
         document.body.classList.add('text-shadow');
         if (greet === true) {
@@ -153,10 +155,6 @@ async function setImgAndGreeting(hour, greet = true) {
         }
     }
     resalt(images[hour]); 
-}
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
 }
 
 function getName() {
@@ -213,31 +211,6 @@ function setFocus(e) {
     }
 }
 
-async function getWeather() {
-    if (city.textContent.trim()=='' || city.textContent === '[Enter city]' || localStorage.getItem('city') === null) return;
-    try {
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&appid=992291178e115bbb3c6d8042a432bf78&units=metric`;
-        const res = await fetch(url);
-        const data = await res.json();
-        weatherIcon.className = 'weather-icon owf';
-        weatherIcon.classList.add(`owf-${data.weather[0].id}`);
-        weatherIcon.textContent = ' ' + data.weather[0].description;
-        temp.textContent = `Temperature: ${data.main.temp.toFixed(0)} °C`;
-        humidity.textContent = `Humidity: ${data.main.humidity} %`;
-        wind.textContent = `Wind speed: ${data.wind.speed} m/s`;
-    } catch (e) {
-        console.error(e);
-        weatherIcon.className = 'weather-icon owf';
-        weatherIcon.textContent = '';
-        temp.textContent = '';
-        humidity.textContent = '';
-        wind.textContent = '';
-        city.textContent = '[Enter city]';
-        localStorage.removeItem('city');
-        alert('Wrong city name!');
-    }
-}
-
 function setCity(e) {
     if (e.type === 'keypress') {
         if (e.which == 13 || e.keyCode == 13) {
@@ -268,6 +241,50 @@ function getCity() {
     }
 }
 
+async function getWeather() {
+    if (city.textContent.trim()=='' || city.textContent === '[Enter city]' || localStorage.getItem('city') === null) return;
+    try {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&appid=992291178e115bbb3c6d8042a432bf78&units=metric`;
+        const res = await fetch(url);
+        const data = await res.json();
+        weatherIcon.className = 'weather-icon owf';
+        weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+        weatherIcon.textContent = ' ' + data.weather[0].description;
+        temp.textContent = `Temperature: ${data.main.temp.toFixed(0)} °C`;
+        humidity.textContent = `Humidity: ${data.main.humidity} %`;
+        wind.textContent = `Wind speed: ${data.wind.speed} m/s`;
+    } catch (e) {
+        console.error(e);
+        weatherIcon.className = 'weather-icon owf';
+        weatherIcon.textContent = '';
+        temp.textContent = '';
+        humidity.textContent = '';
+        wind.textContent = '';
+        city.textContent = '[Wrong city name. Please enter existing city]';
+        localStorage.removeItem('city');
+        //alert('Wrong city name!');
+    }
+}
+
+async function getQuote() {
+    try {
+        const url = 'https://api.adviceslip.com/advice';
+        const res = await fetch(url);
+        const data = await res.json();
+        quote.textContent = `Quote of the day: ${data.slip.advice}`;
+        console.log(data.slip.advice)
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+async function changeQute() {
+    await getQuote();
+    quotebtn.disabled = true;
+    setTimeout(() => {
+        quotebtn.disabled = false;
+    }, 1000);
+}
 
 name.addEventListener('keypress', setName);
 name.addEventListener('blur', setName);
@@ -284,10 +301,12 @@ city.addEventListener('blur', setCity);
 city.addEventListener('click', () => {
     city.textContent = '';
 })
-button.addEventListener('click', setBackgroundAndGreetingOnClick);
+button.addEventListener('click', setBackgroundAndOnClick);
+quotebtn.addEventListener('click', changeQute);
 //Run
 showTime();
 setBackgroundAndGreeting();
 getName();
 getFocus();
 getCity();
+getQuote();
