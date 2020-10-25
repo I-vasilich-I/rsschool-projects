@@ -216,7 +216,7 @@ function setFocus(e) {
 async function getWeather() {
     if (city.textContent.trim()=='' || city.textContent === '[Enter city]' || localStorage.getItem('city') === null) return;
     try {
-        const url = `http://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&appid=992291178e115bbb3c6d8042a432bf78&units=metric`;
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&appid=992291178e115bbb3c6d8042a432bf78&units=metric`;
         const res = await fetch(url);
         const data = await res.json();
         weatherIcon.className = 'weather-icon owf';
