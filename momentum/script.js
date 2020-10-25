@@ -12,7 +12,7 @@ const humidity = document.querySelector('.humidity');
 const wind = document.querySelector('.wind');
 
 let day = new Date();
-let h = day.getHours();
+let h = day.getHours()+1;
 
 const images = [];
 
@@ -22,14 +22,39 @@ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                 'August', 'September', 'October', 'November', 'December'];
 async function generateImgMassive() {
     for (let i=0; i<24; i++) {
+        let path;
+        let src;
         if(i < 6) {
-            let path = './assets/images/night/';
-            await getImg(path);
-            images.push();
+            path = './assets/images/night/'; 
+        } else if (i < 12) {
+            path = './assets/images/morning/';
+        } else if (i < 18) {
+            path = './assets/images/day/';
+        } else {
+            path = './assets/images/evening/';
         }
+        src = checkSrc(path);
     }
 }
 
+function checkSrc(path) {
+    let src = getImg(path);
+    if(hasSrc(src)) {
+        checkSrc(path);
+    } else {
+        images.push(src);
+        return;
+    }
+}
+
+function hasSrc(src) {
+    for (let i=0; i<images.length; i++) {
+        if (images[i] === src) {
+            return true;
+        }
+    }
+    return false;
+}
 
 // Show Time
 function showTime() {
@@ -56,10 +81,11 @@ function addZero(num) {
     return num < 10 ? `0${num}` : num;
 }
 
-function setBackgroundAndGreeting() {
+async function setBackgroundAndGreeting() {
+    await generateImgMassive();
     let today = new Date();
     let hour = today.getHours();
-    setImgAndGreeting(hour);
+    await setImgAndGreeting(hour);
 }
 
 async function setBackgroundAndGreetingOnClick() {
@@ -75,15 +101,14 @@ async function setBackgroundAndGreetingOnClick() {
 }
 
 async function resalt(img){
-    document.body.style.backgroundImage = `url(${img.url})`;
-    //return `url(${img.url})`;
-    //delay(2000)
+    let src = await fetch(img);
+    document.body.style.backgroundImage = `url(${src.url})`;
+    console.log(img);
 };
 
-async function getImg(path) {
-    const img = await fetch(`${path}${addZero(getRandomInt(19)+1)}.jpg`);
-    //console.log(img.url);
-    await resalt(img);
+function getImg(path) {
+    let random = getRandomInt(19)+1;
+    return `${path}${addZero(random)}.jpg`;
 }
 
 const delay = ms => {
@@ -92,9 +117,6 @@ const delay = ms => {
 
 async function setImgAndGreeting(hour, greet = true) {
     if (hour < 6) {
-        let path = './assets/images/night/';
-       await getImg(path);
-       // document.body.style.backgroundImage = `url(${path}${addZero(getRandomInt(19)+1)}.jpg)`;
         timeOfDay.innerHTML = 'Night';
         document.body.style.color = 'white';
         document.body.classList.add('text-shadow');
@@ -102,40 +124,28 @@ async function setImgAndGreeting(hour, greet = true) {
             greeting.textContent = 'Good Night, ';
         }
     } else if (hour < 12) {
-        let path = './assets/images/morning/';
-        await getImg(path)
         timeOfDay.innerHTML = 'Morning';
         document.body.style.color = 'black';
         document.body.classList.remove('text-shadow');
-        //document.body.style.backgroundImage = `url(${path}${addZero(getRandomInt(19)+1)}.jpg)`;
         if (greet === true) {
             greeting.textContent = 'Good Morning, ';
         }
     } else if (hour < 18) {
-        let path = './assets/images/day/';
-        await getImg(path)
-        //document.body.style.backgroundImage = `url(${path}${addZero(getRandomInt(19)+1)}.jpg)`;
         timeOfDay.innerHTML = 'Afternoon';
         document.body.style.color = 'black';
         document.body.classList.remove('text-shadow');
         if (greet === true) {
-            
             greeting.textContent = 'Good Afternoon, ';
         }      
     } else {
-        let path = './assets/images/evening/';
-        await getImg(path)
-        //document.body.style.backgroundImage = `url(${path}${addZero(getRandomInt(19)+1)}.jpg)`;
         timeOfDay.innerHTML = 'Evening';
         document.body.style.color = 'white';
         document.body.classList.add('text-shadow');
-        //document.body.setAttribute('style', 'text-shadow: 1px 1px 2px black');
-       // document.body.style.text-shadow = '1px 1px 2px black';
         if (greet === true) {
-            
             greeting.textContent = 'Good Evening, ';
         }
     }
+    await resalt(images[hour]); 
 }
 
 function getRandomInt(max) {
