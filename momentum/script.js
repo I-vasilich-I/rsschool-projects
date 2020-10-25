@@ -10,6 +10,7 @@ const weatherIcon = document.querySelector('.weather-icon');
 const temp = document.querySelector('.temp');
 const humidity = document.querySelector('.humidity');
 const wind = document.querySelector('.wind');
+const button = document.querySelector('.button');
 
 let day = new Date();
 let h = day.getHours()+1;
@@ -89,20 +90,26 @@ async function setBackgroundAndGreeting() {
 }
 
 async function setBackgroundAndGreetingOnClick() {
-    //delay(2000)
-
     await setImgAndGreeting(h, false);
     if (h == 23) {
         h = 0;
     } else {
         h++;
     }
-   
+    button.disabled = true;
+    setTimeout(function() { button.disabled = false }, 1000);
 }
 
-async function resalt(img){
-    let src = await fetch(img);
-    document.body.style.backgroundImage = `url(${src.url})`;
+function resalt(img){
+   // let src = fetch(img);
+    const body = document.querySelector('body');
+    const image = document.createElement('img');
+    image.src = img;
+    image.onload = () => {    
+    body.style.backgroundImage = `url(${img})`;
+    
+  }; 
+    //document.body.style.backgroundImage = `url(${src.url})`;
     console.log(img);
 };
 
@@ -145,7 +152,7 @@ async function setImgAndGreeting(hour, greet = true) {
             greeting.textContent = 'Good Evening, ';
         }
     }
-    await resalt(images[hour]); 
+    resalt(images[hour]); 
 }
 
 function getRandomInt(max) {
@@ -277,7 +284,7 @@ city.addEventListener('blur', setCity);
 city.addEventListener('click', () => {
     city.textContent = '';
 })
-
+button.addEventListener('click', setBackgroundAndGreetingOnClick);
 //Run
 showTime();
 setBackgroundAndGreeting();
