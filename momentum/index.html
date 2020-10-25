@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="owfont-regular.css">
+  <link rel="stylesheet" href="style.css">
+  <title>momentum</title>
+</head>
+<body>
+  <div class="weather">
+    <div class="city" contenteditable="true">enter city</div>
+    <div class="weather-icon"></div>
+    <div class="temp"></div>
+    <div class="humidity"></div>
+    <div class="wind"></div>
+  </div>
+  
+  <time class="date"></time>
+  <time class="time"></time>
+  <h1>
+    <span class="greeting"></span>
+    <span class="name" contenteditable="true"></span>
+  </h1>
+  <h2>What Is Your Focus For Today?</h2>
+  <h2 class="focus" contenteditable="true"></h2>
+  
+  <button onclick="setBackgroundAndGreetingOnClick()">Change Background</button>
+  <div class="time-of-day"></div>
+  <script src="script.js"></script>
+</body>
+</html>
