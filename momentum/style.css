@@ -17,11 +17,17 @@ body {
   background-position: center center;
   background-repeat: no-repeat;
   color: black;
-  transition: background-image 1s ease-in-out;
+  text-shadow: 1px 1px  white;
+  transition: background-image .5s ease-in-out;
+}
+
+.text-shadow {
+  text-shadow: 3px 3px 2px black;
 }
 
 .date {
-  font-size: 8rem;
+  margin-top: 20px;
+  font-size: 7rem;
 }
 
 .time {
@@ -43,30 +49,81 @@ h2 {
 
 @media (max-width: 700px) {
   .time {
-    font-size: 5rem;
-    width: 300px;
+    font-size: 4rem;
+    width: 250px;
   }
 
   .date {
-    font-size: 4rem;
+    font-size: 3rem;
   }
 }
 
 
 button {
-  height: 60px;
-  width: 200px;
-  background-color: black;
-  opacity: 0.5;
-  color: white;
+  margin-top: 15px;
+  background-color: rgb(47, 2, 119);
+  width: 207px;
+  height: 52px;
   
+  color: white;
+  text-shadow: 1px 1px 2px black;
   border-radius: 10px;
   border: none;
 
+  font-size: 1.3rem;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:active,
+button:focus {
+  outline: 0;
+}
+
+.time-of-day {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  font-size: 1.3rem;
+  text-shadow: 1px 1px 2px white;
+}
+
+.weather {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 300px;
+  align-items: center;
+}
+
+.city {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.weather-icon {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.weather-icon::before {
   font-size: 1rem;
 }
 
-.btn:active,
-.btn:focus {
-  outline: 0;
+.temp {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.humidity {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.wind {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
 }
