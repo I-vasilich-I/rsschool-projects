@@ -6,6 +6,7 @@
 
 body {
   min-width: 320px;
+  min-height: 765px;
   font-family: 'Quicksand', sans-serif;
   display: flex;
   flex-direction: column;
@@ -17,50 +18,60 @@ body {
   background-position: center center;
   background-repeat: no-repeat;
   color: black;
-  text-shadow: 1px 1px  white;
+  text-shadow: 2px 2px  white;
   transition: background-image .5s ease-in-out;
 }
 
 .text-shadow {
-  text-shadow: 3px 3px 2px black;
+  text-shadow: 2px 2px black;
 }
 
 .date {
   margin-top: 20px;
-  font-size: 7rem;
+  font-size: 6rem;
 }
 
 .time {
   display: flex;
   justify-content: flex-start;
-  width: 480px;
-  font-size: 8rem;
+  width: 350px;
+  font-size: 6rem;
 
 }
 
 h1 {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
+  font-size: 3rem;
 }
 
 h2 {
   margin-bottom: 0.5rem;
-  opacity: 0.8;
+  font-size: 3rem;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 930px) {
   .time {
     font-size: 4rem;
-    width: 250px;
+    width: 220px;
   }
 
   .date {
     font-size: 3rem;
   }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
 }
 
 
 button {
-  margin-top: 15px;
+  margin-top: 10px;
+  margin-right: 5px;
   background-color: rgb(47, 2, 119);
   width: 207px;
   height: 52px;
@@ -69,25 +80,23 @@ button {
   text-shadow: 1px 1px 2px black;
   border-radius: 10px;
   border: none;
-
+  transition: all .2s;
   font-size: 1.3rem;
 }
 
 button:hover {
   cursor: pointer;
+  background-color: rgba(47, 2, 119, .8);
 }
 
 button:active,
 button:focus {
-  outline: 0;
+  outline: 0.px;
 }
 
 .time-of-day {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
   font-size: 1.3rem;
-  text-shadow: 1px 1px 2px white;
+  text-shadow: 2px 2px white;
 }
 
 .weather {
@@ -97,16 +106,17 @@ button:focus {
   flex-wrap: wrap;
   width: 300px;
   align-items: center;
+  letter-spacing: 3px;
 }
 
 .city {
   font-size: 2rem;
-  margin-bottom: 10px;
+ 
 }
 
 .weather-icon {
   font-size: 1.5rem;
-  margin-bottom: 10px;
+  
 }
 
 .weather-icon::before {
@@ -115,15 +125,27 @@ button:focus {
 
 .temp {
   font-size: 1.4rem;
-  margin-bottom: 10px;
+  
 }
 
 .humidity {
   font-size: 1.4rem;
-  margin-bottom: 10px;
+  
 }
 
 .wind {
   font-size: 1.4rem;
-  margin-bottom: 10px;
+  
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote {
+  font-size: 1.7rem;
+  margin-bottom: 20px;
 }
