@@ -135,6 +135,7 @@ function onClickMenu() {
 
 function resetClass() {
     window.addEventListener("resize", () => {
+        scrollbarWidth = (window.innerWidth - document.body.clientWidth) + 'px';
         slider();
         cards = document.querySelectorAll('.cards');
         if(window.innerWidth > 767) {
@@ -321,6 +322,7 @@ function cardClickHandler() {
             
             let el = document.createElement('div');
             el.classList.add('blackout');
+            scrollbarWidth = (window.innerWidth - document.body.clientWidth) + 'px';
             document.body.setAttribute('style', `padding-right: ${scrollbarWidth}`);
             let blackout = document.querySelector('.blackout');
             if (blackout==null) {
