@@ -26,6 +26,9 @@
     }
     &:disabled {
         color: $color-dark-s;
+        path {
+            fill: #CDCDCD
+        }
         border: 2px solid $color-dark-s;
         &:hover {
             background: unset;

@@ -486,6 +486,9 @@ p {
   z-index: 2;
   margin-right: 43px;
 }
+.burger:hover {
+  cursor: pointer;
+}
 .burger:before {
   top: 2px;
   left: 0;
@@ -570,6 +573,9 @@ p {
 .btn__arrow:disabled {
   color: #CDCDCD;
   border: 2px solid #CDCDCD;
+}
+.btn__arrow:disabled path {
+  fill: #CDCDCD;
 }
 .btn__arrow:disabled:hover {
   background: unset;
@@ -813,6 +819,7 @@ p {
   top: 60px;
 }
 .header--pets {
+  z-index: 1;
   position: fixed;
   background: #FFFFFF;
   top: 0px;
@@ -976,6 +983,7 @@ p {
 .mobile__menu {
   position: fixed;
   top: 0;
+  z-index: 1;
   height: 823px;
   width: 320px;
   display: flex;
@@ -1041,9 +1049,13 @@ p {
 
 .blackout {
   position: fixed;
+  z-index: 1;
   height: 100%;
   width: 100%;
   background: rgba(41, 41, 41, 0.6);
+}
+.blackout:hover {
+  cursor: pointer;
 }
 
 /* Start screen styles start */
@@ -1292,11 +1304,56 @@ p {
   }
 }
 
-.cards {
+.cards__container {
+  position: relative;
   width: 990px;
-  display: flex;
+  height: 435px;
+  display: -webkit-box;
+  flex-direction: row;
+  flex-wrap: nowrap;
   overflow: hidden;
   justify-content: space-between;
+}
+@media (max-width: 1279px) {
+  .cards__container {
+    width: 580px;
+  }
+}
+@media (max-width: 767px) {
+  .cards__container {
+    width: 270px;
+    order: -1;
+    margin-bottom: 20px;
+  }
+}
+.cards__container--pets {
+  width: 1200px;
+  height: 930px;
+  margin-bottom: 45px;
+}
+@media (max-width: 1279px) {
+  .cards__container--pets {
+    width: 580px;
+    height: 1365px;
+    margin-bottom: 40px;
+  }
+}
+@media (max-width: 767px) {
+  .cards__container--pets {
+    width: 270px;
+    order: unset;
+    margin-bottom: 42px;
+  }
+}
+
+.cards {
+  width: 990px;
+  display: none;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  justify-content: space-between;
+  animation: 0.5s ease-in-out;
 }
 @media (max-width: 1279px) {
   .cards {
@@ -1312,7 +1369,6 @@ p {
 }
 .cards--pets {
   width: 1200px;
-  display: flex;
   flex-wrap: wrap;
   margin-bottom: 45px;
 }
@@ -1329,6 +1385,12 @@ p {
     order: unset;
     margin-bottom: 42px;
   }
+}
+.cards-to-right {
+  transform: translate(100%);
+}
+.cards-to-left {
+  transform: translate(100%);
 }
 
 .cards__card {
@@ -1871,5 +1933,49 @@ p {
 }
 
 /* Footer styles end */
+.to-left {
+  animation-name: left;
+}
+
+.from-right {
+  animation-name: right;
+}
+
+.to-right {
+  animation-name: right;
+  animation-direction: reverse;
+}
+
+.from-left {
+  animation-name: left;
+  animation-direction: reverse;
+}
+
+@keyframes left {
+  from {
+    left: 0;
+  }
+  to {
+    left: -100%;
+  }
+}
+@keyframes right {
+  from {
+    left: 100%;
+  }
+  to {
+    left: 0;
+  }
+}
+.active,
+.next {
+  display: flex;
+}
+
+.next {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
 
 /*# sourceMappingURL=style.css.map */
