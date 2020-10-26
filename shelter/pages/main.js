@@ -270,6 +270,7 @@ function cardClickHandler() {
             
             let el = document.createElement('div');
             el.classList.toggle('blackout');
+            scrollbarWidth = (window.innerWidth - document.body.clientWidth) + 'px';
             document.body.setAttribute('style', `padding-right: ${scrollbarWidth}`);
             document.body.prepend(el);
             document.body.classList.add('stop-scrolling');
