@@ -5,6 +5,7 @@
     width: 100%;
     top: 60px;
     &--pets {
+        z-index: 1;
         position: fixed;
         background: $color-light-xl;
         top: 0px;
