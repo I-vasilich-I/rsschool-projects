@@ -7,6 +7,7 @@ let cards;
 let currentCard = 0;
 let isEnabled = true;
 let fullPetsList = [];
+let clicked;
 
 window.onload = function() {
     //remove mobile menu and affects when screen is more than 767px
@@ -37,6 +38,7 @@ fetch('./pets.json').then(res => res.json()).then(list => {
   
     slider();
     cards = document.querySelectorAll('.cards');
+    clicked = document.querySelector('.cards.active');
 });
 
 const sort863 = (list) => {
@@ -173,6 +175,7 @@ function showCard(direction) {
     cards[currentCard].addEventListener('animationend', function() {
         this.classList.remove('next', direction);
         this.classList.add('active');
+        cardClickHandler();
         isEnabled = true;
     });
 }
@@ -200,6 +203,7 @@ leftbtn.addEventListener('click', function() {
     if (isEnabled) {
         previousCard(currentCard);
     }
+    
 })
 
 
@@ -211,11 +215,6 @@ function slider() {
     let petsPerPage = itemsPerPage;
     let cardsContaner = document.querySelector('.cards__container');
     cardsContaner.innerHTML = '';
-    //cards = document.querySelectorAll('.cards');
-    //for(elem of cards){
-      //  elem.classList.remove('.active');
-   // }
-    
     for (let i = 0; i < 16; i++) {
         let cards = document.createElement('div');
         
@@ -230,17 +229,8 @@ function slider() {
         }
         cardsContaner.append(cards);
     }
-/*
-    pets.forEach(pet => {
-        if(petsPerPage>0) {
-            let card = new Card(pet);
-            cardsContaner.append(card.generateCard());
-            petsPerPage--;
-        }
-        
-    });
-*/
-//cards = document.querySelectorAll('.cards');
+
+    cardClickHandler();
 }
 
 function setItemsPerPage() {
@@ -253,15 +243,21 @@ function setItemsPerPage() {
     }
 }
 
-cardClickHandler();
+
 
 function cardClickHandler() {
- 
-    document.querySelector('.cards__container').addEventListener('click', (e) => {
+    clicked = document.querySelector('.cards.active');
+    clicked.addEventListener('click', (e) => {
         if (e.target.closest('.cards__card')) {
             let clickedCard = e.target.closest('.cards__card').getAttribute('data-id');
-            let pet = pets[clickedCard];
+            let pet;
             let modal;
+            pets.forEach(elem => {
+                if (elem.id == clickedCard) {
+                    pet = elem;
+                }
+            });
+            
             if (document.querySelector("body").offsetWidth >= 1280) {
                 modal = new Modal(pet);
             } else if (document.querySelector("body").offsetWidth >= 768 

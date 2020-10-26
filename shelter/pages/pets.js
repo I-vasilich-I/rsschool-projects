@@ -186,6 +186,7 @@ function showCard(direction) {
     cards[currentCard].addEventListener('animationend', function() {
         this.classList.remove('next', direction);
         this.classList.add('active');
+        cardClickHandler();
         isEnabled = true;
     });
 }
@@ -261,14 +262,12 @@ leftbtn.addEventListener('click', function() {
 
 
 function slider() {
-
     setItemsPerPage();
     currentCard = 0;
     let petsPerPage = itemsPerPage;
     let cardsContaner = document.querySelector('.cards__container.cards__container--pets');
     cardsContaner.innerHTML = '';
    
-
     for (let i = 0; i < (fullPetsList.length / petsPerPage) ; i++) {
         let cards = document.createElement('div');
         if (i == 0) {
@@ -282,17 +281,7 @@ function slider() {
         }
         cardsContaner.append(cards);
     }
-
-    /*
-    let cardsContaner = document.querySelector('.cards');
-    cardsContaner.innerHTML = '';
-    pets.forEach(pet => {
-        let card = new Card(pet);
-        cardsContaner.append(card.generateCard());
-    });
-
-    */
-   
+    cardClickHandler();
 }
 
 function setItemsPerPage() {
@@ -306,11 +295,16 @@ function setItemsPerPage() {
 }
 
 function cardClickHandler() {
-    document.querySelector('.cards').addEventListener('click', (e) => {
+    document.querySelector('.cards.active').addEventListener('click', (e) => {
         if (e.target.closest('.cards__card')) {
             let clickedCard = e.target.closest('.cards__card').getAttribute('data-id');
-            let pet = pets[clickedCard];
+            let pet;
             let modal;
+            pets.forEach(elem => {
+                if (elem.id == clickedCard) {
+                    pet = elem;
+                }
+            });
             if (document.querySelector("body").offsetWidth >= 1280) {
                 modal = new Modal(pet);
             } else if (document.querySelector("body").offsetWidth >= 768 
@@ -319,12 +313,20 @@ function cardClickHandler() {
             } else if (document.querySelector("body").offsetWidth < 768) {
                modal = new Modal(pet, 'modal modal-320',true, false);
             }
-            document.body.append(modal.generateModal());
+            let oneModal = document.querySelector('.modal');
+            if (oneModal == null) {
+                document.body.append(modal.generateModal());
+            }
+            
             
             let el = document.createElement('div');
-            el.classList.toggle('blackout');
+            el.classList.add('blackout');
             document.body.setAttribute('style', `padding-right: ${scrollbarWidth}`);
-            document.body.prepend(el);
+            let blackout = document.querySelector('.blackout');
+            if (blackout==null) {
+                document.body.prepend(el);
+            }
+            
             document.body.classList.add('stop-scrolling');
 
             let headerPets = document.querySelector('.header--pets');
@@ -341,8 +343,18 @@ function modalClickHandler() {
     let blackout = document.querySelector('.blackout');
     modal.addEventListener('click', (e) => {
         if (e.target.closest('.btn__arrow-modal')) {
-            document.body.removeChild(modal);
-            document.body.removeChild(blackout);
+            //it feels like stupid way to remove those elements, pretty sure 
+            //I should have edit one line somewhere, but it close to deadline, 
+            //and I'm tired, and can't see clearaly where is the problem. 
+            //So I'll leave that code this way. Maybe later I'll fix it.
+            let oneModal = document.querySelector('.modal');
+            if (oneModal != null) {
+                document.body.removeChild(oneModal);
+            }
+            let oneBlackout = document.querySelector('.blackout');
+            if (oneBlackout!=null) {
+                document.body.removeChild(oneBlackout);
+            }
             document.body.classList.remove('stop-scrolling');
             document.body.setAttribute('style', `padding-right: 0px`);
 
@@ -353,8 +365,14 @@ function modalClickHandler() {
         }
     });
     blackout.addEventListener('click', (e) => {
-        document.body.removeChild(modal);
-        document.body.removeChild(blackout);
+        let oneModal = document.querySelector('.modal');
+        if (oneModal != null) {
+            document.body.removeChild(oneModal);
+        }
+        let oneBlackout = document.querySelector('.blackout');
+        if (oneBlackout!=null) {
+            document.body.removeChild(oneBlackout);
+        }
         document.body.classList.remove('stop-scrolling');
         document.body.setAttribute('style', `padding-right: 0px`);
         let headerPets = document.querySelector('.header--pets');
