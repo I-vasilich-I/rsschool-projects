@@ -45,11 +45,11 @@ export default class keyboard {
 
     document.addEventListener('keydown', this.handleEvent);
     document.addEventListener('keyup', this.handleEvent);
-    this.container.onmousedown = this.preHandlEvent;
-    this.container.onmouseup = this.preHandlEvent;
+    this.container.onmousedown = this.preHandleEvent;
+    this.container.onmouseup = this.preHandleEvent;
   }
 
-  preHandlEvent = (e) => {
+  preHandleEvent = (e) => {
     e.stopPropagation();
     const keyDiv = e.target.closest('.keyboard__key');
     if (!keyDiv) return;
@@ -59,10 +59,23 @@ export default class keyboard {
   }
 
   resetButtonState = ({ target: { dataset: { code } } }) => {
-    const keyObj = this.keyButtons.find((key) => key.code === code);
-    keyObj.div.classList.remove('active');
-    keyObj.div.removeEvenetListener('mousleave', this.resetButtonState);
-  };
+    if (code.match('Shift')) {
+      this.shiftKey = false;
+      this.switchUpperCase(false);
+      this.keysPressed[code].div.classList.remove('active');
+    }
+    if (code.match(/Control/)) this.ctrKey = false;
+    if (code.match(/Alt/)) this.altKey = false;
+    this.resetPressedButtons(code);
+    this.output.focus();
+  }
+
+  resetPressedButtons = (targetCode) => {
+    if (!this.keysPressed[targetCode]) return;
+    if (!this.isCaps) this.keysPressed[targetCode].div.classList.remove('active');
+    this.keysPressed[targetCode].div.removeEventListener('mouseleave', this.resetButtonState);
+    delete this.keysPressed[targetCode];
+  }
 
   handleEvent = (e) => {
     if (e.stopPropagation) e.stopPropagation();
@@ -106,6 +119,7 @@ export default class keyboard {
           this.printToOutput(keyObj, !keyObj.sub.innerHTML ? keyObj.shift : keyObj.small);
         }
       }
+      this.keysPressed[keyObj.code] = keyObj;
       //release button
     } else if (type.match(/keyup|mouseup/)) {
       
