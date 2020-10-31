@@ -18,7 +18,7 @@ export default class keyboard {
   init(langCode) {
     this.keyBase = language[langCode];
     this.output = create('textarea', 'output', null, main, 
-      ['placeholder', 'Start type something... '], 
+      ['placeholder', 'Start to type something... '], 
       ['rows', 5],
       ['cols', 50], 
       ['spellcheck', false], 
@@ -45,9 +45,24 @@ export default class keyboard {
 
     document.addEventListener('keydown', this.handleEvent);
     document.addEventListener('keyup', this.handleEvent);
-    document.addEventListener('mousedown', this.handleEvent);
-    document.addEventListener('mouseup', this.handleEvent);
+    this.container.onmousedown = this.preHandlEvent;
+    this.container.onmouseup = this.preHandlEvent;
   }
+
+  preHandlEvent = (e) => {
+    e.stopPropagation();
+    const keyDiv = e.target.closest('.keyboard__key');
+    if (!keyDiv) return;
+    const { dataset: { code } } = keyDiv;
+    keyDiv.addEventListener('mouseleave', this.resetButtonState);
+    this.handleEvent({ code, type: e.type});
+  }
+
+  resetButtonState = ({ target: { dataset: { code } } }) => {
+    const keyObj = this.keyButtons.find((key) => key.code === code);
+    keyObj.div.classList.remove('active');
+    keyObj.div.removeEvenetListener('mousleave', this.resetButtonState);
+  };
 
   handleEvent = (e) => {
     if (e.stopPropagation) e.stopPropagation();
@@ -60,8 +75,18 @@ export default class keyboard {
       if (type.match(/key/)) e.preventDefault();
      
       if (code.match(/Shift/)) this.shiftKey = true;
+      if (this.shiftKey) this.switchUpperCase(true);
 
       keyObj.div.classList.add('active');
+
+      if (code.match(/Caps/) && !this.isCaps) {
+        this.isCaps = true;
+        this.switchUpperCase(true);
+      } else if (code.match(/Caps/) && this.isCaps) {
+        this.isCaps = false; 
+        this.switchUpperCase(false);
+        keyObj.div.classList.remove('active');
+      }
 
       // switch language
       if (code.match(/Control/)) this.ctrlKey = true;
@@ -83,11 +108,15 @@ export default class keyboard {
       }
       //release button
     } else if (type.match(/keyup|mouseup/)) {
-      keyObj.div.classList.remove('active');
-
+      
       if (code.match(/Control/)) this.ctrlKey = false;
       if (code.match(/Alt/)) this.altKey = false;
-      if (code.match(/Shift/)) this.shiftKey = false;
+      if (code.match(/Shift/)) {
+        this.shiftKey = false;
+        this.switchUpperCase(false);
+      }
+
+      if (!code.match(/Caps/)) keyObj.div.classList.remove('active');
     }
   }
 
@@ -111,10 +140,99 @@ export default class keyboard {
         button.sub.innerHTML = '';
       }
       button.letter.innerHTML = keyObj.small;
-    })
+    });
+
+    if (this.isCaps) this.switchUpperCase(true);
+  }
+
+  switchUpperCase(isTrue) {
+    if (isTrue) {
+      this.keyButtons.forEach((button) => {
+        if (button.sub) {
+          if (this.shiftKey) {
+            button.sub.classList.add('sub-active');
+            button.letter.classList.add('sub-inactive');
+          }
+        }
+  
+        if(!button.isFnKey && this.isCaps && !this.shiftKey && !button.sub.innerHTML) {
+          button.letter.innerHTML = button.shift;
+        } else if (!button.isFnKey && this.isCaps && this.shiftKey) {
+          button.letter.innerHTML = button.small;
+        } else if (!button.isFnKey && !button.sub.innerHTML) {
+          button.letter.innerHTML = button.shift;
+        }
+      });
+    } else {
+      this.keyButtons.forEach((button) => {
+        if(button.sub.innerHTML && !button.isFnKey) {
+          button.sub.classList.remove('sub-active');
+          button.letter.classList.remove('sub-inactive');
+
+          if (!this.isCaps) {
+            button.letter.innerHTML = button.small;
+          } else if (!this.isCaps) {
+            button.letter.innerHTML = button.shift;
+          }
+        } else if (!button.isFnKey) {
+          if (this.isCaps) {
+            button.letter.innerHTML = button.shift;
+          } else {
+            button.letter.innerHTML = button.small;
+          }
+        }
+      })
+    }
+    
   }
 
   printToOutput(keyObj, symbol) {
-    console.log(symbol);
+    let cursorPos = this.output.selectionStart;
+    const left = this.output.value.slice(0, cursorPos);
+    const right = this.output.value.slice(cursorPos);
+
+    const fnButtonHandler = {
+      Tab: () => {
+      this.output.value = `${left}\t${right}`;
+      cursorPos++;
+      },
+      ArrowLeft: () => {
+        cursorPos = cursorPos - 1 >= 0 ? cursorPos - 1 : 0;
+      }, 
+      ArrowRight: () => {
+        cursorPos++;
+      }, 
+      ArrowUp: () => {
+        const positionFromLeft = this.output.value.slice(0, cursorPos).match(/(\n).*$(?!\1)/g) || [[1]];
+        cursorPos -= positionFromLeft[0].length;
+      },
+      ArrowDown: () => {
+        const positionFromLeft = this.output.value.slice(cursorPos).match(/(\n).*$(?!\1)/g) || [[1]];
+        cursorPos += positionFromLeft[0].length;
+      },
+      Enter: () => {
+        this.output.value = `${left}\n${right}`;
+        cursorPos++;
+      },
+      Delete: () => {
+        this.output.value = `${left}${right.slice(1)}`;
+      },
+      Backspace: () => {
+        this.output.value = `${left.slice(0, -1)}${right}`;
+        cursorPos--;
+      },
+      Space: () => {
+        this.output.value = `${left} ${right}`;
+        cursorPos++;
+      },
+    }
+
+    if (fnButtonHandler[keyObj.code]) fnButtonHandler[keyObj.code]();
+
+    else if (!keyObj.isFnKey) {
+      cursorPos++;
+      this.output.value = `${left}${symbol || ''}${right}`;
+    }
+    this.output.setSelectionRange(cursorPos, cursorPos);
   }
 }
