@@ -4,27 +4,40 @@
 }
 
 html {
+  
   font-size: 100%;
   font-family: 'Ubuntu', Arial, sans-serif;
 }
 
 body {
+  min-width: 500px;
   background: #e0e0e0;
   margin: 0 auto;
   padding: 0 5px;
 }
 
 main {
-  width: 1020px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin: auto;
 }
 
 .keyboard {
   display: grid;
+  max-width: 990px;
+  min-width: 450px;
+  width: 100%;
   grid-row-gap: 10px;
   padding: 10px;
   border: 1px solid;
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  right:  auto;
+  left:  auto;
+  margin: auto;
   overflow: hidden;
   background: #2c2c2c;
   border-radius: 5px;
@@ -33,6 +46,13 @@ main {
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border: 3px solid #222;
+  transition: all 1s ease-in-out;
+}
+
+.hiden {
+  
+  bottom: -100%;
+  transition: all 1s ease-in-out;
 }
 
 .keyboard__row {
@@ -248,3 +268,9 @@ img {
   height: 40px;
 }
 
+[data-code="Hide"] {
+  width: 100px;
+  height: 50px;
+  padding: 5 5;
+  justify-self: center;
+}
