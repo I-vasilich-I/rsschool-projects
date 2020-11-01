@@ -1,4 +1,4 @@
-const path = '../assets/audio/';
+const path = 'assets/audio/';
 const audio = [
   `${path}boom.wav`,
   `${path}clap.wav`,
