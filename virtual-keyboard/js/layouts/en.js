@@ -320,13 +320,14 @@ export default [
     code: 'ArrowRight',
   },
   {
-    small: 'Win',
+    small: '',
     shift: null,
-    code: 'Win',
+    code: 'Lang',
   },
   {
-    small: 'On',
-    shift: 'Off',
+    small: '',
+    shift: null,
     code: 'Sound',
   },
+  
 ];

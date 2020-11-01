@@ -41,6 +41,7 @@ export default class keyboard {
         const keyObj = this.keyBase.find((key) => key.code === code);
         if (keyObj) {
           const keyButton = new Key(keyObj);
+          if (code.match(/Lang/)) keyButton.letter.innerHTML = this.container.dataset.language.toUpperCase();
           this.keyButtons.push(keyButton);
           rowElement.appendChild(keyButton.div);
           if (keyButton.code.match(/Shift|Caps|Enter|Backspace/)) {
@@ -119,7 +120,6 @@ export default class keyboard {
         if (this.isSound) {
           this.isSound = false;
           keyObj.div.classList.remove('active');
-          console.log('yep')
         } else {
           this.isSound = true;
         }
@@ -150,6 +150,11 @@ export default class keyboard {
 
       if (code.match(/Control/) && this.altKey) this.switchLanguage(); 
       if (code.match(/Alt/) && this.ctrlKey) this.switchLanguage(); 
+
+      if (code.match(/Lang/)) {
+        this.switchLanguage();
+        keyObj.div.lastChild.innerHTML = this.container.dataset.language.toUpperCase();
+      }
 
 
 

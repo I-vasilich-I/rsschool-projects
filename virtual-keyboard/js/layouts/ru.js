@@ -320,9 +320,9 @@ export default [
     code: 'ArrowRight',
   },
   {
-    small: 'Win',
+    small: '',
     shift: null,
-    code: 'Win',
+    code: 'Lang',
   },
   { 
     small: '',
