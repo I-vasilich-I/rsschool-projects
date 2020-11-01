@@ -6,13 +6,14 @@ import Key from './Key.js';
 
 
 const main = create('main', '', 
-[create('h1', 'title', 'RSS Virtual Keyboard'), 
-  create('h3', 'subtitle', 'Windows keyboard that has been made following Live coding instruction'),
-  create('p', 'hint', 'Use left <kbd>Ctrl</kbd> + <kbd>Alt</kbd> or <kbd>RU/EN</kbd> to switch languages. Last language saves in localStorage'),
-  create('strong', 'hint', 'Click on textarea to open/show keyboard')]);
+[create('h1', 'title', 'Virtual Keyboard'), 
+  create('h3', 'subtitle', 'Windows keyboard that has been made following Live coding instruction on RSS YouTube channel'),
+  create('strong', 'hint', 'Use left <strong>Ctrl</strong> + <strong>Alt</strong> or <strong>RU/EN</strong> to switch languages. Last language saves in localStorage'),
+  create('strong', 'hint', 'Click on textarea to open/show keyboard.'),
+  create('strong', 'hint', 'Shift works as Capslock only on mouseclick, if you gonna use real keyboard it would behave like a real keyboard - no sticking' )]);
 
 window.speechRecognition = window.speechRecognition || webkitSpeechRecognition;
-const recognition = new window.speechRecognition;
+let recognition;
 
 export default class keyboard {
   constructor(rowsOrder) {
@@ -317,6 +318,7 @@ export default class keyboard {
 
   speechRecognition() {
     if (!this.isSpeech) return;
+    recognition = new window.speechRecognition;
     recognition.interimResults = true;
     recognition.lang = this.container.dataset.language;
 
