@@ -8,7 +8,8 @@ import Key from './Key.js';
 const main = create('main', '', 
 [create('h1', 'title', 'RSS Virtual Keyboard'), 
   create('h3', 'subtitle', 'Windows keyboard that has been made following Live coding instruction'),
-  create('p', 'hint', 'Use left <kbd>Ctrl</kbd> + <kbd>Alt</kbd> or <kbd>RU/EN</kbd> to switch languages. Last language saves in localStorage')]);
+  create('p', 'hint', 'Use left <kbd>Ctrl</kbd> + <kbd>Alt</kbd> or <kbd>RU/EN</kbd> to switch languages. Last language saves in localStorage'),
+  create('p', 'hint', 'Click on textarea to open/show keyboard')]);
 
 window.speechRecognition = window.speechRecognition || webkitSpeechRecognition;
 const recognition = new window.speechRecognition;
@@ -26,13 +27,14 @@ export default class keyboard {
   init(langCode) {
     this.keyBase = language[langCode];
     this.output = create('textarea', 'output', null, main, 
-      ['placeholder', 'Start to type something... '], 
+      ['placeholder', 'Click hear to open/show keyboard... '], 
       ['rows', 5],
       ['cols', 50], 
       ['spellcheck', false], 
       ['autocorrect', 'off']);
-    this.container = create('div', 'keyboard', null, main, ['language', langCode]);
+    this.container = create('div', 'keyboard hiden', null, main, ['language', langCode]);
     document.body.prepend(main);
+    this.output.addEventListener('click', () => this.container.classList.remove('hiden'));
     return this;
   }
 
@@ -84,6 +86,7 @@ export default class keyboard {
 
   resetButtonState = ({ target: { dataset: { code } } }) => {
     if (code.match('Shift')) {
+      return;
       this.shiftKey = false;
       this.switchUpperCase(false);
       this.keysPressed[code].div.classList.remove('active');
@@ -111,12 +114,27 @@ export default class keyboard {
     if (type.match(/keydown|mousedown/)) {
       if (type.match(/key/)) e.preventDefault();
      
-      if (code.match(/Shift/)) {
-        this.shiftKey = true;
-        this.switchUpperCase(true);
-      }
+      
 
       keyObj.div.classList.add('active');
+
+      if (code.match(/Shift/)) {
+        if (type.match(/mousedown/)) {
+          if (this.shiftKey) {
+            this.shiftKey = false;
+            this.switchUpperCase();
+            keyObj.div.classList.remove('active');
+          } else {
+            this.shiftKey = true;
+            this.switchUpperCase(true);
+          }
+        } else {
+          this.shiftKey = true;
+          this.switchUpperCase(true);
+        }
+        
+        
+      } 
 
       // Sound efects
       if (code.match(/Sound/)) {
@@ -137,7 +155,10 @@ export default class keyboard {
           this.audioElems[this.container.dataset.language].play();
         }
       }
-
+      if (code.match(/Hide/)) {
+        this.container.classList.add('hiden');
+        return;
+      }
       // Voice recognition 
       if (code.match(/Speech/)) {
         if (this.isSpeech) {
@@ -170,7 +191,7 @@ export default class keyboard {
 
       if (code.match(/Lang/)) {
         this.switchLanguage();
-        keyObj.div.lastChild.innerHTML = this.container.dataset.language.toUpperCase();
+        //keyObj.div.lastChild.innerHTML = this.container.dataset.language.toUpperCase();
       }
 
 
@@ -191,12 +212,13 @@ export default class keyboard {
       
       if (code.match(/Control/)) this.ctrlKey = false;
       if (code.match(/Alt/)) this.altKey = false;
-      if (code.match(/Shift/)) {
+      if (code.match(/Shift/) && type.match(/keyup/) ) {
         this.shiftKey = false;
         this.switchUpperCase(false);
+        keyObj.div.classList.remove('active')
       }
 
-      if (!code.match(/Caps/) && !code.match(/Sound/) && !code.match(/Speech/))  keyObj.div.classList.remove('active');
+      if (!code.match(/Caps/) && !code.match(/Sound/) && !code.match(/Speech/) && (!type.match(/mouseup/) && !code.match(/Shift/)))  keyObj.div.classList.remove('active');
     }
   }
 
@@ -212,6 +234,7 @@ export default class keyboard {
     this.keyButtons.forEach((button) => {
       const keyObj = this.keyBase.find((key) => key.code === button.code);
       if (!keyObj) return;
+      
       button.shift = keyObj.shift;
       button.small = keyObj.small;
       if (keyObj.shift && keyObj.shift.match(/[^a-zA-zа-яА-ЯёЁ0-9]/g)) {
@@ -219,7 +242,11 @@ export default class keyboard {
       } else {
         button.sub.innerHTML = '';
       }
+      if (keyObj.code.match(/Digit6/)) {
+        button.sub.innerHTML = keyObj.shift;
+      }
       button.letter.innerHTML = keyObj.small;
+      if (keyObj.code.match(/Lang/)) button.letter.innerHTML = this.container.dataset.language.toUpperCase();
     });
 
     if (this.isCaps) this.switchUpperCase(true);
@@ -239,6 +266,10 @@ export default class keyboard {
         if(!button.isFnKey && this.isCaps && !this.shiftKey && !button.sub.innerHTML) {
           button.letter.innerHTML = button.shift;
         } else if (!button.isFnKey && this.isCaps && this.shiftKey) {
+          button.letter.innerHTML = button.small;
+        } else if (!button.isFnKey && !this.isCaps && this.shiftKey) {  //111
+          button.letter.innerHTML = button.shift;
+        } else if (!button.isFnKey && !this.isCaps && !this.shiftKey) { //222
           button.letter.innerHTML = button.small;
         } else if (!button.isFnKey && !button.sub.innerHTML) {
           button.letter.innerHTML = button.shift;
@@ -274,28 +305,23 @@ export default class keyboard {
     recognition.lang = this.container.dataset.language;
 
     recognition.addEventListener('result', e => {
-      let transcript = Array.from(e.results)
+      const transcript = Array.from(e.results)
         .map(result => result[0])
         .map(result => result.transcript)
         .join('');
         if (e.results[0].isFinal) {
           this.printToOutput(null, transcript, true);
-          transcript = '';
         }
     });
-
-
   
     recognition.addEventListener('end', () => {
       if (this.isSpeech) {
         recognition.start();
-      } else {
-        recognition.stop();
-      }
+      } else return;
     });
     if (this.isSpeech) {
       recognition.start();
-    }
+    } else return;
     
   }
 
@@ -355,3 +381,4 @@ export default class keyboard {
     this.output.setSelectionRange(cursorPos, cursorPos);
   }
 }
+

@@ -12,6 +12,8 @@ export default class Key {
     } else {
       this.sub = create('div', 'sub', '');
     }
+
+    
     
     this.letter = create('div', 'letter', small);
     

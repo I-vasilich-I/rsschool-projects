@@ -334,4 +334,9 @@ export default [
     shift: null, 
     code: 'Speech',
   },
+  {
+    small: 'Hide',
+    shift: 'Hide', 
+    code: 'Hide',
+  },
 ];
