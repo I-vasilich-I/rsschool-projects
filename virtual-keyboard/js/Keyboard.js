@@ -9,7 +9,7 @@ const main = create('main', '',
 [create('h1', 'title', 'RSS Virtual Keyboard'), 
   create('h3', 'subtitle', 'Windows keyboard that has been made following Live coding instruction'),
   create('p', 'hint', 'Use left <kbd>Ctrl</kbd> + <kbd>Alt</kbd> or <kbd>RU/EN</kbd> to switch languages. Last language saves in localStorage'),
-  create('p', 'hint', 'Click on textarea to open/show keyboard')]);
+  create('strong', 'hint', 'Click on textarea to open/show keyboard')]);
 
 window.speechRecognition = window.speechRecognition || webkitSpeechRecognition;
 const recognition = new window.speechRecognition;
@@ -34,7 +34,9 @@ export default class keyboard {
       ['autocorrect', 'off']);
     this.container = create('div', 'keyboard hiden', null, main, ['language', langCode]);
     document.body.prepend(main);
-    this.output.addEventListener('click', () => this.container.classList.remove('hiden'));
+    this.output.addEventListener('click', () => {
+      this.container.classList.remove('hiden');
+    });
     return this;
   }
 
@@ -85,10 +87,11 @@ export default class keyboard {
   }
 
   resetButtonState = ({ target: { dataset: { code } } }) => {
-    if (code.match('Shift')) {
+    if (code.match(/Shift|Caps|Sound|Speech/)) {
       return;
-      this.shiftKey = false;
-      this.switchUpperCase(false);
+    } else {
+      //this.shiftKey = false;
+      //this.switchUpperCase(false);
       this.keysPressed[code].div.classList.remove('active');
     }
     if (code.match(/Control/)) this.ctrKey = false;
@@ -157,7 +160,8 @@ export default class keyboard {
       }
       if (code.match(/Hide/)) {
         this.container.classList.add('hiden');
-        return;
+        //keyObj.div.classList.remove('active');
+        //return;
       }
       // Voice recognition 
       if (code.match(/Speech/)) {
@@ -173,14 +177,21 @@ export default class keyboard {
       }
 
 
-      if (code.match(/Caps/) && !this.isCaps) {
+      if (code.match(/Caps/) && !this.isCaps && !this.shiftKey) {
         this.isCaps = true;
         this.switchUpperCase(true);
-      } else if (code.match(/Caps/) && this.isCaps) {
+      } else if (code.match(/Caps/) && this.isCaps && !this.shiftKey) {
         this.isCaps = false; 
         this.switchUpperCase(false);
         keyObj.div.classList.remove('active');
-      }
+      } else if (code.match(/Caps/) && !this.isCaps && this.shiftKey) {
+        this.isCaps = true; 
+        this.switchUpperCase(false);
+      } else if (code.match(/Caps/) && this.isCaps && this.shiftKey) {
+        this.isCaps = false;
+        this.switchUpperCase(true);
+        keyObj.div.classList.remove('active');
+      } 
 
       // switch language
       if (code.match(/Control/)) this.ctrlKey = true;
@@ -195,17 +206,19 @@ export default class keyboard {
       }
 
 
-
-      if (!this.isCaps) {
-        this.printToOutput(keyObj, this.shiftKey ? keyObj.shift : keyObj.small);
-      } else if (this.isCaps) {
-        if (this.shiftKey) {
-          this.printToOutput(keyObj, keyObj.sub.innerHTML ? keyObj.shift : keyObj.small);
-        } else {
-          this.printToOutput(keyObj, !keyObj.sub.innerHTML ? keyObj.shift : keyObj.small);
+      if (!code.match(/Hide/)) {
+        if (!this.isCaps) {
+          this.printToOutput(keyObj, this.shiftKey ? keyObj.shift : keyObj.small);
+        } else if (this.isCaps) {
+          if (this.shiftKey) {
+            this.printToOutput(keyObj, keyObj.sub.innerHTML ? keyObj.shift : keyObj.small);
+          } else {
+            this.printToOutput(keyObj, !keyObj.sub.innerHTML ? keyObj.shift : keyObj.small);
+          }
         }
+        this.keysPressed[keyObj.code] = keyObj;
       }
-      this.keysPressed[keyObj.code] = keyObj;
+      
 
       //release button
     } else if (type.match(/keyup|mouseup/)) {
@@ -217,9 +230,11 @@ export default class keyboard {
         this.switchUpperCase(false);
         keyObj.div.classList.remove('active')
       }
+      if (type.match(/mouseup/) && code.match(/Shift/)) {
 
-      if (!code.match(/Caps/) && !code.match(/Sound/) && !code.match(/Speech/) && (!type.match(/mouseup/) && !code.match(/Shift/)))  keyObj.div.classList.remove('active');
+      } else if (!code.match(/Caps/) && !code.match(/Sound/) && !code.match(/Speech/))  keyObj.div.classList.remove('active');
     }
+
   }
 
   switchLanguage = () => {
@@ -248,8 +263,10 @@ export default class keyboard {
       button.letter.innerHTML = keyObj.small;
       if (keyObj.code.match(/Lang/)) button.letter.innerHTML = this.container.dataset.language.toUpperCase();
     });
+    
+    if ((this.isCaps && !this.shiftKey) || (!this.isCaps && this.shiftKey) ) this.switchUpperCase(true);
+    else if ((this.isCaps && this.shiftKey) || (!this.isCaps && !this.shiftKey) ) this.switchUpperCase(false);
 
-    if (this.isCaps) this.switchUpperCase(true);
   }
 
   switchUpperCase(isTrue) {
@@ -260,16 +277,12 @@ export default class keyboard {
           if (this.shiftKey) {
             button.sub.classList.add('sub-active');
             button.letter.classList.add('sub-inactive');
-          }
+          } 
         }
   
         if(!button.isFnKey && this.isCaps && !this.shiftKey && !button.sub.innerHTML) {
           button.letter.innerHTML = button.shift;
         } else if (!button.isFnKey && this.isCaps && this.shiftKey) {
-          button.letter.innerHTML = button.small;
-        } else if (!button.isFnKey && !this.isCaps && this.shiftKey) {  //111
-          button.letter.innerHTML = button.shift;
-        } else if (!button.isFnKey && !this.isCaps && !this.shiftKey) { //222
           button.letter.innerHTML = button.small;
         } else if (!button.isFnKey && !button.sub.innerHTML) {
           button.letter.innerHTML = button.shift;
@@ -279,16 +292,19 @@ export default class keyboard {
       this.keyButtons.forEach((button) => {
         if (button.code.match(/Lang/)) return;
         if(button.sub.innerHTML && !button.isFnKey) {
-          button.sub.classList.remove('sub-active');
-          button.letter.classList.remove('sub-inactive');
+          if (!this.shiftKey) {
+            button.sub.classList.remove('sub-active');
+            button.letter.classList.remove('sub-inactive');
+          }
+          
 
-          if (!this.isCaps) {
+          if (!this.isCaps && this.shiftKey) {
             button.letter.innerHTML = button.small;
-          } else if (!this.isCaps) {
-            button.letter.innerHTML = button.shift;
+          } else if (this.isCaps && !this.shiftKey) {
+            button.letter.innerHTML = button.small;
           }
         } else if (!button.isFnKey) {
-          if (this.isCaps) {
+          if (this.isCaps && !this.shiftKey) {
             button.letter.innerHTML = button.shift;
           } else {
             button.letter.innerHTML = button.small;
