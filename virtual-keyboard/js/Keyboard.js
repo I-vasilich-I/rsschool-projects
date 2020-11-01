@@ -87,7 +87,7 @@ export default class keyboard {
   }
 
   resetButtonState = ({ target: { dataset: { code } } }) => {
-    if (code.match(/Shift|Caps|Sound|Speech/)) {
+    if (code.match(/Shift|Caps|Sound|Speech|Hide/)) {
       return;
     } else {
       //this.shiftKey = false;
