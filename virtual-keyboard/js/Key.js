@@ -10,11 +10,14 @@ export default class Key {
     if (shift && shift.match(/[^a-zA-Zа-яА-ЯёЁ0-9]/)) {
       this.sub = create('div', 'sub', this.shift);
     } else {
-      this.sub = create('div', 'sub', '');
+      if (!code.match(/Sound/)) this.sub = create('div', 'sub', '');
     }
-
-    this.letter = create('div', 'letter', small);
+    
+    if (!code.match(/Sound/)) this.letter = create('div', 'letter', small);
     this.div = create('div', 'keyboard__key', [this.sub, this.letter], null, ['code', this.code],
     this.isFnKey ? ['fn', 'true'] : ['fn', 'false']);
+    if (code.match(/Sound/)) {
+      const img = create('img', '', null, this.div, ['src', '../assets/images/sound-on.svg'], ['alt', 'sound-on']);
+    }
    }
 }

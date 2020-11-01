@@ -1,7 +1,9 @@
 import * as storage from  './storage.js';
+import * as audio from './Audio.js';
 import create from './utils/create.js';
 import language from './layouts/index.js';
 import Key from './Key.js';
+
 
 const main = create('main', '', 
 [create('h1', 'title', 'RSS Virtual Keyboard'), 
@@ -13,6 +15,8 @@ export default class keyboard {
     this.rowsOrder = rowsOrder;
     this.keysPressed = {};
     this.isCaps = false;
+    this.isSound = false;
+    this.audioElems = {};
   }
 
   init(langCode) {
@@ -39,9 +43,24 @@ export default class keyboard {
           const keyButton = new Key(keyObj);
           this.keyButtons.push(keyButton);
           rowElement.appendChild(keyButton.div);
+          if (keyButton.code.match(/Shift|Caps|Enter|Backspace/)) {
+            const audioElem = create('audio', '', null, main, ['code', keyButton.code], ['src', audio.getAudio(keyButton.code )]);
+            this.audioElems[audioElem.dataset.code] = audioElem;
+            main.appendChild(audioElem);
+          } 
         }
       });
     });
+
+    let audioElemRu = create('audio', '', null, main, ['code', 'ru'], ['src', audio.getAudio('', 'ru' )]);
+    this.audioElems[audioElemRu.dataset.code] = audioElemRu;
+    main.appendChild(audioElemRu);
+    let audioElemEn = create('audio', '', null, main, ['code', 'en'], ['src', audio.getAudio('', 'en' )]);
+    this.audioElems[audioElemEn.dataset.code] = audioElemEn;
+    main.appendChild(audioElemEn);
+
+
+
 
     document.addEventListener('keydown', this.handleEvent);
     document.addEventListener('keyup', this.handleEvent);
@@ -72,7 +91,7 @@ export default class keyboard {
 
   resetPressedButtons = (targetCode) => {
     if (!this.keysPressed[targetCode]) return;
-    if (!this.isCaps) this.keysPressed[targetCode].div.classList.remove('active');
+    if (!this.isCaps && !this.isSound) this.keysPressed[targetCode].div.classList.remove('active');
     this.keysPressed[targetCode].div.removeEventListener('mouseleave', this.resetButtonState);
     delete this.keysPressed[targetCode];
   }
@@ -87,10 +106,34 @@ export default class keyboard {
     if (type.match(/keydown|mousedown/)) {
       if (type.match(/key/)) e.preventDefault();
      
-      if (code.match(/Shift/)) this.shiftKey = true;
-      if (this.shiftKey) this.switchUpperCase(true);
+      if (code.match(/Shift/)) {
+        this.shiftKey = true;
+        this.switchUpperCase(true);
+      }
 
       keyObj.div.classList.add('active');
+
+      // Sound efects
+      if (code.match(/Sound/)) {
+        
+        if (this.isSound) {
+          this.isSound = false;
+          keyObj.div.classList.remove('active');
+          console.log('yep')
+        } else {
+          this.isSound = true;
+        }
+      }
+      if (this.isSound) {
+        if (this.audioElems[code]) {
+          this.audioElems[code].currentTime = 0;
+          this.audioElems[code].play();
+        }
+        if (this.audioElems[this.container.dataset.language] && !this.audioElems[code]) {
+          this.audioElems[this.container.dataset.language].currentTime = 0;
+          this.audioElems[this.container.dataset.language].play();
+        }
+      }
 
       if (code.match(/Caps/) && !this.isCaps) {
         this.isCaps = true;
@@ -120,6 +163,7 @@ export default class keyboard {
         }
       }
       this.keysPressed[keyObj.code] = keyObj;
+
       //release button
     } else if (type.match(/keyup|mouseup/)) {
       
@@ -130,7 +174,7 @@ export default class keyboard {
         this.switchUpperCase(false);
       }
 
-      if (!code.match(/Caps/)) keyObj.div.classList.remove('active');
+      if (!code.match(/Caps/) && !code.match(/Sound/))  keyObj.div.classList.remove('active');
     }
   }
 

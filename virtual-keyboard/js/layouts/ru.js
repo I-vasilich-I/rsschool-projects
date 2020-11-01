@@ -324,4 +324,9 @@ export default [
     shift: null,
     code: 'Win',
   },
+  { 
+    small: '',
+    shift: null,
+    code: 'Sound',
+  },
 ];
