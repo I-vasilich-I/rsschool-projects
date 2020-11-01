@@ -10,12 +10,16 @@ const main = create('main', '',
   create('h3', 'subtitle', 'Windows keyboard that has been made following Live coding instruction'),
   create('p', 'hint', 'Use left <kbd>Ctrl</kbd> + <kbd>Alt</kbd> or <kbd>RU/EN</kbd> to switch languages. Last language saves in localStorage')]);
 
+window.speechRecognition = window.speechRecognition || webkitSpeechRecognition;
+const recognition = new window.speechRecognition;
+
 export default class keyboard {
   constructor(rowsOrder) {
     this.rowsOrder = rowsOrder;
     this.keysPressed = {};
     this.isCaps = false;
     this.isSound = false;
+    this.isSpeech = false;
     this.audioElems = {};
   }
 
@@ -92,7 +96,7 @@ export default class keyboard {
 
   resetPressedButtons = (targetCode) => {
     if (!this.keysPressed[targetCode]) return;
-    if (!this.isCaps && !this.isSound) this.keysPressed[targetCode].div.classList.remove('active');
+    if (!this.isCaps && !this.isSound && !this.isSpeech) this.keysPressed[targetCode].div.classList.remove('active');
     this.keysPressed[targetCode].div.removeEventListener('mouseleave', this.resetButtonState);
     delete this.keysPressed[targetCode];
   }
@@ -116,7 +120,6 @@ export default class keyboard {
 
       // Sound efects
       if (code.match(/Sound/)) {
-        
         if (this.isSound) {
           this.isSound = false;
           keyObj.div.classList.remove('active');
@@ -134,6 +137,20 @@ export default class keyboard {
           this.audioElems[this.container.dataset.language].play();
         }
       }
+
+      // Voice recognition 
+      if (code.match(/Speech/)) {
+        if (this.isSpeech) {
+          this.isSpeech = false;
+          keyObj.div.classList.remove('active');
+          recognition.stop();
+        } else {
+          this.isSpeech = true;
+          this.speechRecognition();
+          //recognition.start();
+        }
+      }
+
 
       if (code.match(/Caps/) && !this.isCaps) {
         this.isCaps = true;
@@ -179,7 +196,7 @@ export default class keyboard {
         this.switchUpperCase(false);
       }
 
-      if (!code.match(/Caps/) && !code.match(/Sound/))  keyObj.div.classList.remove('active');
+      if (!code.match(/Caps/) && !code.match(/Sound/) && !code.match(/Speech/))  keyObj.div.classList.remove('active');
     }
   }
 
@@ -211,6 +228,7 @@ export default class keyboard {
   switchUpperCase(isTrue) {
     if (isTrue) {
       this.keyButtons.forEach((button) => {
+        if (button.code.match(/Lang/)) return;
         if (button.sub) {
           if (this.shiftKey) {
             button.sub.classList.add('sub-active');
@@ -228,6 +246,7 @@ export default class keyboard {
       });
     } else {
       this.keyButtons.forEach((button) => {
+        if (button.code.match(/Lang/)) return;
         if(button.sub.innerHTML && !button.isFnKey) {
           button.sub.classList.remove('sub-active');
           button.letter.classList.remove('sub-inactive');
@@ -249,7 +268,38 @@ export default class keyboard {
     
   }
 
-  printToOutput(keyObj, symbol) {
+  speechRecognition() {
+    if (!this.isSpeech) return;
+    recognition.interimResults = true;
+    recognition.lang = this.container.dataset.language;
+
+    recognition.addEventListener('result', e => {
+      let transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('');
+        if (e.results[0].isFinal) {
+          this.printToOutput(null, transcript, true);
+          transcript = '';
+        }
+    });
+
+
+  
+    recognition.addEventListener('end', () => {
+      if (this.isSpeech) {
+        recognition.start();
+      } else {
+        recognition.stop();
+      }
+    });
+    if (this.isSpeech) {
+      recognition.start();
+    }
+    
+  }
+
+  printToOutput(keyObj, symbol, speech = false) {
     let cursorPos = this.output.selectionStart;
     const left = this.output.value.slice(0, cursorPos);
     const right = this.output.value.slice(cursorPos);
@@ -290,12 +340,18 @@ export default class keyboard {
       },
     }
 
-    if (fnButtonHandler[keyObj.code]) fnButtonHandler[keyObj.code]();
+    if (!speech) {
+      if (fnButtonHandler[keyObj.code]) fnButtonHandler[keyObj.code]();
+      else if (!keyObj.isFnKey) {
+        cursorPos++;
+        this.output.value = `${left}${symbol || ''}${right}`;
+      }
+    } else {
+      this.output.value += `${symbol || ''} `;
+      cursorPos=this.output.value.length;
 
-    else if (!keyObj.isFnKey) {
-      cursorPos++;
-      this.output.value = `${left}${symbol || ''}${right}`;
     }
+    
     this.output.setSelectionRange(cursorPos, cursorPos);
   }
 }

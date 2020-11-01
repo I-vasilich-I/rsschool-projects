@@ -20,5 +20,9 @@ export default class Key {
     if (code.match(/Sound/)) {
       const img = create('img', '', null, this.div, ['src', '../assets/images/sound-on.svg'], ['alt', 'sound-on']);
     }
+    if (code.match(/Speech/)) {
+      const img = create('img', '', null, this.div, ['src', '../assets/images/mic-1.svg'], ['alt', 'mic']);
+    }
+
    }
 }
