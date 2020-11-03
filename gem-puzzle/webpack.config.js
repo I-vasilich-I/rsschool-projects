@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -27,7 +27,7 @@ module.exports = (env, options) => {
     mode: isProd ? 'production' : 'development',
     devtool: isProd ? false : 'source-map',
     watch: !isProd,
-    entry: './src/index.js',
+    entry: ['./src/index.js', './src/assets/sass/style.scss'],
     output: {
       path: path.join(__dirname, '/dist'),
       filename: 'script.js'
@@ -37,7 +37,9 @@ module.exports = (env, options) => {
       rules: [
         {
           test: /\.scss$/,
-          use: ['style-loader', 'css-loader','sass-loader',]
+          use: [
+            MiniCssExtractPlugin.loader, 'css-loader','sass-loader',
+          ]
         },
         {
           test: /\.(png|jpe?g|svg|gif)$/,
@@ -62,16 +64,32 @@ module.exports = (env, options) => {
 
     plugins: [
       new CleanWebpackPlugin(),
-
+      new HTMLWebpackPlugin({
+        template: './index.html',
+        minify: {
+          //collapseWhitespace: isProd
+        }
+      }),
+      new MiniCssExtractPlugin({
+        filename: 'style.css'
+      }),
+        /*
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve(__dirname, 'src/favicon.ico'),
+          to: path.resolve(__dirname, 'dist')
+        }
+      ]),
+      */
     ]
     
   }
 
   return config;
 }
+
 /*
 {
-
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
@@ -89,38 +107,4 @@ module.exports = (env, options) => {
     }
   },
   optimization: optimization(),
-  plugins: [
-    new HTMLWebpackPlugin({
-      title: 'gem-puzzle',
-      template: './index.html',
-      minify: {
-        collapseWhitespace: isProd
-      }
-    }),
-    /*
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, 'src/favicon.ico'),
-        to: path.resolve(__dirname, 'dist')
-      }
-    ]),
-    
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.(sc|sa|c)ss$/,
-        use: ['style-loader', 'css-loader','sass-loader',]
-      },
-      {
-        test: /\.(png|jpg|svg|gif)$/,
-        use: ['file-loader']
-      },
-      {
-        test: /\.(ttf|woff|woff2|eot)$/,
-        use: ['file-loader']
-      },
-    ]
-  }
-}
 */
