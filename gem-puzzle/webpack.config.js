@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-
+const ESLintPlugin = require('eslint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -70,6 +70,10 @@ module.exports = (env, options) => {
       new CleanWebpackPlugin(),
       new HTMLWebpackPlugin({
         template: './index.html',
+        output: {
+          path: path.resolve(__dirname, './dist'),
+          filename: 'index.html',
+        },
         minify: {
           //collapseWhitespace: isProd
         }
@@ -77,6 +81,9 @@ module.exports = (env, options) => {
       new MiniCssExtractPlugin({
         filename: 'style.css'
       }),
+      new ESLintPlugin({
+        fix: true,
+      })
         /*
       new CopyWebpackPlugin([
         {

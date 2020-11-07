@@ -1,3 +1,3 @@
 const hi = 'Hi ';
 
-console.log(`${hi}Oleg`)
+console.log(`${hi}Oleg`);

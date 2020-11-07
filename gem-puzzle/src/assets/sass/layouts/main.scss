@@ -1,5 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   width: 100%;
   margin: auto;
-  background-color: blueviolet;
+  background-color: wheat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+main {
+  
+}
+.game-board {
+  margin: auto;
+  position: relative;
+  width: 400px;
+  height: 400px;
+  background-color: white;
 }
