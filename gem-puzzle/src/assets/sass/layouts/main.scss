@@ -1,24 +1,35 @@
-* {
-  box-sizing: border-box;
-}
+
 
 body {
   width: 100%;
   margin: auto;
-  background-color: wheat;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
 }
 
 main {
-  
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .game-board {
+
   margin: auto;
   position: relative;
   width: 400px;
   height: 400px;
   background-color: white;
+  border: solid 3px red;
+}
+
+.tile {
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  border: solid 3px blue;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

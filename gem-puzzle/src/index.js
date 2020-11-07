@@ -1,3 +1,3 @@
-const hi = 'Hi ';
+import Board from './modules/Board';
 
-console.log(`${hi}Oleg`);
+new Board().init().generateTiles();
