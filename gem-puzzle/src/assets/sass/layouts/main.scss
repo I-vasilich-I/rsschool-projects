@@ -3,6 +3,7 @@
 body {
   width: 100%;
   margin: auto;
+  background-color: rgb(255, 250, 206);
 }
 
 main {
@@ -13,23 +14,32 @@ main {
 }
 
 .game-board {
-
   margin: auto;
+  padding: 1px 1px 1px 1px;
+  margin-top: 5%;
   position: relative;
-  width: 400px;
-  height: 400px;
   background-color: white;
-  border: solid 3px red;
+  box-shadow: 10px 10px 5px rgb(202, 95, 202);
+  border: solid 3px violet;
 }
 
 .tile {
+  font-size: 2rem;
   box-sizing: border-box;
-  width: 100px;
-  height: 100px;
+  width: 95px;
+  height: 95px;
   position: absolute;
-  border: solid 3px blue;
+  background-color: gainsboro;
+  border: solid 1px blue;
+  margin: 2px 2px;
   border-radius: 10px;
+  box-shadow: 3px 3px 3px rgb(60, 60, 146);
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s;
+
+  &:hover {
+    cursor: pointer;
+  }
 }

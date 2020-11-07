@@ -78,6 +78,7 @@ module.exports = (env, options) => {
       new MiniCssExtractPlugin({
         filename: 'style.css',
       }),
+      /*
       new ESLintPlugin({
         fix: true
       }),
