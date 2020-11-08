@@ -2,7 +2,7 @@ import create from './utils/create';
 import Tile from './Tile';
 
 const tileSize = 100;
-const boardSize = 8;
+const boardSize = 3;
 const tilesAmount = boardSize * boardSize;
 const main = create('main');
 const gameBoard = create('div', 'game-board', null, main);
@@ -11,7 +11,7 @@ gameBoard.style.height = `${tileSize * boardSize}px`;
 
 const numbers = [...Array(tilesAmount-1).keys()]
   .map(x => x+1)
-  //.sort(() => Math.random() - 0.5);
+  .sort(() => Math.random() - 0.5);
 
 export default class Board {
   constructor() {
@@ -31,8 +31,8 @@ export default class Board {
       const tileElem = create('div', 'tile', `${numbers[i]}`, gameBoard);
       tileElem.style.left = `${left * tileSize}px`;
       tileElem.style.top = `${top * tileSize}px`;
-      tileElem.style.width = `${tileSize-5}px`;
-      tileElem.style.height = `${tileSize-5}px`;
+      tileElem.style.width = `${tileSize-10}px`;
+      tileElem.style.height = `${tileSize-10}px`;
 
       const tile = new Tile(left, top, numbers[i], tileElem);
       this.tiles.push(tile);
