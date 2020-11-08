@@ -1,7 +1,10 @@
-
+html {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
 
 body {
-  min-width: 300px;
+  min-width: 320px;
   //width: 100%;
   margin: auto;
   background-color: rgb(255, 250, 206);
@@ -17,7 +20,6 @@ main {
 .game-board {
   margin: auto;
   padding: 1px 1px 1px 1px;
-  margin-top: 2%;
   position: relative;
   background-color: white;
   box-shadow: 10px 10px 5px gray;
