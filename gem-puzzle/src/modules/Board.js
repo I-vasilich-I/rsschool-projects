@@ -17,7 +17,7 @@ const main = create('main');
 const gameBoard = create('div', 'game-board', null, main);
 const numbers = [...Array(tilesAmount-1).keys()]
   .map(x => x+1)
-  //.sort(() => Math.random() - 0.5);
+  .sort(() => Math.random() - 0.5);
 
 export default class Board {
   constructor() {
@@ -35,6 +35,7 @@ export default class Board {
     timer.innerText = 'Time: 00:00:00';
     counter.innerText = `Moves: ${moveCounter}`;
     pause.innerText = 'Pause';
+    pause.disabled = true;
     document.body.prepend(main);
     document.body.prepend(header);
     return this;
@@ -94,16 +95,23 @@ export default class Board {
       return elem.value === elem.posicionY * boardSize + elem.posicionX + 1;
     })
     if (this.AreWeDone) {
-      console.log(this.tiles, this.AreWeDone)
       this.elapsedTime = this.stopWatch.stop();
       this.isTimerOn = 0;
       pause.innerText = 'Resume';
       pause.disabled = true;
+      this.winMessage();
     }
     if (this.isTimerOn === 1) {
       this.stopWatch.start(timer);
       pause.innerText = 'Pause';
       pause.disabled = false;
     }
+  }
+
+  winMessage() {
+    setTimeout(() => {
+      alert(`Ура! Вы решили головоломку за ${this.stopWatch.timeToText(this.elapsedTime)} и ${moveCounter} ходов`)
+    }, 500);
+    
   }
 }

@@ -12,7 +12,7 @@ export default class stopWatch {
     let mm = Math.floor(minutes);
     let seconds = (minutes - mm) * 60;
     let ss = Math.floor(seconds);
-    return `Time: ${this.padTime(hh)}:${this.padTime(mm)}:${this.padTime(ss)}`;
+    return `${this.padTime(hh)}:${this.padTime(mm)}:${this.padTime(ss)}`;
   }
 
 
@@ -24,7 +24,7 @@ export default class stopWatch {
     this.startTime = Date.now() - this.elapsedTime; 
     timerInterval = setInterval(() => {
       this.elapsedTime = Date.now() - this.startTime;
-      timer.innerHTML = this.timeToText(this.elapsedTime);
+      timer.innerHTML = 'Time: '+this.timeToText(this.elapsedTime);
     }, 1000);
   }
 

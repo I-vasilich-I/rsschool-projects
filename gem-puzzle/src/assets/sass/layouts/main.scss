@@ -3,6 +3,10 @@ html {
   font-size: 16px;
 }
 
+:focus {
+  outline: none;
+}
+
 body {
   min-width: 320px;
   //width: 100%;
