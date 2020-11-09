@@ -1,4 +1,4 @@
-export default function create(el, classNames, child, parent) {
+export default function create(el, classNames, child, parent, ...dataAttr) {
   let elem = null;
   try {
     elem = document.createElement(el);
@@ -18,6 +18,19 @@ export default function create(el, classNames, child, parent) {
 
   if (parent) {
     parent.appendChild(elem);
+  }
+
+  if (dataAttr.length) {
+    dataAttr.forEach(([ attrName, attrValue ]) => {
+      if (attrValue === '') {
+        elem.setAttribute(attrName, '');
+      } 
+      if (attrName.match(/value|id|placeholder|rows|autocorretc|spellcheck|src|alt/)) {
+        elem.setAttribute(attrName, attrValue);
+      } else {
+        elem.dataset[attrName] = attrValue;
+      }
+    });
   }
   return elem;
 }

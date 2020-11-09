@@ -24,12 +24,21 @@ export default class stopWatch {
     this.startTime = Date.now() - this.elapsedTime; 
     timerInterval = setInterval(() => {
       this.elapsedTime = Date.now() - this.startTime;
-      timer.innerHTML = 'Time: '+this.timeToText(this.elapsedTime);
+      this.setElapsedTime(timer, this.elapsedTime);
+      //timer.innerHTML = 'Time: '+this.timeToText(this.elapsedTime);
     }, 1000);
   }
 
   stop() {
     clearInterval(timerInterval);
+    return this.getElapsedTime();
+  }
+
+  getElapsedTime() {
     return this.elapsedTime;
+  }
+
+  setElapsedTime(timer, elapsedTime) {
+    timer.innerHTML = 'Time: '+this.timeToText(elapsedTime);
   }
 }

@@ -1,3 +1,3 @@
 import Board from './modules/Board';
 
-new Board().init().generateTiles();
+new Board().init().generateTiles().ActivateButtons();
