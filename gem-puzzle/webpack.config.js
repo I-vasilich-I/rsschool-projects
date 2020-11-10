@@ -4,7 +4,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // const isDev = process.env.NODE_ENV === 'development';
 // const isProd = !isDev;
@@ -82,14 +82,16 @@ module.exports = (env, options) => {
       new ESLintPlugin({
         fix: true
       }),
-      /*
-      new CopyWebpackPlugin([
-        {
-          from: path.resolve(__dirname, 'src/favicon.ico'),
-          to: path.resolve(__dirname, 'dist')
-        }
-      ]),
       */
+      new CopyWebpackPlugin( {
+          patterns: [
+            { from: 'src/assets/audio/shifting.wav'},
+            { from: 'src/assets/images/favicon.svg'},
+
+          ]
+        }
+      ),
+      
     ],
   };
 

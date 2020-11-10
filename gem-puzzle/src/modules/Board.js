@@ -26,12 +26,12 @@ let numbers = [...Array(tilesAmount-1).keys()]
 // footer start 
 const footer = create('footer');
 const footerWrapper = create('div', 'footer__wrapper', null, footer);
-const NewGame = create('button', 'footer__button', null, footerWrapper);
-const LoadGame = create('button', 'footer__button', null, footerWrapper);
-const SaveGame = create('button', 'footer__button', null, footerWrapper);
-const BestScore = create('button', 'footer__button', null, footerWrapper);
-const Settings = create('button', 'footer__button', null, footerWrapper);
-
+const newGame = create('button', 'footer__button', null, footerWrapper);
+const loadGame = create('button', 'footer__button', null, footerWrapper);
+const saveGame = create('button', 'footer__button', null, footerWrapper);
+const bestScore = create('button', 'footer__button', null, footerWrapper);
+const settings = create('button', 'footer__button', null, footerWrapper);
+const audio = create('audio', '', null, footerWrapper, ['src', 'shifting.wav']);
 // footer end
 export default class Board {
   constructor() {
@@ -52,11 +52,11 @@ export default class Board {
     counter.innerText = `Moves: ${moveCounter}`;
     pause.innerText = 'Pause';
     pause.disabled = true;
-    NewGame.innerText = 'New Game';
-    LoadGame.innerText = 'Load Game';
-    SaveGame.innerText = 'Save Game';
-    BestScore.innerText = 'Best Score';
-    Settings.innerText = 'Settings';
+    newGame.innerText = 'New Game';
+    loadGame.innerText = 'Load Game';
+    saveGame.innerText = 'Save Game';
+    bestScore.innerText = 'Best Score';
+    settings.innerText = 'Settings';
 
     document.body.prepend(footer);
     document.body.prepend(main);
@@ -101,7 +101,7 @@ export default class Board {
     })
   }
 
-  ActivateButtons() {
+  activateButtons() {
     // Pause button
     pause.addEventListener('click', () => {
       if (this.isTimerOn) {
@@ -114,8 +114,16 @@ export default class Board {
       }
     });
     // New Game button
-    NewGame.addEventListener('click', () => {
+    newGame.addEventListener('click', () => {
       if (confirm('Are you sure you want to start a new game?')) {
+        this.stopWatch.stop();
+        pause.disabled = true;
+        this.isTimerOn = 0;
+        this.elapsedTime = 0;
+        moveCounter = 0;
+        timer.innerText = 'Time: 00:00:00';
+        counter.innerText = `Moves: ${moveCounter}`;
+        this.stopWatch = new StopWatch(this.elapsedTime);
         numbers = [...Array(tilesAmount-1).keys()]
         .map(x => x+1)
         .sort(() => Math.random() - 0.5);
@@ -126,7 +134,7 @@ export default class Board {
       }
     })
     // Load Game button 
-    LoadGame.addEventListener('click', () => {
+    loadGame.addEventListener('click', () => {
       if (confirm('Are you sure you want to end this game and load saved game?')) {
         let temp = JSON.parse(localStorage.getItem(`SavedGame-${boardSize}`));
         if (temp) {
@@ -145,7 +153,7 @@ export default class Board {
       
     })
     // Save Game button
-    SaveGame.addEventListener('click', () => {
+    saveGame.addEventListener('click', () => {
       this.pauseTime();
       let temp = JSON.parse(localStorage.getItem(`SavedGame-${boardSize}`));
         if (temp) {
@@ -157,9 +165,9 @@ export default class Board {
           localStorage.setItem(`SavedGame-${boardSize}`, JSON.stringify([this.tiles, this.emptyTile, this.stopWatch.getElapsedTime(), moveCounter]));
           alert(`Game ${boardSize}x${boardSize} saved`);
         } 
-    })
+    });
     // Settings button 
-    Settings.addEventListener('click', () => {
+    settings.addEventListener('click', () => {
 
     })
   }
@@ -182,8 +190,10 @@ export default class Board {
     tile.posicionY = this.emptyTile.posicionY;
     this.emptyTile.posicionX = tileLeft;
     this.emptyTile.posicionY = tileTop;
-
+    audio.currentTime = 0;
+    audio.play();
     this.AreWeDone = this.isWin();
+    
     this.onOffStopWatch();
   }
 
