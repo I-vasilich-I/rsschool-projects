@@ -12,7 +12,7 @@ export default class stopWatch {
     let mm = Math.floor(minutes);
     let seconds = (minutes - mm) * 60;
     let ss = Math.floor(seconds);
-    return `${this.padTime(hh)}:${this.padTime(mm)}:${this.padTime(ss)}`;
+    return `${this.padTime(mm)}:${this.padTime(ss)}`;
   }
 
 

@@ -4,7 +4,7 @@ import Tile from './Tile';
 
 let moveCounter = 0;
 const tileSize = 100;
-const boardSize = 3;
+const boardSize = 4;
 const tilesAmount = boardSize * boardSize;
 // header start
 const header = create('header');
@@ -18,9 +18,8 @@ const pause = create('button', '', null, informContainer);
 // main start
 const main = create('main');
 const gameBoard = create('div', 'game-board', null, main);
-let numbers = [...Array(tilesAmount-1).keys()]
-  .map(x => x+1)
-  //.sort(() => Math.random() - 0.5);
+let numbers;
+
 // main end
 
 // footer start 
@@ -48,7 +47,7 @@ export default class Board {
     headerWrapper.style.width = `${tileSize * boardSize + 10}px`;
     footerWrapper.style.width = `${tileSize * boardSize + 10}px`;
 
-    timer.innerText = 'Time: 00:00:00';
+    timer.innerText = 'Time: 00:00';
     counter.innerText = `Moves: ${moveCounter}`;
     pause.innerText = 'Pause';
     pause.disabled = true;
@@ -65,6 +64,11 @@ export default class Board {
   }
 
   generateTiles() {
+    do {
+      numbers = [...Array(tilesAmount-1).keys()]
+      .map(x => x+1)
+      .sort(() => Math.random() - 0.5);
+    } while (!this.isGameSolveble());
     for (let i = 0; i < numbers.length; i++) {
       const left = i % boardSize;
       const top = (i - left) / boardSize;
@@ -121,12 +125,9 @@ export default class Board {
         this.isTimerOn = 0;
         this.elapsedTime = 0;
         moveCounter = 0;
-        timer.innerText = 'Time: 00:00:00';
+        timer.innerText = 'Time: 00:00';
         counter.innerText = `Moves: ${moveCounter}`;
         this.stopWatch = new StopWatch(this.elapsedTime);
-        numbers = [...Array(tilesAmount-1).keys()]
-        .map(x => x+1)
-        .sort(() => Math.random() - 0.5);
         gameBoard.innerHTML = '';
         this.emptyTile = new Tile(boardSize - 1, boardSize - 1, 0, null);
         this.tiles.length = 0;
@@ -231,5 +232,23 @@ export default class Board {
     this.stopWatch.start(timer);
     pause.innerText = 'Pause';
     pause.disabled = false;
+  }
+
+  isGameSolveble() {
+    let sum = 0; 
+    for (let i = 0; i<numbers.length; i++) {
+      for (let j = i+1; j < numbers.length; j++) {
+        if (numbers[j] < numbers[i]) {
+          sum++;
+        }
+      }
+    }
+    // in the begining of the game, row of empty tile is always on the last row of the game board
+    let e = boardSize; 
+    sum+=e;
+    if (sum % 2 != 0) {
+      return false;
+    }
+    return true;
   }
 }

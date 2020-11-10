@@ -87,11 +87,9 @@ module.exports = (env, options) => {
           patterns: [
             { from: 'src/assets/audio/shifting.wav'},
             { from: 'src/assets/images/favicon.svg'},
-
           ]
         }
       ),
-      
     ],
   };
 
