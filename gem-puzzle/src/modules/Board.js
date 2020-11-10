@@ -1,3 +1,7 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
 import create from './utils/create';
 import StopWatch from './utils/Timer';
 import Tile from './Tile';
@@ -22,7 +26,7 @@ let numbers;
 
 // main end
 
-// footer start 
+// footer start
 const footer = create('footer');
 const footerWrapper = create('div', 'footer__wrapper', null, footer);
 const newGame = create('button', 'footer__button', null, footerWrapper);
@@ -65,9 +69,9 @@ export default class Board {
 
   generateTiles() {
     do {
-      numbers = [...Array(tilesAmount-1).keys()]
-      .map(x => x+1)
-      .sort(() => Math.random() - 0.5);
+      numbers = [...Array(tilesAmount - 1).keys()]
+        .map((x) => x + 1)
+        .sort(() => Math.random() - 0.5);
     } while (!this.isGameSolveble());
     for (let i = 0; i < numbers.length; i++) {
       const left = i % boardSize;
@@ -75,8 +79,8 @@ export default class Board {
       const tileElem = create('div', 'tile', `${numbers[i]}`, gameBoard);
       tileElem.style.left = `${left * tileSize}px`;
       tileElem.style.top = `${top * tileSize}px`;
-      tileElem.style.width = `${tileSize-10}px`;
-      tileElem.style.height = `${tileSize-10}px`;
+      tileElem.style.width = `${tileSize - 10}px`;
+      tileElem.style.height = `${tileSize - 10}px`;
       const tile = new Tile(left, top, numbers[i], tileElem);
       this.tiles.push(tile);
       gameBoard.appendChild(tile.elem);
@@ -84,25 +88,25 @@ export default class Board {
         this.moveTile(tile);
       });
     }
-    
+
     return this;
   }
 
   generateLoadedTiles() {
-    this.tiles.forEach(tile => {
+    this.tiles.forEach((tile) => {
       const left = tile.posicionX;
       const top = tile.posicionY;
       const tileElem = create('div', 'tile', `${tile.value}`, gameBoard);
       tileElem.style.left = `${left * tileSize}px`;
       tileElem.style.top = `${top * tileSize}px`;
-      tileElem.style.width = `${tileSize-10}px`;
-      tileElem.style.height = `${tileSize-10}px`;
+      tileElem.style.width = `${tileSize - 10}px`;
+      tileElem.style.height = `${tileSize - 10}px`;
       tile.elem = tileElem;
       gameBoard.appendChild(tile.elem);
       tileElem.addEventListener('click', () => {
         this.moveTile(tile);
       });
-    })
+    });
   }
 
   activateButtons() {
@@ -133,11 +137,11 @@ export default class Board {
         this.tiles.length = 0;
         this.generateTiles();
       }
-    })
-    // Load Game button 
+    });
+    // Load Game button
     loadGame.addEventListener('click', () => {
       if (confirm('Are you sure you want to end this game and load saved game?')) {
-        let temp = JSON.parse(localStorage.getItem(`SavedGame-${boardSize}`));
+        const temp = JSON.parse(localStorage.getItem(`SavedGame-${boardSize}`));
         if (temp) {
           this.pauseTime();
           let elapsedTime;
@@ -148,29 +152,37 @@ export default class Board {
           this.stopWatch.setElapsedTime(timer, elapsedTime);
           counter.innerText = `Moves: ${moveCounter}`;
         } else {
-          alert('There are no saved games yet.');
+          alert(`There are no saved ${boardSize}x${boardSize} games yet.`);
         }
       }
-      
-    })
+    });
     // Save Game button
     saveGame.addEventListener('click', () => {
       this.pauseTime();
-      let temp = JSON.parse(localStorage.getItem(`SavedGame-${boardSize}`));
-        if (temp) {
-          if(confirm('There is already saved game. Would you like to rewrite it?')) {
-            localStorage.setItem(`SavedGame-${boardSize}`, JSON.stringify([this.tiles, this.emptyTile, this.stopWatch.getElapsedTime(), moveCounter]));
-            alert(`Game ${boardSize}x${boardSize} saved`);
-          }
-        } else {
-          localStorage.setItem(`SavedGame-${boardSize}`, JSON.stringify([this.tiles, this.emptyTile, this.stopWatch.getElapsedTime(), moveCounter]));
+      const temp = JSON.parse(localStorage.getItem(`SavedGame-${boardSize}`));
+      if (temp) {
+        if (confirm('There is already saved game. Would you like to rewrite it?')) {
+          localStorage.setItem(
+            `SavedGame-${boardSize}`,
+            JSON.stringify([
+              this.tiles,
+              this.emptyTile,
+              this.stopWatch.getElapsedTime(),
+              moveCounter,
+            ])
+          );
           alert(`Game ${boardSize}x${boardSize} saved`);
-        } 
+        }
+      } else {
+        localStorage.setItem(
+          `SavedGame-${boardSize}`,
+          JSON.stringify([this.tiles, this.emptyTile, this.stopWatch.getElapsedTime(), moveCounter])
+        );
+        alert(`Game ${boardSize}x${boardSize} saved`);
+      }
     });
-    // Settings button 
-    settings.addEventListener('click', () => {
-
-    })
+    // Settings button
+    settings.addEventListener('click', () => {});
   }
 
   moveTile(tile) {
@@ -194,21 +206,24 @@ export default class Board {
     audio.currentTime = 0;
     audio.play();
     this.AreWeDone = this.isWin();
-    
+
     this.onOffStopWatch();
   }
 
   winMessage() {
     setTimeout(() => {
-      alert(`Hooray! You solved the puzzle in ${this.stopWatch.timeToText(this.stopWatch.getElapsedTime())} and ${moveCounter} moves`)
+      alert(
+        `Hooray! You solved the puzzle in ${this.stopWatch.timeToText(
+          this.stopWatch.getElapsedTime()
+        )} and ${moveCounter} moves`
+      );
     }, 500);
-    
   }
 
   isWin() {
     return this.tiles.every((elem) => {
       return elem.value === elem.posicionY * boardSize + elem.posicionX + 1;
-    })
+    });
   }
 
   onOffStopWatch() {
@@ -235,18 +250,18 @@ export default class Board {
   }
 
   isGameSolveble() {
-    let sum = 0; 
-    for (let i = 0; i<numbers.length; i++) {
-      for (let j = i+1; j < numbers.length; j++) {
+    let sum = 0;
+    for (let i = 0; i < numbers.length; i++) {
+      for (let j = i + 1; j < numbers.length; j++) {
         if (numbers[j] < numbers[i]) {
           sum++;
         }
       }
     }
     // in the begining of the game, row of empty tile is always on the last row of the game board
-    let e = boardSize; 
-    sum+=e;
-    if (sum % 2 != 0) {
+    const e = boardSize;
+    sum += e;
+    if (sum % 2 !== 0) {
       return false;
     }
     return true;

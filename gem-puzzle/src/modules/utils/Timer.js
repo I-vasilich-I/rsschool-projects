@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-param-reassign */
 let timerInterval;
 export default class stopWatch {
   constructor(elapsedTime = 0) {
@@ -6,26 +8,25 @@ export default class stopWatch {
   }
 
   timeToText(time) {
-    let hours = time / 3600000;
-    let hh = Math.floor(hours);
-    let minutes = (hours - hh) * 60;
-    let mm = Math.floor(minutes);
-    let seconds = (minutes - mm) * 60;
-    let ss = Math.floor(seconds);
+    const hours = time / 3600000;
+    const hh = Math.floor(hours);
+    const minutes = (hours - hh) * 60;
+    const mm = Math.floor(minutes);
+    const seconds = (minutes - mm) * 60;
+    const ss = Math.floor(seconds);
     return `${this.padTime(mm)}:${this.padTime(ss)}`;
   }
-
 
   padTime(time) {
     return time.toString().padStart(2, '0');
   }
 
   start(timer) {
-    this.startTime = Date.now() - this.elapsedTime; 
+    this.startTime = Date.now() - this.elapsedTime;
     timerInterval = setInterval(() => {
       this.elapsedTime = Date.now() - this.startTime;
       this.setElapsedTime(timer, this.elapsedTime);
-      //timer.innerHTML = 'Time: '+this.timeToText(this.elapsedTime);
+      // timer.innerHTML = 'Time: '+this.timeToText(this.elapsedTime);
     }, 1000);
   }
 
@@ -39,6 +40,6 @@ export default class stopWatch {
   }
 
   setElapsedTime(timer, elapsedTime) {
-    timer.innerHTML = 'Time: '+this.timeToText(elapsedTime);
+    timer.innerHTML = `Time: ${this.timeToText(elapsedTime)}`;
   }
 }
