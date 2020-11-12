@@ -78,14 +78,15 @@ module.exports = (env, options) => {
       new MiniCssExtractPlugin({
         filename: 'style.css',
       }),
-      
+      /*
       new ESLintPlugin({
         fix: true
       }),
-      
+      */
       new CopyWebpackPlugin( {
           patterns: [
             { from: 'src/assets/audio/shifting.wav'},
+            { from: 'src/assets/audio/Ta_Da.wav'},
             { from: 'src/assets/images/favicon.svg'},
           ]
         }
