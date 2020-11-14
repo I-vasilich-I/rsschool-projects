@@ -1,8 +1,8 @@
 header {
   font-size: 1.2rem;
   width: 100%;
-  height: 50px;
-  padding-top: 30px;
+  //height: 50px;
+  padding-top: 5px;
   margin-bottom: 15px;
   display: flex;
   justify-content: center;
@@ -17,13 +17,14 @@ header {
 .inform-container {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
 }
 
 button {
   font-size: 1rem;
-  margin: 0;
+  margin: 5 5;
   background-color: rgb(196, 196, 196);
   color: rgb(1, 1, 102);
   height: 30px;

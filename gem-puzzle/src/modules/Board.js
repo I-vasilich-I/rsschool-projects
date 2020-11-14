@@ -9,18 +9,19 @@ import StopWatch from './utils/Timer';
 import Tile from './Tile';
 
 let moveCounter = 0;
-const tileSize = 100;
-const boardSize = 4;
-const tilesAmount = boardSize * boardSize;
+let tileSize = 100;
+let boardSize = 4;
+tileSize = (Math.min(window.innerWidth,window.innerHeight) - 40) / boardSize - 10;
+tileSize = Math.min(tileSize, 100)
+let tilesAmount = boardSize * boardSize;
 // header start
 const header = create('header');
 const headerWrapper = create('div', 'header__wrapper', null, header);
 const informContainer = create('div', 'inform-container', null, headerWrapper);
 const timer = create('time', 'timer', null, informContainer);
 const counter = create('div', 'counter', null, informContainer);
-const pause = create('button', '', null, informContainer);
+let pause = create('button', '', null, informContainer);
 // header end
-
 // main start
 const main = create('main');
 const gameBoard = create('div', 'game-board', null, main);
@@ -30,7 +31,7 @@ let numbers;
 // footer start
 const footer = create('footer');
 const footerWrapper = create('div', 'footer__wrapper', null, footer);
-const menu = create('button', 'footer__button', null, footerWrapper);
+let menu = create('button', 'footer__button', null, footerWrapper);
 const checkboxdiv = create('div', 'checkbox', null, footerWrapper);
 const checkbox = create('input', '', null, checkboxdiv, ['type', 'checkbox'], ['id', 'soundEffects']);
 checkbox.checked = true;
@@ -61,6 +62,9 @@ export default class Board {
     document.body.prepend(footer);
     document.body.prepend(main);
     document.body.prepend(header);
+    window.addEventListener("resize", () => {
+      this.adaptiveResize()
+    });
     return this;
   }
 
@@ -77,8 +81,20 @@ export default class Board {
       const tileElem = create('div', 'tile', `${numbers[i]}`, gameBoard);
       tileElem.style.left = `${left * tileSize}px`;
       tileElem.style.top = `${top * tileSize}px`;
-      tileElem.style.width = `${tileSize - 10}px`;
-      tileElem.style.height = `${tileSize - 10}px`;
+      
+      if ((window.innerWidth < 400 || window.innerHeight < 400) || ((window.innerWidth < 800 || window.innerHeight < 800) && boardSize>6)) {
+        tileElem.style.fontSize = '16px';
+        tileElem.style.borderRadius = '5px'
+        tileElem.style.boxShadow = '2px 2px 2px';
+        tileElem.style.width = `${tileSize - 5}px`;
+        tileElem.style.height = `${tileSize - 5}px`;
+      } else {
+        tileElem.style.fontSize = '';
+        tileElem.style.borderRadius = ''
+        tileElem.style.boxShadow = '';
+        tileElem.style.width = `${tileSize - 10}px`;
+        tileElem.style.height = `${tileSize - 10}px`;
+      }
       const tile = new Tile(left, top, numbers[i], tileElem);
       this.tiles.push(tile);
       gameBoard.appendChild(tile.elem);
@@ -99,6 +115,13 @@ export default class Board {
       tileElem.style.top = `${top * tileSize}px`;
       tileElem.style.width = `${tileSize - 10}px`;
       tileElem.style.height = `${tileSize - 10}px`;
+      if ((window.innerWidth < 400 || window.innerHeight < 400) || ((window.innerWidth < 800 || window.innerHeight < 800) && boardSize>6)) {
+        tileElem.style.fontSize = '14px';
+        tileElem.style.borderRadius = '5px'
+      } else {
+        tileElem.style.fontSize = '';
+        tileElem.style.borderRadius = ''
+      }
       tile.elem = tileElem;
       gameBoard.appendChild(tile.elem);
       tileElem.addEventListener('click', () => {
@@ -109,6 +132,14 @@ export default class Board {
 
   activateButtons(popup = false) {
     if (!popup) {
+      if(menu === null || pause === null) {
+        menu = create('button', 'footer__button', null);
+        footerWrapper.prepend(menu);
+        pause = create('button', '', null, informContainer);
+        pause.innerText = 'Pause';
+        pause.disabled = true;
+        menu.innerText = 'Menu';
+      }
       // Pause button
       pause.addEventListener('click', () => {
         if (this.isTimerOn) {
@@ -122,6 +153,9 @@ export default class Board {
       });
       // menu button
       menu.addEventListener('click', () => {
+        if (this.isTimerOn) {
+          this.pauseTime();
+        }
         this.generatePopup();
       });
     } else {
@@ -136,12 +170,30 @@ export default class Board {
           timer.innerText = 'Time: 00:00';
           counter.innerText = `Moves: ${moveCounter}`;
           this.stopWatch = new StopWatch(this.elapsedTime);
+          let boardSizeNew = this.select.value;
           gameBoard.innerHTML = '';
+          if (boardSizeNew > 0) {
+            boardSize = boardSizeNew;
+            tilesAmount = boardSize * boardSize;
+            tileSize = (Math.min(window.innerWidth,window.innerHeight) - 40) / boardSize - 10;
+            tileSize = Math.min(tileSize, 100);
+            tileSize = Math.max(tileSize, 25);
+            gameBoard.style.width = `${tileSize * boardSize}px`;
+            gameBoard.style.height = `${tileSize * boardSize}px`;
+            headerWrapper.style.width = `${tileSize * boardSize + 10}px`;
+            footerWrapper.style.width = `${tileSize * boardSize + 10}px`;
+          }
           this.emptyTile = new Tile(boardSize - 1, boardSize - 1, 0, null);
           this.tiles.length = 0;
           this.generateTiles();
         }
+        this.popup.innerHTML = '';
         document.body.removeChild(this.popup);
+        informContainer.removeChild(pause);
+        footerWrapper.removeChild(menu);
+        menu = null;
+        pause = null;
+        this.activateButtons();
       });
       // Load Game button
       this.loadGame.addEventListener('click', () => {
@@ -269,7 +321,7 @@ export default class Board {
       }
     }
     // in the begining of the game, row of empty tile is always on the last row of the game board
-    const e = boardSize;
+    let e = boardSize;
     if (e % 2) e = 0;
     sum += e;
     if (sum % 2 !== 0) {
@@ -281,9 +333,12 @@ export default class Board {
   generatePopup() {
     this.popup = create('div', 'popup blackout', null);
     this.popup.addEventListener('click', (e) => {
-      console.log(e)
+      if (e.target.className === 'popup blackout') {
+        this.popup.innerHTML = '';
+        document.body.removeChild(this.popup);  
+      }
     });
-    const popupContainer = create('div', 'popup__container', null, this.popup);
+    let popupContainer = create('div', 'popup__container', null, this.popup);
     this.newGame = create('button', 'footer__button', null, popupContainer);
     this.newGame.innerText = 'New Game';
     this.loadGame = create('button', 'footer__button', null, popupContainer);
@@ -291,23 +346,26 @@ export default class Board {
     this.saveGame = create('button', 'footer__button', null, popupContainer);
     this.saveGame.innerText = 'Save Game';
     this.select = create('select', '', null, popupContainer);
-    create('option', '', null, this.select, ['value', ""]).innerText = 'Size';
+    create('option', '', null, this.select, ['value', 0]).innerText = 'Size';
     for (let i=3; i< 9; i++) {
-      create('option', '', null, this.select, ['value', `size-${i}`]).innerText = `${i}x${i}`;
+      create('option', '', null, this.select, ['value', `${i}`]).innerText = `${i}x${i}`;
     } 
     create('p', 'score__title', null, popupContainer).innerText = 'Best score';
-    const popupScore = create('div', 'popup__score', null, popupContainer);
-    const score = JSON.parse(localStorage.getItem(`score-${boardSize}`));
+    let popupScore = create('div', 'popup__score', null, popupContainer);
+    let score = JSON.parse(localStorage.getItem(`score-${boardSize}`));
     let resultsAmount = 0;
-    score.forEach((elem) => {
-      if (resultsAmount == 10) return
-      const { date, time, moves } = elem; 
-      create('div', '', null, popupScore).innerText = date;
-      create('div', '', null, popupScore).innerText = `${boardSize}x${boardSize}`;
-      create('div', '', null, popupScore).innerText = this.stopWatch.timeToText(time);
-      create('div', '', null, popupScore).innerText = moves;
-      resultsAmount++;
-    });
+    if (score) {
+      score.forEach((elem) => {
+        if (resultsAmount == 10) return
+        let { date, time, moves } = elem; 
+        create('div', '', null, popupScore).innerText = date;
+        create('div', '', null, popupScore).innerText = `${boardSize}x${boardSize}`;
+        create('div', '', null, popupScore).innerText = this.stopWatch.timeToText(time);
+        create('div', '', null, popupScore).innerText = moves;
+        resultsAmount++;
+      });
+    }
+    
     document.body.prepend(this.popup);
     this.activateButtons(true);
   }
@@ -328,6 +386,37 @@ export default class Board {
     }
     scoreResalts = sortResults(scoreResalts);
     localStorage.setItem(`score-${boardSize}`, JSON.stringify(scoreResalts));
+  }
+
+  adaptiveResize() {
+    tileSize = (Math.min(window.innerWidth,window.innerHeight) - 40) / boardSize - 10;
+    tileSize = Math.min(tileSize, 100);
+    tileSize = Math.max(tileSize, 25);
+    gameBoard.style.width = `${tileSize * boardSize}px`;
+    gameBoard.style.height = `${tileSize * boardSize}px`;
+    headerWrapper.style.width = `${tileSize * boardSize + 10}px`;
+    footerWrapper.style.width = `${tileSize * boardSize + 10}px`;
+    this.tiles.forEach((tile) => {
+      const left = tile.posicionX;
+      const top = tile.posicionY;
+      const tileElem = tile.elem;
+      tileElem.style.left = `${left * tileSize}px`;
+      tileElem.style.top = `${top * tileSize}px`;
+      if ((window.innerWidth < 400 || window.innerHeight < 400) || ((window.innerWidth < 800 || window.innerHeight < 800) && boardSize>6)) {
+        tileElem.style.fontSize = '16px';
+        tileElem.style.borderRadius = '5px'
+        tileElem.style.boxShadow = '2px 2px 2px';
+        tileElem.style.width = `${tileSize - 5}px`;
+        tileElem.style.height = `${tileSize - 5}px`;
+      } else {
+        tileElem.style.fontSize = '';
+        tileElem.style.borderRadius = '';
+        tileElem.style.boxShadow = '';
+        tileElem.style.width = `${tileSize - 10}px`;
+        tileElem.style.height = `${tileSize - 10}px`;
+      }
+    } )
+    
   }
 }
 
