@@ -113,14 +113,18 @@ export default class Board {
       const tileElem = create('div', 'tile', `${tile.value}`, gameBoard);
       tileElem.style.left = `${left * tileSize}px`;
       tileElem.style.top = `${top * tileSize}px`;
-      tileElem.style.width = `${tileSize - 10}px`;
-      tileElem.style.height = `${tileSize - 10}px`;
       if ((window.innerWidth < 400 || window.innerHeight < 400) || ((window.innerWidth < 800 || window.innerHeight < 800) && boardSize>6)) {
-        tileElem.style.fontSize = '14px';
+        tileElem.style.fontSize = '16px';
         tileElem.style.borderRadius = '5px'
+        tileElem.style.boxShadow = '2px 2px 2px';
+        tileElem.style.width = `${tileSize - 5}px`;
+        tileElem.style.height = `${tileSize - 5}px`;
       } else {
         tileElem.style.fontSize = '';
         tileElem.style.borderRadius = ''
+        tileElem.style.boxShadow = '';
+        tileElem.style.width = `${tileSize - 10}px`;
+        tileElem.style.height = `${tileSize - 10}px`;
       }
       tile.elem = tileElem;
       gameBoard.appendChild(tile.elem);
