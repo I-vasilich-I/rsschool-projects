@@ -7,6 +7,7 @@ import create from './utils/create';
 import sortResults from './utils/sort';
 import StopWatch from './utils/Timer';
 import Tile from './Tile';
+import BackgroundImage from './BackgroundImage';
 
 let moveCounter = 0;
 let tileSize = 100;
@@ -32,10 +33,16 @@ let numbers;
 const footer = create('footer');
 const footerWrapper = create('div', 'footer__wrapper', null, footer);
 let menu = create('button', 'footer__button', null, footerWrapper);
-const checkboxdiv = create('div', 'checkbox', null, footerWrapper);
+const checkboxdivContainer = create('div', 'checkbox__container', null, footerWrapper);
+const checkboxdiv = create('div', 'checkbox', null, checkboxdivContainer);
 const checkbox = create('input', '', null, checkboxdiv, ['type', 'checkbox'], ['id', 'soundEffects']);
 checkbox.checked = true;
-create('lable', '', null, checkboxdiv).innerText = 'Sound effects'
+create('lable', '', null, checkboxdiv).innerText = 'Sound effects';
+const checkboxdivImg = create('div', 'checkbox', null, checkboxdivContainer);
+const checkboxImg = create('input', '', null, checkboxdivImg, ['type', 'checkbox'], ['id', 'backgroundImg']);
+checkboxImg.checked = true;
+create('lable', '', null, checkboxdivImg).innerText = 'Background image';
+
 const audio = create('audio', '', null, footerWrapper, ['src', 'shifting.wav']);
 const winSound = create('audio', '', null, footerWrapper, ['src', 'Ta_Da.wav']);
 
@@ -65,6 +72,7 @@ export default class Board {
     window.addEventListener("resize", () => {
       this.adaptiveResize()
     });
+    
     return this;
   }
 
@@ -102,7 +110,9 @@ export default class Board {
         this.moveTile(tile);
       });
     }
-
+    if (checkboxImg.checked) {
+      this.setImagesOnTiles()
+    }
     return this;
   }
 
@@ -132,6 +142,9 @@ export default class Board {
         this.moveTile(tile);
       });
     });
+    if (checkboxImg.checked) {
+      this.setImagesOnTiles()
+    }
   }
 
   activateButtons(popup = false) {
@@ -421,6 +434,13 @@ export default class Board {
       }
     } )
     
+  }
+
+  setImagesOnTiles() {
+    
+    let backgroundImage = new BackgroundImage(boardSize, this, tileSize);
+    console.log(boardSize, tileSize)
+    backgroundImage.init();
   }
 }
 

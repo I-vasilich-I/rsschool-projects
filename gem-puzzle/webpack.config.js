@@ -88,6 +88,7 @@ module.exports = (env, options) => {
             { from: 'src/assets/audio/shifting.wav'},
             { from: 'src/assets/audio/Ta_Da.wav'},
             { from: 'src/assets/images/favicon.svg'},
+            { from: 'src/assets/images/box', to: './box/'},
           ]
         }
       ),
