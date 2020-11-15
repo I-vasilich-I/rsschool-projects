@@ -72,7 +72,16 @@ export default class Board {
     window.addEventListener("resize", () => {
       this.adaptiveResize()
     });
-    
+    this.backgroundImageClass = null;
+    checkboxImg.addEventListener('click', () => {
+      if (checkboxImg.checked) {
+        if (this.backgroundImageClass.imageSrc) {
+          this.setImagesOnTiles(this.backgroundImageClass.imageSrc)
+        }
+      } else {
+        this.backgroundImageClass.removeImg();
+      }
+    })
     return this;
   }
 
@@ -143,7 +152,7 @@ export default class Board {
       });
     });
     if (checkboxImg.checked) {
-      this.setImagesOnTiles()
+      this.setImagesOnTiles(this.backgroundImageClass.imageSrc)
     }
   }
 
@@ -179,30 +188,7 @@ export default class Board {
       // New Game button
       this.newGame.addEventListener('click', () => {
         if (confirm('Are you sure you want to start a new game?')) {
-          this.stopWatch.stop();
-          pause.disabled = true;
-          this.isTimerOn = 0;
-          this.elapsedTime = 0;
-          moveCounter = 0;
-          timer.innerText = 'Time: 00:00';
-          counter.innerText = `Moves: ${moveCounter}`;
-          this.stopWatch = new StopWatch(this.elapsedTime);
-          let boardSizeNew = this.select.value;
-          gameBoard.innerHTML = '';
-          if (boardSizeNew > 0) {
-            boardSize = boardSizeNew;
-            tilesAmount = boardSize * boardSize;
-            tileSize = (Math.min(window.innerWidth,window.innerHeight) - 40) / boardSize - 10;
-            tileSize = Math.min(tileSize, 100);
-            tileSize = Math.max(tileSize, 25);
-            gameBoard.style.width = `${tileSize * boardSize}px`;
-            gameBoard.style.height = `${tileSize * boardSize}px`;
-            headerWrapper.style.width = `${tileSize * boardSize + 10}px`;
-            footerWrapper.style.width = `${tileSize * boardSize + 10}px`;
-          }
-          this.emptyTile = new Tile(boardSize - 1, boardSize - 1, 0, null);
-          this.tiles.length = 0;
-          this.generateTiles();
+          this.startNewGame();
         }
         this.popup.innerHTML = '';
         document.body.removeChild(this.popup);
@@ -219,7 +205,7 @@ export default class Board {
           if (temp) {
             this.pauseTime();
             let elapsedTime;
-            [this.tiles, this.emptyTile, elapsedTime, moveCounter] = temp;
+            [this.tiles, this.emptyTile, elapsedTime, moveCounter, this.backgroundImageClass.imageSrc] = temp;
             gameBoard.innerHTML = '';
             this.generateLoadedTiles();
             this.stopWatch = new StopWatch(elapsedTime);
@@ -244,6 +230,7 @@ export default class Board {
                 this.emptyTile,
                 this.stopWatch.getElapsedTime(),
                 moveCounter,
+                this.backgroundImageClass.imageSrc,
               ])
             );
             alert(`Game ${boardSize}x${boardSize} saved`);
@@ -251,7 +238,13 @@ export default class Board {
         } else {
           localStorage.setItem(
             `SavedGame-${boardSize}`,
-            JSON.stringify([this.tiles, this.emptyTile, this.stopWatch.getElapsedTime(), moveCounter])
+            JSON.stringify([
+              this.tiles, 
+              this.emptyTile, 
+              this.stopWatch.getElapsedTime(), 
+              moveCounter,
+              this.backgroundImageClass.imageSrc,
+            ])
           );
           alert(`Game ${boardSize}x${boardSize} saved`);
         }
@@ -283,8 +276,12 @@ export default class Board {
     this.emptyTile.posicionY = tileTop;
     audio.currentTime = 0;
     if (checkbox.checked) audio.play();
+    if (this.AreWeDone) {
+      this.startNewGame();
+    }
     this.AreWeDone = this.isWin();
     this.onOffStopWatch();
+
   }
 
   winMessage() {
@@ -432,15 +429,48 @@ export default class Board {
         tileElem.style.width = `${tileSize - 10}px`;
         tileElem.style.height = `${tileSize - 10}px`;
       }
-    } )
+    });
+    if (checkboxImg.checked) {
+      if (this.backgroundImageClass.imageSrc) {
+        this.setImagesOnTiles(this.backgroundImageClass.imageSrc)
+      }
+    }
     
   }
 
-  setImagesOnTiles() {
-    
-    let backgroundImage = new BackgroundImage(boardSize, this, tileSize);
-    console.log(boardSize, tileSize)
-    backgroundImage.init();
+  startNewGame() {
+    this.stopWatch.stop();
+    pause.disabled = true;
+    this.isTimerOn = 0;
+    this.elapsedTime = 0;
+    moveCounter = 0;
+    timer.innerText = 'Time: 00:00';
+    counter.innerText = `Moves: ${moveCounter}`;
+    this.stopWatch = new StopWatch(this.elapsedTime);
+    let boardSizeNew;
+    if (this.select) {
+      boardSizeNew = this.select.value;
+    }
+    gameBoard.innerHTML = '';
+    if (boardSizeNew > 0) {
+      boardSize = boardSizeNew;
+      tilesAmount = boardSize * boardSize;
+      tileSize = (Math.min(window.innerWidth,window.innerHeight) - 40) / boardSize - 10;
+      tileSize = Math.min(tileSize, 100);
+      tileSize = Math.max(tileSize, 25);
+      gameBoard.style.width = `${tileSize * boardSize}px`;
+      gameBoard.style.height = `${tileSize * boardSize}px`;
+      headerWrapper.style.width = `${tileSize * boardSize + 10}px`;
+      footerWrapper.style.width = `${tileSize * boardSize + 10}px`;
+    }
+    this.emptyTile = new Tile(boardSize - 1, boardSize - 1, 0, null);
+    this.tiles.length = 0;
+    this.generateTiles();
+  }
+
+  setImagesOnTiles(image = null) {
+    let backgroundImage = new BackgroundImage(boardSize, this, tileSize, image);
+    this.backgroundImageClass = backgroundImage.init();
   }
 }
 
