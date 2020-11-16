@@ -14,7 +14,7 @@ import getArrayToSolve from './utils/getArrayToSolve';
 let moveCounter = 0;
 let tileSize = 100;
 let boardSize = 4;
-//let arrayToSolve;
+// let arrayToSolve;
 tileSize = (Math.min(window.innerWidth, window.innerHeight) - 40) / boardSize - 10;
 tileSize = Math.min(tileSize, 100);
 let tilesAmount = boardSize * boardSize;
@@ -105,12 +105,14 @@ export default class Board {
     return this;
   }
 
-  generateTiles() {
-    do {
-      numbers = [...Array(tilesAmount - 1).keys()]
-        .map((x) => x + 1)
-        .sort(() => Math.random() - 0.5);
-    } while (!this.isGameSolveble());
+  generateTiles(isNewGame = true) {
+    if (isNewGame) {
+      do {
+        numbers = [...Array(tilesAmount - 1).keys()]
+          .map((x) => x + 1)
+          .sort(() => Math.random() - 0.5);
+      } while (!this.isGameSolveble());
+    }
 
     for (let i = 0; i < numbers.length; i++) {
       const left = i % boardSize;
@@ -144,9 +146,14 @@ export default class Board {
       });
     }
     if (checkboxImg.checked) {
-      this.setImagesOnTiles();
+      if (this.imageSrcSolve) {
+        this.setImagesOnTiles(this.imageSrcSolve);
+        this.imageSrcSolve = null;
+      } else {
+        this.setImagesOnTiles();
+      }
     }
-    
+
     return this;
   }
 
@@ -219,8 +226,7 @@ export default class Board {
       // solve button
       solveButton.addEventListener('click', () => {
         this.solve();
-      })
-
+      });
     } else {
       // New Game button
       this.newGame.addEventListener('click', () => {
@@ -321,7 +327,7 @@ export default class Board {
     if (this.AreWeDone) {
       this.startNewGame();
     }
-  
+
     this.AreWeDone = this.isWin();
     this.onOffStopWatch();
   }
@@ -485,7 +491,7 @@ export default class Board {
     }
   }
 
-  startNewGame() {
+  startNewGame(isNewGame = true) {
     this.solved = false;
     this.stopWatch.stop();
     pause.disabled = true;
@@ -514,7 +520,7 @@ export default class Board {
     }
     this.emptyTile = new Tile(boardSize - 1, boardSize - 1, 0, null);
     this.tiles.length = 0;
-    this.generateTiles();
+    this.generateTiles(isNewGame);
   }
 
   setImagesOnTiles(image = null) {
@@ -524,35 +530,51 @@ export default class Board {
 
   solve() {
     if (this.AreWeDone) return;
-    this.solved = true;
-    if (arrayToSolve) {
-      arrayToSolve.splice(0, arrayToSolve);
-      solver = null;
-      solution.splice(0, solution.length);
-      this.preparedSolution.splice(0, this.preparedSolution.length)
+    if (
+      this.emptyTile.posicionX !== this.emptyTile.posicionY &&
+      this.emptyTile.posicionY !== boardSize - 1
+    ) {
+      alert(
+        `In order to solve this puzzle, it would be restored to starting position and then would be solved`
+      );
+      this.imageSrcSolve = this.backgroundImageClass.imageSrc;
+      this.startNewGame(false);
     }
-    let arrayToSolve = getArrayToSolve(this.tiles, boardSize, this.emptyTile);
-    let solver = new NPuzzleSolver(arrayToSolve);
-    let solution = solver.solve();
+    this.solved = true;
+    const arrayToSolve = getArrayToSolve(this.tiles, boardSize, this.emptyTile);
+    const solver = new NPuzzleSolver(arrayToSolve);
+    const solution = solver.solve();
+    if (solution === null) {
+      /*
+      alert(`Sorry can't solve it, move tiles a little bit, and try again. 
+      Wasn't had enough time to find and fix that bug. 
+      Auto Solving works well only on newly shuffled board(new game).`);
+      return;
+      */
+      alert(
+        `In order to solve this puzzle, it would be restored to starting position and then would be solved`
+      );
+      this.imageSrcSolve = this.backgroundImageClass.imageSrc;
+      this.startNewGame(false);
+    }
     this.preparedSolution = [];
-      solution.forEach(elem => {
-        this.tiles.forEach((tile) => {
-          if (tile.value === elem.number) {
-            this.preparedSolution.push(tile);
-          }
-        });
+    solution.forEach((elem) => {
+      this.tiles.forEach((tile) => {
+        if (tile.value === elem.number) {
+          this.preparedSolution.push(tile);
+        }
       });
+    });
     let i = 0;
-    console.log('Max amount of moves needed to solve the puzzle: ', this.preparedSolution.length)
-    let timerId = setInterval(() => {
-      if (!this.AreWeDone) {
-      this.moveTile(this.preparedSolution[i]);
-      i++;
-      }else {
+    // eslint-disable-next-line no-console
+    console.log('Max amount of moves needed to solve the puzzle: ', this.preparedSolution.length);
+    const timerId = setInterval(() => {
+      if (!this.AreWeDone && i <= this.preparedSolution.length) {
+        this.moveTile(this.preparedSolution[i]);
+        i++;
+      } else {
         clearInterval(timerId);
       }
     }, 500);
   }
-
- 
 }
