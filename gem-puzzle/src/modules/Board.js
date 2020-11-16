@@ -256,7 +256,9 @@ export default class Board {
               elapsedTime,
               moveCounter,
               this.backgroundImageClass.imageSrc,
+              numbers,
             ] = temp;
+            console.log(numbers);
             gameBoard.innerHTML = '';
             this.generateLoadedTiles();
             this.stopWatch = new StopWatch(elapsedTime);
@@ -282,6 +284,7 @@ export default class Board {
                 this.stopWatch.getElapsedTime(),
                 moveCounter,
                 this.backgroundImageClass.imageSrc,
+                numbers,
               ])
             );
             alert(`Game ${boardSize}x${boardSize} saved`);
@@ -295,6 +298,7 @@ export default class Board {
               this.stopWatch.getElapsedTime(),
               moveCounter,
               this.backgroundImageClass.imageSrc,
+              numbers,
             ])
           );
           alert(`Game ${boardSize}x${boardSize} saved`);
