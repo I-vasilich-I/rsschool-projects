@@ -258,7 +258,6 @@ export default class Board {
               this.backgroundImageClass.imageSrc,
               numbers,
             ] = temp;
-            console.log(numbers);
             gameBoard.innerHTML = '';
             this.generateLoadedTiles();
             this.stopWatch = new StopWatch(elapsedTime);
