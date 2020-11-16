@@ -8,10 +8,13 @@ import sortResults from './utils/sort';
 import StopWatch from './utils/Timer';
 import Tile from './Tile';
 import BackgroundImage from './BackgroundImage';
+import NPuzzleSolver from './NPuzzleSolver';
+import getArrayToSolve from './utils/getArrayToSolve';
 
 let moveCounter = 0;
 let tileSize = 100;
 let boardSize = 4;
+//let arrayToSolve;
 tileSize = (Math.min(window.innerWidth, window.innerHeight) - 40) / boardSize - 10;
 tileSize = Math.min(tileSize, 100);
 let tilesAmount = boardSize * boardSize;
@@ -33,6 +36,7 @@ let numbers;
 const footer = create('footer');
 const footerWrapper = create('div', 'footer__wrapper', null, footer);
 let menu = create('button', 'footer__button', null, footerWrapper);
+let solveButton = create('button', 'footer__button', null, footerWrapper);
 const checkboxdivContainer = create('div', 'checkbox__container', null, footerWrapper);
 const checkboxdiv = create('div', 'checkbox', null, checkboxdivContainer);
 const checkbox = create(
@@ -68,6 +72,7 @@ export default class Board {
     this.tiles = [];
     this.emptyTile = new Tile(boardSize - 1, boardSize - 1, 0, null);
     this.stopWatch = new StopWatch(this.elapsedTime);
+    this.solved = false;
   }
 
   init() {
@@ -80,6 +85,7 @@ export default class Board {
     pause.innerText = 'Pause';
     pause.disabled = true;
     menu.innerText = 'Menu';
+    solveButton.innerText = 'Solve';
     document.body.prepend(footer);
     document.body.prepend(main);
     document.body.prepend(header);
@@ -140,6 +146,7 @@ export default class Board {
     if (checkboxImg.checked) {
       this.setImagesOnTiles();
     }
+    
     return this;
   }
 
@@ -180,13 +187,16 @@ export default class Board {
 
   activateButtons(popup = false) {
     if (!popup) {
-      if (menu === null || pause === null) {
+      if (menu === null || pause === null || solveButton === null) {
         menu = create('button', 'footer__button', null);
+        solveButton = create('button', 'footer__button', null);
+        footerWrapper.prepend(solveButton);
         footerWrapper.prepend(menu);
         pause = create('button', '', null, informContainer);
         pause.innerText = 'Pause';
         pause.disabled = true;
         menu.innerText = 'Menu';
+        solveButton.innerText = 'Solve';
       }
       // Pause button
       pause.addEventListener('click', () => {
@@ -206,6 +216,11 @@ export default class Board {
         }
         this.generatePopup();
       });
+      // solve button
+      solveButton.addEventListener('click', () => {
+        this.solve();
+      })
+
     } else {
       // New Game button
       this.newGame.addEventListener('click', () => {
@@ -216,8 +231,10 @@ export default class Board {
         document.body.removeChild(this.popup);
         informContainer.removeChild(pause);
         footerWrapper.removeChild(menu);
+        footerWrapper.removeChild(solveButton);
         menu = null;
         pause = null;
+        solveButton = null;
         this.activateButtons();
       });
       // Load Game button
@@ -304,6 +321,7 @@ export default class Board {
     if (this.AreWeDone) {
       this.startNewGame();
     }
+  
     this.AreWeDone = this.isWin();
     this.onOffStopWatch();
   }
@@ -330,7 +348,9 @@ export default class Board {
       this.pauseTime();
       pause.disabled = true;
       this.winMessage();
-      this.saveBestScore();
+      if (!this.solved) {
+        this.saveBestScore();
+      }
     }
     if (this.isTimerOn === 1) {
       this.resumeTime();
@@ -466,17 +486,19 @@ export default class Board {
   }
 
   startNewGame() {
+    this.solved = false;
     this.stopWatch.stop();
     pause.disabled = true;
     this.isTimerOn = 0;
     this.elapsedTime = 0;
+    this.AreWeDone = false;
     moveCounter = 0;
     timer.innerText = 'Time: 00:00';
     counter.innerText = `Moves: ${moveCounter}`;
     this.stopWatch = new StopWatch(this.elapsedTime);
     let boardSizeNew;
     if (this.select) {
-      boardSizeNew = this.select.value;
+      boardSizeNew = +this.select.value;
     }
     gameBoard.innerHTML = '';
     if (boardSizeNew > 0) {
@@ -499,4 +521,38 @@ export default class Board {
     const backgroundImage = new BackgroundImage(boardSize, this, tileSize, image);
     this.backgroundImageClass = backgroundImage.init();
   }
+
+  solve() {
+    if (this.AreWeDone) return;
+    this.solved = true;
+    if (arrayToSolve) {
+      arrayToSolve.splice(0, arrayToSolve);
+      solver = null;
+      solution.splice(0, solution.length);
+      this.preparedSolution.splice(0, this.preparedSolution.length)
+    }
+    let arrayToSolve = getArrayToSolve(this.tiles, boardSize, this.emptyTile);
+    let solver = new NPuzzleSolver(arrayToSolve);
+    let solution = solver.solve();
+    this.preparedSolution = [];
+      solution.forEach(elem => {
+        this.tiles.forEach((tile) => {
+          if (tile.value === elem.number) {
+            this.preparedSolution.push(tile);
+          }
+        });
+      });
+    let i = 0;
+    console.log('Max amount of moves needed to solve the puzzle: ', this.preparedSolution.length)
+    let timerId = setInterval(() => {
+      if (!this.AreWeDone) {
+      this.moveTile(this.preparedSolution[i]);
+      i++;
+      }else {
+        clearInterval(timerId);
+      }
+    }, 500);
+  }
+
+ 
 }
