@@ -135,6 +135,10 @@ a:focus {
     outline: thin dotted;
 }
 
+a:visited {
+    color: unset;
+}
+
 /**
  * Improve readability when focused and also mouse hovered in all browsers.
  */
