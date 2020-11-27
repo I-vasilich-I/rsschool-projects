@@ -1,6 +1,7 @@
 //Abstract
 @import 'abstract/constants';
 @import 'abstract/mixins';
+@import 'abstract/placeholders';
 //base
 @import 'base/reset';
 @import "base/fonts";
@@ -8,5 +9,6 @@
 @import 'base/burger';
 // layouts
 @import 'layouts/header';
+@import 'layouts/menu';
 @import 'layouts/main';
 @import 'layouts/footer';

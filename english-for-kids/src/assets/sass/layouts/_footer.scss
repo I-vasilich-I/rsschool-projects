@@ -12,11 +12,13 @@
   }
   a {
     font-size: 2rem;
+    text-decoration: none;
   }
 }
 
 .footer__school {
   display: flex;
+  align-items: center;
 }
 
 .footer__logo {

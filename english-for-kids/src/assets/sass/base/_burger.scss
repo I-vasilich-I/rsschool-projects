@@ -2,7 +2,7 @@
   content: "";
   display: inline-block;
   position: absolute;
-  width: 30px;
+  width: 100%;
   border: 2px solid $color-primary;
 }
 
@@ -17,23 +17,34 @@
   &:hover {
     cursor: pointer;
   }
-  transition: all .3s ease-out;
+  
+  @extend %transition;
   &::before {
     @extend %burger-line;
     top: 2px;
     left: 0;
+    &-menu {
+      transform: translateY(10px) rotate(45deg);
+    }
   }
 
   &::after {
     @extend %burger-line;
     top: 22px;
     left: 0;
+    &-menu {
+      transform: translateY(-10px) rotate(-45deg);
+    }
+    
   }
 }
 
 .burger__line {
   @extend %burger-line;
+  @extend %transition;
   top: 12px;
   left: 0;
-  
+  &-menu {
+    display: none;
+  }
 }
