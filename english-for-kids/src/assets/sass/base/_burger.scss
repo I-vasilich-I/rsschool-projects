@@ -18,24 +18,32 @@
     cursor: pointer;
   }
   
+  &-menu {
+    margin-left: unset;
+    position: fixed; 
+    left: 260px;
+    &::before {
+      transform: translateY(10px) rotate(45deg);
+      border: 2px solid $color-background;
+      background-color: $color-background;
+    }
+    &::after {
+      transform: translateY(-10px) rotate(-45deg);
+      border: 2px solid $color-background;
+      background-color: $color-background;
+    }
+  }
   @extend %transition;
   &::before {
     @extend %burger-line;
     top: 2px;
     left: 0;
-    &-menu {
-      transform: translateY(10px) rotate(45deg);
-    }
   }
 
   &::after {
     @extend %burger-line;
     top: 22px;
     left: 0;
-    &-menu {
-      transform: translateY(-10px) rotate(-45deg);
-    }
-    
   }
 }
 

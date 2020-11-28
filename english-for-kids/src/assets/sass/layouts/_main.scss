@@ -1,12 +1,11 @@
 .main {
   margin: auto;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   min-width: 320px;
 }
 
 .cards__container {
-  
   max-width: 1200px;
   margin: auto;
   display: flex;
@@ -23,8 +22,8 @@
   justify-content: space-between;
   align-items: center;
   margin: 10px;
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
   border-radius: 40px;
   background: $color-background;
   border: 2px solid $color-primary;
@@ -36,7 +35,7 @@
   //linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)),
   //linear-gradient(0deg, #121212, #121212);
   img {
-    width: 300px;
+    width: 280px;
   }
   &:hover {
     filter: drop-shadow(0 0 0.75rem $color-primary-shadow);
