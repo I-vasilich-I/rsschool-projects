@@ -87,8 +87,8 @@ module.exports = (env, options) => {
       new CopyWebpackPlugin( {
           patterns: [
             //{ from: 'src/assets/audio/shifting.wav'},
-            //{ from: 'src/assets/audio/Ta_Da.wav'},
-            //{ from: 'src/assets/images/favicon.svg'},
+            { from: 'src/assets/audio/', to: 'assets/audio/'},
+            { from: 'src/assets/images/svg/favicon.svg'},
             { from: 'src/assets/images/', to: 'assets/images/'},
             //{ from: 'src/assets/fonts/', to: 'assets/fonts/'},
           ]

@@ -2,7 +2,8 @@
   
   color: $color-text-light;
   width: 100%;
-  height: auto;
+  height: 10vh;
+  min-height: 50px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;

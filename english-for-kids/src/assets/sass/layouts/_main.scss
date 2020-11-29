@@ -3,6 +3,7 @@
   margin-top: 30px;
   margin-bottom: 30px;
   min-width: 320px;
+  min-height: 75vh;
 }
 
 .cards__container {
@@ -11,6 +12,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  perspective: 1500px;
 }
 
 .category__card {
@@ -27,6 +29,8 @@
   border-radius: 40px;
   background: $color-background;
   border: 2px solid $color-primary;
+  
+  
   //filter: blur(2px);
   //filter: drop-shadow(0 0 0.55rem rgba(0, 0, 0, 0.541));
   //box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.486);
@@ -36,6 +40,9 @@
   //linear-gradient(0deg, #121212, #121212);
   img {
     width: 280px;
+  }
+  p {
+    margin-bottom: 15px;
   }
   &:hover {
     filter: drop-shadow(0 0 0.75rem $color-primary-shadow);
@@ -48,4 +55,66 @@
     transform: translate(1px, 2px);
     backdrop-filter: blur(20px);
   }
+}
+
+.card {
+  width: 280px;
+  height: 280px;
+  position: relative;
+  transition: transform 1s ease-in-out;
+  transform-style: preserve-3d;
+  transform-origin: center bottom;
+  margin: 10px;
+  
+}
+
+.word__card {
+  position: absolute;
+  background: $color-background;
+  display: flex;
+  overflow: hidden;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  background: $color-background;
+  border: 2px solid $color-primary;
+  img {
+    width: 100%;
+  }
+  p {
+    margin-bottom: 20px;
+  }
+  button {
+    position: absolute;
+    right: 15px;
+    bottom: 25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  &-front {
+    &:hover {
+      filter: drop-shadow(0 0 0.75rem $color-primary-shadow);
+      cursor: pointer;
+      //box-shadow: unset;
+      //transform: translate(1px, 2px);
+      //backdrop-filter: blur(20px);
+    }
+    
+  }
+
+  &-back {
+    transform: rotateX( 180deg );
+  } 
+}
+
+.fliped {
+  transform: rotateX(180deg);
+  transform: translateY(-100%) rotateX(-180deg);
 }
