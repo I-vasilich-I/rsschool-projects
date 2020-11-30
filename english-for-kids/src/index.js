@@ -1,63 +1,31 @@
 import CardsContainer from './modules/CardsContainer';
-import create from './modules/utils/create';
 import cards from './cards';
-import getRandomIntArray from './modules/utils/getRandomIntArray';
+import * as helpers from './modules/utils/helpers';
 
 let menuListArray;
+let randomIntArray;
 const body = document.body;
 const burger = document.getElementById('burger');
 const burgerLine = document.querySelector('.burger__line');
 const menuList = document.querySelector('.menu__list');
 const switchCheckbox = document.getElementById('switch-checkbox');
 const main = document.querySelector('main');
+const scoreDiv = helpers.create('div', 'main__score', null, main);
 const footer = document.querySelector('footer');
-const audio = new Audio();
-
 const container = new CardsContainer();
 container.init();
 main.appendChild(container.cardsContainer);
-const playButton = create('button', 'play__button', null, main);
+const playButton = helpers.create('button', 'play__button', null, main);
 playButton.clicked = false;
-playButton.img = create('img', null, null, playButton, ['src', 'assets/images/svg/play.svg'], ['alt', 'play']);
+playButton.img = helpers.create('img', null, null, playButton, ['src', 'assets/images/svg/play.svg'], ['alt', 'play']);
+
 container.cardCategories.forEach((elem) => {
   elem.card.addEventListener('click', () => {
     generateWordCards(elem.categoryNumber)
   });
 })
 
-function generateWordCards(categoryNumber) {
-  container.mainPage = false;
-  togglePlayButton();
-  container.cardsContainer.innerHTML = '';
-  container.init(categoryNumber);
-  container.cardElements.forEach((elem) => {
-    elem.cardDiv.onmouseenter = eventHandler(elem);
-  });
-}
-
-function eventHandler(elem) {
-  elem.cardFront.button.onclick = () => {
-    elem.cardDiv.classList.add('flipped');
-  }
-
-  elem.cardDiv.onclick = (e) => {
-    if (e.target===elem.cardFront.button || e.target === elem.cardFront.buttonImg || elem.cardDiv.classList.contains('flipped')) return
-    audio.src = elem.cardFront.audioSrc;
-    audio.load();
-    if (switchCheckbox.checked === true) {
-      audio.play();
-    } else {
-
-    }
-  }
-
-  elem.cardDiv.onmouseleave = () => {
-    elem.cardDiv.classList.remove('flipped');
-  }
-}
-
 // Switch mode
-
 switchCheckbox.addEventListener('click', () => {
   if (switchCheckbox.checked === true) {
     
@@ -83,7 +51,6 @@ burger.addEventListener('click', toggleMenu);
 
 // Activate links
 menuListArray = generateMenuList();
-
 menuListArray.forEach((elem) => {
   elem.domElement.addEventListener('click', () => {
     if(!elem.main) {
@@ -105,22 +72,63 @@ playButton.addEventListener('click', () => {
   if(!playButton.clicked) {
     playButton.img.src = 'assets/images/svg/replay.svg';
     playButton.clicked = true;
-    console.log(getRandomIntArray(container.cardElements.length));
+    randomIntArray = helpers.getRandomIntArray(container.cardElements.length);
+    console.log(randomIntArray);
+    helpers.nextWord(container, randomIntArray);
   } else {
-    
+    if (helpers.wordToPlayIndex || helpers.wordToPlayIndex === 0) {
+      helpers.playAudio(container.cardElements[helpers.wordToPlayIndex].cardFront.audioSrc);
+    }
   }
 })
 
+function generateWordCards(categoryNumber) {
+  container.mainPage = false;
+  togglePlayButton();
+  container.cardsContainer.innerHTML = '';
+  container.init(categoryNumber);
+  container.cardElements.forEach((elem) => {
+    elem.cardDiv.onmouseenter = eventHandler(elem);
+  });
+}
+
+function eventHandler(elem) {
+  elem.cardFront.button.onclick = () => {
+    elem.cardDiv.classList.add('flipped');
+  }
+
+  elem.cardDiv.onclick = (e) => {
+    if (e.target===elem.cardFront.button 
+        || e.target === elem.cardFront.buttonImg 
+        || elem.cardDiv.classList.contains('flipped')) return
+    if (switchCheckbox.checked === true) {
+      helpers.playAudio(elem.cardFront.audioSrc);
+    } else {
+      if (container.cardElements.indexOf(elem) === helpers.wordToPlayIndex) {
+        elem.cardFront.card.classList.add('disabled');
+        helpers.addStar(true, scoreDiv);
+        helpers.nextWord(container, randomIntArray);
+      } else {
+        helpers.addStar(false, scoreDiv);
+      }
+    }
+  }
+
+  elem.cardDiv.onmouseleave = () => {
+    elem.cardDiv.classList.remove('flipped');
+  }
+}
+
 function generateMenuList() {
   const mainPage = {
-    domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
+    domElement: helpers.create('a', 'menu__item', null, menuList, ['href', '#/']),
     main: true,
   }
   mainPage.domElement.innerText = 'Main Page';
   let menuListArray = [mainPage];
   for(let i = 0; i < cards[0].length; i++) {
     const category = {
-      domElement: create('a', 'menu__item', null, menuList, ['href', '#/category']),
+      domElement: helpers.create('a', 'menu__item', null, menuList, ['href', '#/category']),
       main: false,
       categoryNumber: i,
     };
@@ -136,7 +144,7 @@ function toggleMenu() {
     body.removeChild(blackout);
     body.classList.toggle('stop-scrolling');
   } else {
-    blackout = create('div', 'blackout');
+    blackout = helpers.create('div', 'blackout');
     body.prepend(blackout);
     body.classList.toggle('stop-scrolling');
     blackout.addEventListener('click', () => {

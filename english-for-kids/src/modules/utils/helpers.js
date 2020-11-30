@@ -1,4 +1,47 @@
-export default function create(el, classNames, child, parent, ...dataAttr) {
+const audio = new Audio();
+export let wordToPlayIndex;
+export function addStar(rightWord, parent) {
+  if (rightWord) {
+    create(
+      'img', 
+      null, 
+      null, 
+      parent, 
+      ['src', 'assets/images/svg/check-mark.svg'], 
+      ['alt', 'check mark']
+    );
+  } else {
+    create(
+      'img', 
+      null, 
+      null, 
+      parent, 
+      ['src', 'assets/images/svg/x-mark.svg'], 
+      ['alt', 'x-mark']
+    );
+  }
+}
+
+export function playAudio(src) {
+  audio.src = src;
+  audio.load();
+  audio.play();
+}
+
+export function getRandomIntArray(number) {
+  return [...Array(number).keys()].sort(() => Math.random() - 0.5);
+}
+
+export function nextWord(container, randomIntArray) {
+  wordToPlayIndex = randomIntArray.pop();
+  if (wordToPlayIndex || wordToPlayIndex === 0) {
+    playAudio(container.cardElements[wordToPlayIndex].cardFront.audioSrc);
+  } else {
+    
+  }
+}
+
+export function create(el, classNames, child, parent, ...dataAttr) {
   let elem = null;
   try {
     elem = document.createElement(el);

@@ -1,13 +1,13 @@
 import cards from '../cards';
 import Card from './Card';
 import WordCard from './WordCard';
-import create from './utils/create';
+import * as helpers from './utils/helpers';
 const Checkbox = document.getElementById('switch-checkbox');
 export default class CardsContainer {
   constructor() {
     this.cardElements = [];
     this.cardCategories = [];
-    this.cardsContainer = create('div', 'cards__container');
+    this.cardsContainer = helpers.create('div', 'cards__container');
   }
 
   init(category = null) {
@@ -35,7 +35,7 @@ export default class CardsContainer {
     this.cardElements.length = 0;
     cards[category+1].forEach((elem) => {
       const frontClassName = Checkbox.checked ? 'word__card word__card-front' : 'word__card word__card-front word__card-play';
-      const cardDiv = create('div', 'card', null, this.cardsContainer);
+      const cardDiv = helpers.create('div', 'card', null, this.cardsContainer);
       const cardFront =  
         new WordCard(frontClassName, 
         [elem.image, elem.word], 
