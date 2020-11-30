@@ -17,3 +17,19 @@ html {
     background-color: $color-secondary-body;
   }
 }
+
+.blackout {
+  position: fixed;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  background: rgba(41, 41, 41, 0.6);
+  &:hover {
+      cursor: pointer;
+  }
+}
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}

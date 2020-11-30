@@ -1,4 +1,6 @@
 import CardsContainer from './modules/CardsContainer';
+import create from './modules/utils/create';
+import cards from './cards';
 
 const body = document.body;
 const burger = document.getElementById('burger');
@@ -41,7 +43,6 @@ function eventHandler(elem) {
     } else {
 
     }
-    
   }
 
   elem.cardDiv.onmouseleave = () => {
@@ -54,7 +55,6 @@ function eventHandler(elem) {
 switchCheckbox.addEventListener('click', () => {
   if (switchCheckbox.checked === true) {
     
-
   } else {
     
   }
@@ -71,7 +71,56 @@ switchCheckbox.addEventListener('click', () => {
 })
 
 // Menu
-burger.addEventListener('click', () => {
+burger.addEventListener('click', toggleMenu);
+
+function generateMenuList() {
+  const mainPage = {
+    domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
+    main: true,
+  }
+  mainPage.domElement.innerText = 'Main Page';
+  let menuListArray = [mainPage];
+  for(let i = 0; i < cards[0].length; i++) {
+    const category = {
+      domElement: create('a', 'menu__item', null, menuList, ['href', '#/category']),
+      main: false,
+      categoryNumber: i,
+    };
+    category.domElement.innerText = cards[0][i];
+    menuListArray.push(category);
+  }
+  return menuListArray;
+}
+
+// Activate links
+let menuListArray = generateMenuList();
+menuListArray.forEach((elem) => {
+  elem.domElement.addEventListener('click', () => {
+    if(!elem.main) {
+      generateWordCards(elem.categoryNumber);
+    } else {
+      container.cardsContainer.innerHTML = '';
+      container.cardCategories.forEach((elem) => {
+        container.cardsContainer.appendChild(elem.card);
+      })
+    }
+    toggleMenu()
+  })
+});
+
+function toggleMenu() {
+  let blackout = document.querySelector('.blackout');
+  if (blackout) {
+    body.removeChild(blackout);
+    body.classList.toggle('stop-scrolling');
+  } else {
+    blackout = create('div', 'blackout');
+    body.prepend(blackout);
+    body.classList.toggle('stop-scrolling');
+    blackout.addEventListener('click', () => {
+      toggleMenu();
+    })
+  }
   if (switchCheckbox.checked) {
     menuList.classList.remove('menu__list-play');
   } else {
@@ -79,12 +128,8 @@ burger.addEventListener('click', () => {
     burgerLine.classList.toggle('burger__line-play');
     menuList.classList.add('menu__list-play');
   }
-  
   burger.classList.toggle('burger-menu');
   burgerLine.classList.toggle('burger__line-menu');
   menuList.classList.toggle('menu__list-menu');
-});
-
-function generateMenuList() {
-
+ 
 }
