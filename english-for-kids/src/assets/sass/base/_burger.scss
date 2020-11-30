@@ -4,6 +4,7 @@
   position: absolute;
   width: 100%;
   border: 2px solid $color-primary;
+  @extend %transition;
 }
 
 .burger {
@@ -18,6 +19,7 @@
   }
   
   &-menu {
+    @extend %transition;
     margin-left: unset;
     position: fixed; 
     left: 260px;

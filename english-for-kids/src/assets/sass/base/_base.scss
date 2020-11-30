@@ -1,14 +1,9 @@
-
-
 html {
   font-size: 10px;
 }
 
 .body {
   background-color: $color-primary-body;
-  //background-image: $body-background-image;
-  //background-attachment: fixed;
-  //background-size: cover;
   min-width: 300px;
   p {
     @include font(3.5rem, 100%, black, 'Roboto');

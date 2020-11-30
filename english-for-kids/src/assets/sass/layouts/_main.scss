@@ -3,6 +3,10 @@
   margin-top: 30px;
   margin-bottom: 30px;
   min-height: 75vh;
+  //display: flex; 
+  //flex-direction: column;
+  //justify-content: space-between;
+  //align-items: center;
 }
 
 .cards__container {
@@ -146,4 +150,34 @@
 .flipped {
   transform: rotateY(180deg);
   transform: translateX(-100%) rotateY(-180deg);
+}
+
+.play__button {
+  display: none;
+  width: 180px;
+  height: 80px;
+  border-radius: 20px;
+  margin: 10px auto;
+  border: 2px solid $color-secondary;
+  
+  img {
+    height: 85%;
+    width: 85%;
+    margin: auto;
+  }
+  &-play {
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 10px auto;
+    border-radius: 50%;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 0.75rem $color-secondary);
+    }
+  }
+  &-start {
+    display: block;
+  }
 }

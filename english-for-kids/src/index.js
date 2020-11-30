@@ -1,7 +1,9 @@
 import CardsContainer from './modules/CardsContainer';
 import create from './modules/utils/create';
 import cards from './cards';
+import getRandomIntArray from './modules/utils/getRandomIntArray';
 
+let menuListArray;
 const body = document.body;
 const burger = document.getElementById('burger');
 const burgerLine = document.querySelector('.burger__line');
@@ -14,7 +16,9 @@ const audio = new Audio();
 const container = new CardsContainer();
 container.init();
 main.appendChild(container.cardsContainer);
-
+const playButton = create('button', 'play__button', null, main);
+playButton.clicked = false;
+playButton.img = create('img', null, null, playButton, ['src', 'assets/images/svg/play.svg'], ['alt', 'play']);
 container.cardCategories.forEach((elem) => {
   elem.card.addEventListener('click', () => {
     generateWordCards(elem.categoryNumber)
@@ -22,6 +26,8 @@ container.cardCategories.forEach((elem) => {
 })
 
 function generateWordCards(categoryNumber) {
+  container.mainPage = false;
+  togglePlayButton();
   container.cardsContainer.innerHTML = '';
   container.init(categoryNumber);
   container.cardElements.forEach((elem) => {
@@ -62,6 +68,8 @@ switchCheckbox.addEventListener('click', () => {
   footer.classList.toggle('footer-play');
   burger.classList.toggle('burger-play');
   burgerLine.classList.toggle('burger__line-play');
+  togglePlayButton();
+
   container.cardElements.forEach((elem) => {
     elem.cardFront.card.classList.toggle('word__card-play');
   });
@@ -72,6 +80,36 @@ switchCheckbox.addEventListener('click', () => {
 
 // Menu
 burger.addEventListener('click', toggleMenu);
+
+// Activate links
+menuListArray = generateMenuList();
+
+menuListArray.forEach((elem) => {
+  elem.domElement.addEventListener('click', () => {
+    if(!elem.main) {
+      generateWordCards(elem.categoryNumber);
+    } else {
+      container.mainPage = true;
+      togglePlayButton();
+      container.cardsContainer.innerHTML = '';
+      container.cardCategories.forEach((elem) => {
+        container.cardsContainer.appendChild(elem.card);
+      })
+    }
+    toggleMenu()
+  })
+});
+
+// Play button
+playButton.addEventListener('click', () => {
+  if(!playButton.clicked) {
+    playButton.img.src = 'assets/images/svg/replay.svg';
+    playButton.clicked = true;
+    console.log(getRandomIntArray(container.cardElements.length));
+  } else {
+    
+  }
+})
 
 function generateMenuList() {
   const mainPage = {
@@ -91,22 +129,6 @@ function generateMenuList() {
   }
   return menuListArray;
 }
-
-// Activate links
-let menuListArray = generateMenuList();
-menuListArray.forEach((elem) => {
-  elem.domElement.addEventListener('click', () => {
-    if(!elem.main) {
-      generateWordCards(elem.categoryNumber);
-    } else {
-      container.cardsContainer.innerHTML = '';
-      container.cardCategories.forEach((elem) => {
-        container.cardsContainer.appendChild(elem.card);
-      })
-    }
-    toggleMenu()
-  })
-});
 
 function toggleMenu() {
   let blackout = document.querySelector('.blackout');
@@ -132,4 +154,14 @@ function toggleMenu() {
   burgerLine.classList.toggle('burger__line-menu');
   menuList.classList.toggle('menu__list-menu');
  
+}
+
+function togglePlayButton() {
+  if (!container.mainPage && !switchCheckbox.checked) {
+    playButton.classList.add('play__button-play');
+    playButton.img.src = 'assets/images/svg/play.svg';
+    playButton.clicked = false;
+  } else {
+    playButton.classList.remove('play__button-play');
+  }
 }

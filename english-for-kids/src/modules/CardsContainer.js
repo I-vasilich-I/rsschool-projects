@@ -28,6 +28,7 @@ export default class CardsContainer {
       card.init();
       this.cardCategories.push(card);
     }
+    this.mainPage = true;
   }
 
   generateCards(category) {
@@ -54,5 +55,6 @@ export default class CardsContainer {
       cardBack.init();
       this.cardElements.push({cardDiv, cardFront, cardBack});
     });
+    this.mainPage = false;
   }
 }
