@@ -13,7 +13,6 @@
   width: 30px;
   height: 22px;
   z-index: 5;
-
   &:hover {
     cursor: pointer;
   }
@@ -45,14 +44,25 @@
     top: 22px;
     left: 0;
   }
+  &-play {
+    &::before {
+      border: 2px solid $color-secondary;
+    }
+  
+    &::after {
+      border: 2px solid $color-secondary;
+    }
+  }
 }
 
 .burger__line {
   @extend %burger-line;
-  @extend %transition;
   top: 12px;
   left: 0;
   &-menu {
     display: none;
+  }
+  &-play {
+    border: 2px solid $color-secondary;
   }
 }

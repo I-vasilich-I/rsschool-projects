@@ -2,10 +2,11 @@ import cards from '../cards';
 import Card from './Card';
 import WordCard from './WordCard';
 import create from './utils/create';
-
+const Checkbox = document.getElementById('switch-checkbox');
 export default class CardsContainer {
   constructor() {
     this.cardElements = [];
+    this.cardCategories = [];
     this.cardsContainer = create('div', 'cards__container');
   }
 
@@ -25,16 +26,17 @@ export default class CardsContainer {
         cards[0][i], 
         this.cardsContainer, i);
       card.init();
-      this.cardElements.push(card);
+      this.cardCategories.push(card);
     }
   }
 
   generateCards(category) {
     this.cardElements.length = 0;
     cards[category+1].forEach((elem) => {
+      const frontClassName = Checkbox.checked ? 'word__card word__card-front' : 'word__card word__card-front word__card-play';
       const cardDiv = create('div', 'card', null, this.cardsContainer);
       const cardFront =  
-        new WordCard('word__card word__card-front', 
+        new WordCard(frontClassName, 
         [elem.image, elem.word], 
         elem.word, 
         cardDiv, 
@@ -42,8 +44,6 @@ export default class CardsContainer {
         elem.audioSrc);
       cardFront.init();
       cardFront.addButton();
-      //this.cardElements.push(cardDiv);
-      
       const cardBack = 
         new WordCard('word__card word__card-back', 
         [elem.image, elem.translation], 

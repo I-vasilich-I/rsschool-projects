@@ -49,11 +49,13 @@
   right: 0;
   bottom: 0;
   background-color: $color-secondary;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: .6s;
+  transition: .6s;
   border-radius: 44px;
   
   &::before {
+    -webkit-transition: .6s;
+    transition: .6s;
     position: absolute;
     content: "";
     height: 36px;
@@ -71,6 +73,8 @@ input {
     background-color: $color-primary;
   }
   &:checked + .slider:before {
+    -webkit-transition: .6s;
+    transition: .6s;
     -webkit-transform: translateX(76px);
     -ms-transform: translateX(76px);
     transform: translateX(76px);
