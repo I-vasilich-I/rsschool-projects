@@ -2,7 +2,6 @@
   margin: auto;
   margin-top: 30px;
   margin-bottom: 30px;
-  min-width: 320px;
   min-height: 75vh;
 }
 
@@ -13,10 +12,12 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
   perspective: 1500px;
+  @include media-tablet {
+    perspective: 6000px;
+  }
 }
 
 .category__card {
-  background: $color-background;
   display: flex;
   overflow: hidden;
   flex-wrap: wrap;
@@ -40,9 +41,10 @@
   //linear-gradient(0deg, #121212, #121212);
   img {
     width: 280px;
+   
   }
   p {
-    margin-bottom: 15px;
+    margin: auto;
   }
   &:hover {
     filter: drop-shadow(0 0 0.75rem $color-primary-shadow);
@@ -55,6 +57,12 @@
     transform: translate(1px, 2px);
     backdrop-filter: blur(20px);
   }
+  &-play {
+    border: 2px solid $color-secondary;
+    &:hover {
+      filter: drop-shadow(0 0 0.75rem $color-secondary-shadow);
+    }
+  }
 }
 
 .card {
@@ -63,14 +71,13 @@
   position: relative;
   transition: transform 1s ease-in-out;
   transform-style: preserve-3d;
-  transform-origin: center bottom;
+  transform-origin: center right;
   margin: 10px;
   
 }
 
 .word__card {
   position: absolute;
-  background: $color-background;
   display: flex;
   overflow: hidden;
   flex-wrap: wrap;
@@ -87,7 +94,7 @@
     width: 100%;
   }
   p {
-    margin-bottom: 20px;
+    margin: auto;
   }
   button {
     position: absolute;
@@ -95,26 +102,44 @@
     bottom: 25px;
     width: 50px;
     height: 50px;
-    border-radius: 50%;
-  }
-  
-  &-front {
+    border: none;
+    background-color: $color-background;
     &:hover {
-      filter: drop-shadow(0 0 0.75rem $color-primary-shadow);
-      cursor: pointer;
-      //box-shadow: unset;
-      //transform: translate(1px, 2px);
-      //backdrop-filter: blur(20px);
+      transform: scale(1.2);
     }
-    
+    img {
+      width: 100%;
+    }
+  }
+  &:hover {
+    filter: drop-shadow(0 0 0.75rem $color-primary-shadow);
+    cursor: pointer;
   }
 
   &-back {
-    transform: rotateX( 180deg );
+    transform: rotateY( 180deg );
+    text-align: center;
+    p {
+      //font-size: 2.5rem;
+    }
+  }
+  &-play {
+    border: 2px solid $color-secondary;
+    img {
+      width: unset;
+      height: 100%;
+      transform: translateX(-10%);
+    }
+    button {
+      display: none;
+    }
+    &:hover {
+      filter: drop-shadow(0 0 0.75rem $color-secondary-shadow);
+    }
   } 
 }
 
-.fliped {
-  transform: rotateX(180deg);
-  transform: translateY(-100%) rotateX(-180deg);
+.flipped {
+  transform: rotateY(180deg);
+  transform: translateX(-100%) rotateY(-180deg);
 }

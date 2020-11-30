@@ -4,13 +4,16 @@ html {
   font-size: 10px;
 }
 
-body {
-  background-color: rgb(232, 225, 250);
+.body {
+  background-color: $color-primary-body;
   //background-image: $body-background-image;
   //background-attachment: fixed;
   //background-size: cover;
-
+  min-width: 300px;
   p {
-    @include font(3.5rem, 160%, black, 'Roboto');
+    @include font(3.5rem, 100%, black, 'Roboto');
+  }
+  &-play {
+    background-color: $color-secondary-body;
   }
 }

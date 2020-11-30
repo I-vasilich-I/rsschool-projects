@@ -7,3 +7,7 @@
   letter-spacing: $spacing;
   color: $color;
 }
+
+@mixin media-tablet {
+  @media (max-width: $tablet-width) { @content; }
+}
