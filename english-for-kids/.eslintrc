@@ -8,7 +8,6 @@
   },
   "rules": {
     "prettier/prettier": ["error"],
-    "no-plusplus": ["off", {"allowForLoopAfterthoughts": true}],
-    
+    "no-plusplus": ["off", {"allowForLoopAfterthoughts": true}]
   }
 }
