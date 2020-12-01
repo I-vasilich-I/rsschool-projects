@@ -3,12 +3,22 @@
   margin-top: 30px;
   margin-bottom: 30px;
   min-height: 75vh;
+  &-over {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .img {
+      height: 60vh;
+      margin: auto;
+    }
+  }
+  
 }
 
 .main__score {
   display: none;
-  display: flex;
-  margin: 30px;
+  margin: 10px;
   height: 60px;
   justify-content: flex-end;
   align-items: center;
