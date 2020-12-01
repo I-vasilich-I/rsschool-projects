@@ -1,7 +1,9 @@
 $color-primary: rgb(212, 0, 255);
+$color-primary-dark: rgb(162, 1, 194);
 $color-primary-shadow: rgb(255, 0, 140);
 $color-primary-body: rgb(232, 225, 250);
 $color-secondary:  rgb(255, 145, 0);
+$color-secondary-dark:  rgb(161, 92, 1);
 $color-secondary-shadow: rgb(255, 102, 0);
 $color-secondary-body: rgb(250, 240, 225);
 $color-background: white;
@@ -13,3 +15,4 @@ $body-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 //$body-background-image: './assets/images/svg/body-background.svg';
 
 $tablet-width: 767px;
+$mobile-width: 500px;

@@ -12,7 +12,11 @@ const burgerLine = document.querySelector('.burger__line');
 const menuList = document.querySelector('.menu__list');
 const switchCheckbox = document.getElementById('switch-checkbox');
 const main = document.querySelector('main');
-const scoreDiv = helpers.create('div', 'main__score', null, main);
+const categoryTitleDiv = helpers.create('div', 'container__header', null, main);
+const categoryTitle = helpers.create('div', 'category__title', null, categoryTitleDiv);
+const scoreDiv = helpers.create('div', 'main__score', null, categoryTitleDiv);
+categoryTitle.innerText = helpers.headerTitle();
+
 const footer = document.querySelector('footer');
 const container = new CardsContainer();
 container.init();
@@ -54,7 +58,7 @@ switchCheckbox.addEventListener('click', () => {
 burger.addEventListener('click', toggleMenu);
 
 // Activate links
-menuListArray = generateMenuList();
+menuListArray = helpers.generateMenuList(menuList);
 menuListArray.forEach((elem) => {
   elem.domElement.addEventListener('click', () => {
     if(!elem.main) {
@@ -82,7 +86,7 @@ playButton.addEventListener('click', () => {
     playButton.img.src = 'assets/images/svg/replay.svg';
     playButton.clicked = true;
     randomIntArray = helpers.getRandomIntArray(container.cardElements.length);
-    helpers.nextWord(container, randomIntArray, main, playButton);
+    helpers.nextWord(container, randomIntArray, main, playButton, scoreDiv);
   } else {
     if (helpers.wordToPlayIndex || helpers.wordToPlayIndex === 0) {
       helpers.playAudio(container.cardElements[helpers.wordToPlayIndex].cardFront.audioSrc);
@@ -92,6 +96,7 @@ playButton.addEventListener('click', () => {
 
 function generateWordCards(categoryNumber) {
   container.mainPage = false;
+  helpers.headerTitle(categoryNumber);
   togglePlayButton();
   if (!switchCheckbox.checked) {
     helpers.toggleScorePanel(scoreDiv, -1);
@@ -123,7 +128,7 @@ function eventHandler(elem) {
         helpers.playAudio('./assets/audio/correct2.mp3');
         //elem.correct = elem.correct + 1 || 1;
         helpers.addStar(true, scoreDiv);
-        helpers.nextWord(container, randomIntArray, main, playButton);
+        helpers.nextWord(container, randomIntArray, main, playButton, scoreDiv);
       } else {
         helpers.addStar(false, scoreDiv);
         helpers.playAudio('./assets/audio/error2.mp3');
@@ -138,24 +143,7 @@ function eventHandler(elem) {
   }
 }
 
-function generateMenuList() {
-  const mainPage = {
-    domElement: helpers.create('a', 'menu__item', null, menuList, ['href', '#/']),
-    main: true,
-  }
-  mainPage.domElement.innerText = 'Main Page';
-  let menuListArray = [mainPage];
-  for(let i = 0; i < cards[0].length; i++) {
-    const category = {
-      domElement: helpers.create('a', 'menu__item', null, menuList, ['href', '#/category']),
-      main: false,
-      categoryNumber: i,
-    };
-    category.domElement.innerText = cards[0][i];
-    menuListArray.push(category);
-  }
-  return menuListArray;
-}
+
 
 function toggleMenu() {
   let blackout = document.querySelector('.blackout');

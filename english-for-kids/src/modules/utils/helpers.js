@@ -1,7 +1,12 @@
 import cards from '../../cards';
+
+
+
+
 const audio = new Audio();
 const statisticArray = deepCopyFunction(cards.slice(1));
 export let wordToPlayIndex;
+
 export function addStar(rightWord, parent) {
   if (rightWord) {
     create(
@@ -24,6 +29,25 @@ export function addStar(rightWord, parent) {
   }
 }
 
+export function generateMenuList(menuList) {
+  const mainPage = {
+    domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
+    main: true,
+  }
+  mainPage.domElement.innerText = 'Main Page';
+  let menuListArray = [mainPage];
+  for(let i = 0; i < cards[0].length; i++) {
+    const category = {
+      domElement: create('a', 'menu__item', null, menuList, ['href', '#/category']),
+      main: false,
+      categoryNumber: i,
+    };
+    category.domElement.innerText = cards[0][i];
+    menuListArray.push(category);
+  }
+  return menuListArray;
+}
+
 export function playAudio(src) {
   audio.src = src;
   audio.load();
@@ -34,7 +58,7 @@ export function getRandomIntArray(number) {
   return [...Array(number).keys()].sort(() => Math.random() - 0.5);
 }
 
-export function nextWord(container, randomIntArray, main, playButton) {
+export function nextWord(container, randomIntArray, main, playButton, scoreDiv) {
   wordToPlayIndex = randomIntArray.pop();
   if (wordToPlayIndex || wordToPlayIndex === 0) {
     setTimeout(() => {
@@ -45,12 +69,12 @@ export function nextWord(container, randomIntArray, main, playButton) {
     if (!container.errors) {
       gameOver(true, main);
       setTimeout(() => {
-        initApp(container, main, playButton);
+        initApp(container, main, playButton, scoreDiv);
       }, 5000);
     } else {
-      gameOver(false, main);
+      gameOver(false, main, container.cardsContainer, playButton);
       setTimeout(() => {
-        initApp(container, main, playButton);
+        initApp(container, main, playButton, scoreDiv);
       }, 5000);
     }
 
@@ -105,14 +129,26 @@ export function create(el, classNames, child, parent, ...dataAttr) {
   return elem;
 }
 
-function initApp(container, main, playButton) {
+export function headerTitle(category = -1) {
+  const title = document.querySelector('.header__logo');
+  if (category < 0) {
+    return ''
+  } else {
+    return cards[0][category];
+  }
+  
+}
+
+function initApp(container, main, playButton, scoreDiv) {
   main.innerHTML = '';
-  main.classList.toggle('main-over');
+  main.classList.remove('main-over');
   container.cardsContainer.innerHTML = '';
   container.cardCategories.forEach((elem) => {
     container.cardsContainer.appendChild(elem.card);
   })
   container.mainPage = true;
+  main.appendChild(scoreDiv);
+  scoreDiv.classList.remove('main__score-play');
   main.appendChild(container.cardsContainer);
   main.appendChild(playButton);
   playButton.clicked = false;
@@ -126,10 +162,10 @@ function initApp(container, main, playButton) {
   })
 }
 
-function gameOver(win, main) {
-  main.innerHTML = '';
-  main.classList.add('main-over');
+function gameOver(win, main, container, playButton) {
   if (win) {
+    main.innerHTML = '';
+    main.classList.add('main-over');
     setTimeout(() => {
       playAudio('assets/audio/success.mp3');
     }, 1000);
@@ -142,6 +178,8 @@ function gameOver(win, main) {
       ['alt', 'win']
     );
   } else {
+    container.innerHTML = '';
+    main.removeChild(playButton);
     setTimeout(() => {
       playAudio('assets/audio/failure.mp3');
     }, 1000);
@@ -149,7 +187,7 @@ function gameOver(win, main) {
       'img', 
       'img', 
       null, 
-      main, 
+      container, 
       ['src', 'assets/images/failure.jpg'], 
       ['alt', 'win']
     );
