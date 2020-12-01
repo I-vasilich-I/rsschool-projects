@@ -1,6 +1,6 @@
 .main {
   margin: auto;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 30px;
   max-width: 1200px;
   min-height: 75vh;
@@ -18,7 +18,7 @@
 }
 
 .container__header {
-  margin: 20px;
+  margin: 10px;
   height: 60px;
   display: flex;
   //flex-wrap: wrap;
@@ -27,10 +27,11 @@
 }
 
 .category__title {
-  min-width: 100px;
+  min-width: 250px;
   font-size: 4rem;
   @include media-mobile {
     font-size: 2rem;
+    min-width: 130px;
   }
 }
 

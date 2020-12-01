@@ -1,19 +1,41 @@
 import cards from '../../cards';
 
+const body = document.body;
+const burger = document.getElementById('burger');
+burger.line = document.querySelector('.burger__line');
+const menuList = document.querySelector('.menu__list');
+const switchCheckbox = document.getElementById('switch-checkbox');
+const main = document.querySelector('main');
+const footer = document.querySelector('footer');
+const logo = document.querySelector('.header__logo');
+const categoryTitleDiv = create('div', 'container__header', null, main);
+const categoryTitle = create('div', 'category__title', null, categoryTitleDiv);
+      categoryTitle.innerText = headerTitle();
+const scoreDiv = create('div', 'main__score', null, categoryTitleDiv);
 
-
+export {
+  body, 
+  burger, 
+  menuList,
+  switchCheckbox,
+  main,
+  footer,
+  categoryTitle,
+  logo,
+  scoreDiv,
+}
 
 const audio = new Audio();
 const statisticArray = deepCopyFunction(cards.slice(1));
 export let wordToPlayIndex;
 
-export function addStar(rightWord, parent) {
+export function addStar(rightWord) {
   if (rightWord) {
     create(
       'img', 
       null, 
       null, 
-      parent, 
+      scoreDiv, 
       ['src', 'assets/images/svg/check-mark.svg'], 
       ['alt', 'check mark']
     );
@@ -22,23 +44,26 @@ export function addStar(rightWord, parent) {
       'img', 
       null, 
       null, 
-      parent, 
+      scoreDiv, 
       ['src', 'assets/images/svg/x-mark.svg'], 
       ['alt', 'x-mark']
     );
   }
 }
 
-export function generateMenuList(menuList) {
+export function generateMenuList() {
   const mainPage = {
-    domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
+    //domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
+    domElement: create('li', 'menu__item', null, menuList),
+
     main: true,
   }
   mainPage.domElement.innerText = 'Main Page';
   let menuListArray = [mainPage];
   for(let i = 0; i < cards[0].length; i++) {
     const category = {
-      domElement: create('a', 'menu__item', null, menuList, ['href', '#/category']),
+      //domElement: create('a', 'menu__item', null, menuList, ['href', '#/category']),
+      domElement: create('li', 'menu__item', null, menuList),
       main: false,
       categoryNumber: i,
     };
@@ -58,7 +83,7 @@ export function getRandomIntArray(number) {
   return [...Array(number).keys()].sort(() => Math.random() - 0.5);
 }
 
-export function nextWord(container, randomIntArray, main, playButton, scoreDiv) {
+export function nextWord(container, randomIntArray, playButton) {
   wordToPlayIndex = randomIntArray.pop();
   if (wordToPlayIndex || wordToPlayIndex === 0) {
     setTimeout(() => {
@@ -67,21 +92,21 @@ export function nextWord(container, randomIntArray, main, playButton, scoreDiv) 
     
   } else {
     if (!container.errors) {
-      gameOver(true, main);
+      gameOver(true);
       setTimeout(() => {
-        initApp(container, main, playButton, scoreDiv);
-      }, 5000);
+        initApp(container, playButton);
+      }, 3500);
     } else {
-      gameOver(false, main, container.cardsContainer, playButton);
+      gameOver(false, container.cardsContainer, playButton);
       setTimeout(() => {
-        initApp(container, main, playButton, scoreDiv);
-      }, 5000);
+        initApp(container, playButton);
+      }, 3500);
     }
 
   }
 }
 
-export function toggleScorePanel(scoreDiv, on) {
+export function toggleScorePanel(on) {
   scoreDiv.innerHTML = '';
   if (on === -1) {
     scoreDiv.classList.toggle('main__score-play');
@@ -130,7 +155,6 @@ export function create(el, classNames, child, parent, ...dataAttr) {
 }
 
 export function headerTitle(category = -1) {
-  const title = document.querySelector('.header__logo');
   if (category < 0) {
     return ''
   } else {
@@ -139,15 +163,16 @@ export function headerTitle(category = -1) {
   
 }
 
-function initApp(container, main, playButton, scoreDiv) {
+function initApp(container, playButton) {
   main.innerHTML = '';
   main.classList.remove('main-over');
   container.cardsContainer.innerHTML = '';
   container.cardCategories.forEach((elem) => {
     container.cardsContainer.appendChild(elem.card);
-  })
+  });
   container.mainPage = true;
-  main.appendChild(scoreDiv);
+  categoryTitle.innerText = '';
+  main.appendChild(categoryTitleDiv);
   scoreDiv.classList.remove('main__score-play');
   main.appendChild(container.cardsContainer);
   main.appendChild(playButton);
@@ -155,20 +180,20 @@ function initApp(container, main, playButton, scoreDiv) {
   playButton.innerHTML = '';
   playButton.classList.toggle('play__button-play');
   playButton.img = create('img', null, null, playButton, ['src', 'assets/images/svg/play.svg'], ['alt', 'play']);
-  container.cardCategories.forEach((elem) => {
-    elem.card.addEventListener('click', () => {
-      generateWordCards(elem.categoryNumber)
-    });
-  })
+  container.errors = 0;
+  scoreDiv.innerHTML = '';
 }
 
-function gameOver(win, main, container, playButton) {
+function gameOver(win, container, playButton) {
   if (win) {
     main.innerHTML = '';
     main.classList.add('main-over');
+    /*
     setTimeout(() => {
       playAudio('assets/audio/success.mp3');
     }, 1000);
+    */
+    playAudio('assets/audio/success.mp3');
     create(
       'img', 
       'img', 
@@ -180,9 +205,12 @@ function gameOver(win, main, container, playButton) {
   } else {
     container.innerHTML = '';
     main.removeChild(playButton);
+    /*
     setTimeout(() => {
       playAudio('assets/audio/failure.mp3');
     }, 1000);
+    */
+    playAudio('assets/audio/failure.mp3');
     create(
       'img', 
       'img', 

@@ -20,6 +20,14 @@
     margin: 15px;
     text-decoration: none;
   }
+  li {
+    font-size: 2rem;
+    margin: 15px;
+    text-decoration: none;
+    &:hover {
+      cursor: pointer;
+    }
+  }
   &-play {
     background-color: $color-secondary;
   }

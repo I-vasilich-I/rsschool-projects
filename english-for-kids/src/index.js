@@ -1,27 +1,13 @@
 import CardsContainer from './modules/CardsContainer';
-import cards from './cards';
 import * as helpers from './modules/utils/helpers';
 
 let menuListArray;
 let randomIntArray;
-let errors = 0;
-//let statistic = [];
-const body = document.body;
-const burger = document.getElementById('burger');
-const burgerLine = document.querySelector('.burger__line');
-const menuList = document.querySelector('.menu__list');
-const switchCheckbox = document.getElementById('switch-checkbox');
-const main = document.querySelector('main');
-const categoryTitleDiv = helpers.create('div', 'container__header', null, main);
-const categoryTitle = helpers.create('div', 'category__title', null, categoryTitleDiv);
-const scoreDiv = helpers.create('div', 'main__score', null, categoryTitleDiv);
-categoryTitle.innerText = helpers.headerTitle();
 
-const footer = document.querySelector('footer');
 const container = new CardsContainer();
 container.init();
-main.appendChild(container.cardsContainer);
-const playButton = helpers.create('button', 'play__button', null, main);
+helpers.main.appendChild(container.cardsContainer);
+const playButton = helpers.create('button', 'play__button', null, helpers.main);
 playButton.clicked = false;
 playButton.img = helpers.create('img', null, null, playButton, ['src', 'assets/images/svg/play.svg'], ['alt', 'play']);
 
@@ -32,19 +18,20 @@ container.cardCategories.forEach((elem) => {
 })
 
 // Switch mode
-switchCheckbox.addEventListener('click', () => {
-  if (switchCheckbox.checked === true) {
+helpers.switchCheckbox.addEventListener('click', () => {
+  if (helpers.switchCheckbox.checked === true) {
     
   } else {
     
   }
-  body.classList.toggle('body-play');
-  footer.classList.toggle('footer-play');
-  burger.classList.toggle('burger-play');
-  burgerLine.classList.toggle('burger__line-play');
+  helpers.menuList.classList.toggle('menu__list-play');
+  helpers.body.classList.toggle('body-play');
+  helpers.footer.classList.toggle('footer-play');
+  helpers.burger.classList.toggle('burger-play');
+  helpers.burger.line.classList.toggle('burger__line-play');
   togglePlayButton();
   if (!container.mainPage) {
-    helpers.toggleScorePanel(scoreDiv, -1);
+    helpers.toggleScorePanel(-1);
   }
   container.cardElements.forEach((elem) => {
     elem.cardFront.card.classList.toggle('word__card-play');
@@ -54,27 +41,40 @@ switchCheckbox.addEventListener('click', () => {
   });
 })
 
+//Logo
+helpers.logo.addEventListener('click', () => {
+  container.mainPage = true;
+  togglePlayButton();
+  helpers.categoryTitle.innerText = '';
+  container.cardsContainer.innerHTML = '';
+  container.cardCategories.forEach((elem) => {
+    container.cardsContainer.appendChild(elem.card);
+  })
+  helpers.scoreDiv.innerHTML = '';
+})
+
 // Menu
-burger.addEventListener('click', toggleMenu);
+helpers.burger.addEventListener('click', toggleMenu);
 
 // Activate links
-menuListArray = helpers.generateMenuList(menuList);
+menuListArray = helpers.generateMenuList();
 menuListArray.forEach((elem) => {
   elem.domElement.addEventListener('click', () => {
     if(!elem.main) {
       generateWordCards(elem.categoryNumber);
     } else {
-      helpers.toggleScorePanel(scoreDiv, false);
+      helpers.toggleScorePanel(false);
       container.mainPage = true;
       togglePlayButton();
+      helpers.categoryTitle.innerText = '';
       container.cardsContainer.innerHTML = '';
       container.cardCategories.forEach((elem) => {
         container.cardsContainer.appendChild(elem.card);
       })
     }
     toggleMenu();
-    if (!switchCheckbox.checked && !elem.main) {
-      helpers.toggleScorePanel(scoreDiv, true);
+    if (!helpers.switchCheckbox.checked && !elem.main) {
+      helpers.toggleScorePanel(true);
     }
     
   })
@@ -86,7 +86,7 @@ playButton.addEventListener('click', () => {
     playButton.img.src = 'assets/images/svg/replay.svg';
     playButton.clicked = true;
     randomIntArray = helpers.getRandomIntArray(container.cardElements.length);
-    helpers.nextWord(container, randomIntArray, main, playButton, scoreDiv);
+    helpers.nextWord(container, randomIntArray, playButton);
   } else {
     if (helpers.wordToPlayIndex || helpers.wordToPlayIndex === 0) {
       helpers.playAudio(container.cardElements[helpers.wordToPlayIndex].cardFront.audioSrc);
@@ -96,10 +96,10 @@ playButton.addEventListener('click', () => {
 
 function generateWordCards(categoryNumber) {
   container.mainPage = false;
-  helpers.headerTitle(categoryNumber);
+  helpers.categoryTitle.innerText = helpers.headerTitle(categoryNumber);
   togglePlayButton();
-  if (!switchCheckbox.checked) {
-    helpers.toggleScorePanel(scoreDiv, -1);
+  if (!helpers.switchCheckbox.checked) {
+    helpers.toggleScorePanel(-1);
   }
   container.cardsContainer.innerHTML = '';
   container.init(categoryNumber);
@@ -118,7 +118,7 @@ function eventHandler(elem) {
         || e.target === elem.cardFront.buttonImg 
         || elem.cardDiv.classList.contains('flipped')) return;
     if (elem.disabled) return;
-    if (switchCheckbox.checked) {
+    if (helpers.switchCheckbox.checked) {
       helpers.playAudio(elem.cardFront.audioSrc);
     } else {
       if (!playButton.clicked) return; 
@@ -126,14 +126,12 @@ function eventHandler(elem) {
         elem.cardFront.card.classList.add('disabled');
         elem.disabled = true;
         helpers.playAudio('./assets/audio/correct2.mp3');
-        //elem.correct = elem.correct + 1 || 1;
-        helpers.addStar(true, scoreDiv);
-        helpers.nextWord(container, randomIntArray, main, playButton, scoreDiv);
+        helpers.addStar(true);
+        helpers.nextWord(container, randomIntArray, playButton);
       } else {
-        helpers.addStar(false, scoreDiv);
+        helpers.addStar(false);
         helpers.playAudio('./assets/audio/error2.mp3');
         container.errors = container.errors + 1 || 1;
-        //elem.wrong = elem.wrong + 1 || 1;
       }
     }
   }
@@ -148,31 +146,31 @@ function eventHandler(elem) {
 function toggleMenu() {
   let blackout = document.querySelector('.blackout');
   if (blackout) {
-    body.removeChild(blackout);
-    body.classList.toggle('stop-scrolling');
+    helpers.body.removeChild(blackout);
+    helpers.body.classList.toggle('stop-scrolling');
   } else {
     blackout = helpers.create('div', 'blackout');
-    body.prepend(blackout);
-    body.classList.toggle('stop-scrolling');
+    helpers.body.prepend(blackout);
+    helpers.body.classList.toggle('stop-scrolling');
     blackout.addEventListener('click', () => {
       toggleMenu();
     })
   }
-  if (switchCheckbox.checked) {
-    menuList.classList.remove('menu__list-play');
+  if (helpers.switchCheckbox.checked) {
+    helpers.menuList.classList.remove('menu__list-play');
   } else {
-    burger.classList.toggle('burger-play');
-    burgerLine.classList.toggle('burger__line-play');
-    menuList.classList.add('menu__list-play');
+    helpers.burger.classList.toggle('burger-play');
+    helpers.burger.line.classList.toggle('burger__line-play');
+    helpers.menuList.classList.add('menu__list-play');
   }
-  burger.classList.toggle('burger-menu');
-  burgerLine.classList.toggle('burger__line-menu');
-  menuList.classList.toggle('menu__list-menu');
+  helpers.burger.classList.toggle('burger-menu');
+  helpers.burger.line.classList.toggle('burger__line-menu');
+  helpers.menuList.classList.toggle('menu__list-menu');
  
 }
 
 function togglePlayButton() {
-  if (!container.mainPage && !switchCheckbox.checked) {
+  if (!container.mainPage && !helpers.switchCheckbox.checked) {
     playButton.classList.add('play__button-play');
     playButton.img.src = 'assets/images/svg/play.svg';
     playButton.clicked = false;
