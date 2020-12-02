@@ -1,0 +1,35 @@
+.menu__list {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: -350px;
+  z-index: 3;
+  width: 320px;
+  height: 600px;
+  //padding-top: 60px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-primary;
+  @extend %transition;
+  &-menu {
+    left: 0;
+  }
+  a {
+    font-size: 2rem;
+    margin: 15px;
+    text-decoration: none;
+  }
+  li {
+    font-size: 2rem;
+    margin: 15px;
+    text-decoration: none;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &-play {
+    background-color: $color-secondary;
+  }
+}
+

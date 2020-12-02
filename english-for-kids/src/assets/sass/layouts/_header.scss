@@ -1,0 +1,126 @@
+.hidden {
+  position: absolute;
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  padding: 0;
+  border: 0;
+}
+
+.header {
+  background-color: $color-background;
+  background-image: $header-background-image;
+  width: auto;
+  height: 100px;
+}
+
+.header__wrapper {
+  position: relative;
+  height: 100%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.header__logo {
+  margin-left: 5px;
+  font-size: 6rem;
+  //color: $color-secondary-dark;
+  text-shadow: 1px 1px $color-background;
+  @include media-tablet {
+    font-size: 3.5rem;
+  }
+   
+  @include media-mobile {
+    display: none;
+  }
+  
+  &:hover {
+    cursor: pointer;
+  }
+  //align-self: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  margin-right: 40px;
+  width: 120px;
+  height: 44px;
+  
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+}
+
+.slider {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $color-secondary;
+  -webkit-transition: .6s;
+  transition: .3s;
+  border-radius: 44px;
+  
+  &::before {
+    -webkit-transition: .6s;
+    transition: .3s;
+    position: absolute;
+    content: "";
+    height: 36px;
+    width: 36px;
+    left: 4px;
+    bottom: 4px;
+    background-color: $color-background;
+    border-radius: 50%;
+  }
+  p {
+    color: $color-text-light;
+    position: relative; 
+    font-size: 2rem;
+    margin: 10px;
+    padding: 5px;
+  }
+  .train {
+    display: none;
+  }
+  
+}
+
+input {
+  &:checked + .slider, :focus + .slider {
+    background-color: $color-primary;
+    justify-content: flex-start;
+    .play {
+      display: none;
+    }
+    .train {
+      display: unset;
+    }
+  }
+  &:checked + .slider:before {
+    -webkit-transition: .6s;
+    transition: .3s;
+    -webkit-transform: translateX(76px);
+    -ms-transform: translateX(76px);
+    transform: translateX(76px);
+  }
+}
+
+
+
+
+
+
+

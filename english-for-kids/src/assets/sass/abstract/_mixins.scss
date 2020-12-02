@@ -1,0 +1,17 @@
+@mixin font($size, $height, $color, $family: 'Roboto', $style: normal, $weight: normal, $spacing: unset) {
+  font-family: $family;
+  font-style: $style;
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $height;
+  letter-spacing: $spacing;
+  color: $color;
+}
+
+@mixin media-tablet {
+  @media (max-width: $tablet-width) { @content; }
+}
+
+@mixin media-mobile {
+  @media (max-width: $mobile-width) { @content; }
+}
