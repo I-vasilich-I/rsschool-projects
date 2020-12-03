@@ -16,7 +16,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-var cards = [['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions'], [{
+var cardsArr = [['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions'], [{
   word: 'cry',
   translation: 'плакать',
   image: 'assets/images/cry.jpg',
@@ -257,7 +257,7 @@ var cards = [['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (set
   image: 'assets/images/laugh.jpg',
   audioSrc: 'assets/audio/laugh.mp3'
 }]];
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cards);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cardsArr);
 
 /***/ }),
 
@@ -303,24 +303,33 @@ function eventHandler(elem) {
   elem.cardDiv.onclick = function (e) {
     if (e.target === elem.cardFront.button || e.target === elem.cardFront.buttonImg || elem.cardDiv.classList.contains('flipped')) return;
     if (elem.disabled) return;
+    var indexOfElem = container.cardElements.indexOf(elem);
+    var statisticElement = _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.cards[elem.cardFront.categoryNumber + 1];
 
     if (_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.switchCheckbox.checked) {
       _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.playAudio(elem.cardFront.audioSrc);
+      statisticElement[indexOfElem].inTrainClicked = (statisticElement[indexOfElem].inTrainClicked || 0) + 1;
     } else {
       if (!playButton.clicked) return;
 
-      if (container.cardElements.indexOf(elem) === _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex) {
+      if (indexOfElem === _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex) {
+        statisticElement[indexOfElem].correct = (statisticElement[indexOfElem].correct || 0) + 1;
+        statisticElement[indexOfElem].incorrect = statisticElement[indexOfElem].incorrect || 0;
         elem.cardFront.card.classList.add('disabled');
         elem.disabled = true;
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.playAudio('./assets/audio/correct2.mp3');
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.addStar(true);
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.nextWord(container, randomIntArray, playButton);
       } else {
+        statisticElement[_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex].incorrect = (statisticElement[_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex].incorrect || 0) + 1;
+        statisticElement[_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex].correct = statisticElement[_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex].correct || 0;
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.addStar(false);
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.playAudio('./assets/audio/error2.mp3');
         container.errors = container.errors + 1 || 1;
       }
     }
+
+    _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.localStorage.set('cards', _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.cards);
   };
 
   elem.cardDiv.onmouseleave = function () {
@@ -330,7 +339,7 @@ function eventHandler(elem) {
 
 function generateWordCards(categoryNumber) {
   container.mainPage = false;
-  _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.categoryTitle.innerText = _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.headerTitle(categoryNumber);
+  _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.categoryTitle.innerText = _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.setCategoryTitle(categoryNumber);
   togglePlayButton();
 
   if (!_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.switchCheckbox.checked) {
@@ -670,18 +679,20 @@ var WordCard = /*#__PURE__*/function (_Card) {
 /*! export addStar [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export body [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export burger [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export cards [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export categoryTitle [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export create [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export footer [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export generateMenuList [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export getRandomIntArray [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export headerTitle [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export localStorage [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export logo [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export main [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export menuList [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export nextWord [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export playAudio [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export scoreDiv [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export setCategoryTitle [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export switchCheckbox [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export toggleScorePanel [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export wordToPlayIndex [provided] [no usage info] [missing usage info prevents renaming] */
@@ -700,9 +711,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "categoryTitle": () => /* binding */ categoryTitle,
 /* harmony export */   "logo": () => /* binding */ logo,
 /* harmony export */   "scoreDiv": () => /* binding */ scoreDiv,
+/* harmony export */   "cards": () => /* binding */ cards,
+/* harmony export */   "localStorage": () => /* binding */ localStorage,
 /* harmony export */   "wordToPlayIndex": () => /* binding */ wordToPlayIndex,
 /* harmony export */   "create": () => /* binding */ create,
-/* harmony export */   "headerTitle": () => /* binding */ headerTitle,
+/* harmony export */   "setCategoryTitle": () => /* binding */ setCategoryTitle,
 /* harmony export */   "addStar": () => /* binding */ addStar,
 /* harmony export */   "generateMenuList": () => /* binding */ generateMenuList,
 /* harmony export */   "playAudio": () => /* binding */ playAudio,
@@ -752,11 +765,23 @@ var footer = document.querySelector('footer');
 var logo = document.querySelector('.header__logo');
 var categoryTitleDiv = create('div', 'container__header', null, main);
 var categoryTitle = create('div', 'category__title', null, categoryTitleDiv);
-categoryTitle.innerText = headerTitle();
+categoryTitle.innerText = setCategoryTitle();
 var scoreDiv = create('div', 'main__score', null, categoryTitleDiv);
-
-var audio = new Audio(); // const statisticArray = deepCopyFunction(cards.slice(1));
-// eslint-disable-next-line import/no-mutable-exports
+var audio = new Audio();
+var localStorage = {
+  set: function set(name, value) {
+    window.localStorage.setItem(name, JSON.stringify(value));
+  },
+  get: function get(name) {
+    var absent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    return JSON.parse(window.localStorage.getItem(name)) || absent;
+  },
+  del: function del(name) {
+    window.localStorage.removeItem(name);
+  }
+};
+var cards = getCardsArray();
+ // eslint-disable-next-line import/no-mutable-exports
 
 var wordToPlayIndex;
 function create(el, classNames, child, parent) {
@@ -810,14 +835,14 @@ function create(el, classNames, child, parent) {
 
   return elem;
 }
-function headerTitle() {
+function setCategoryTitle() {
   var category = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : -1;
 
   if (category < 0) {
     return '';
   }
 
-  return _cards__WEBPACK_IMPORTED_MODULE_0__.default[0][category];
+  return cards[0][category];
 }
 
 function gameOver(win, container, playButton) {
@@ -832,6 +857,8 @@ function gameOver(win, container, playButton) {
     playAudio('assets/audio/failure.mp3');
     create('img', 'img', null, container, ['src', 'assets/images/failure.jpg'], ['alt', 'win']);
   }
+
+  localStorage.set('cards', cards);
 }
 
 function addStar(rightWord) {
@@ -850,14 +877,14 @@ function generateMenuList() {
   mainPage.domElement.innerText = 'Main Page';
   var menuListArray = [mainPage];
 
-  for (var i = 0; i < _cards__WEBPACK_IMPORTED_MODULE_0__.default[0].length; i++) {
+  for (var i = 0; i < cards[0].length; i++) {
     var category = {
       // domElement: create('a', 'menu__item', null, menuList, ['href', '#/category']),
       domElement: create('li', 'menu__item', null, menuList),
       main: false,
       categoryNumber: i
     };
-    category.domElement.innerText = _cards__WEBPACK_IMPORTED_MODULE_0__.default[0][i];
+    category.domElement.innerText = cards[0][i];
     menuListArray.push(category);
   }
 
@@ -892,9 +919,9 @@ function nextWord(container, randomIntArray, playButton) {
     }, 3500);
   }
 }
-function toggleScorePanel(on) {
+function toggleScorePanel() {
   scoreDiv.innerHTML = '';
-
+  /*
   if (on === -1) {
     scoreDiv.classList.toggle('main__score-play');
   } else if (on) {
@@ -902,6 +929,7 @@ function toggleScorePanel(on) {
   } else {
     scoreDiv.classList.remove('main__score-play');
   }
+  */
 }
 
 function initApp(container, playButton) {
@@ -923,6 +951,16 @@ function initApp(container, playButton) {
   playButton.img = create('img', null, null, playButton, ['src', 'assets/images/svg/play.svg'], ['alt', 'play']);
   container.errors = 0;
   scoreDiv.innerHTML = '';
+}
+
+function getCardsArray() {
+  var data = localStorage.get('cards');
+
+  if (data === null) {
+    return _cards__WEBPACK_IMPORTED_MODULE_0__.default;
+  }
+
+  return data;
 }
 /*
 // https://medium.com/javascript-in-plain-english/how-to-deep-copy-objects-and-arrays-in-javascript-7c911359b089

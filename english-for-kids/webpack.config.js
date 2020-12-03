@@ -26,6 +26,9 @@ module.exports = (env, options) => {
     mode: isProd ? 'production' : 'development',
     devtool: isProd ? false : 'source-map',
     watch: !isProd,
+    watchOptions: {
+      aggregateTimeout: 6000,
+    },
     entry: ['./src/index.js', './src/assets/sass/style.scss'],
     output: {
       path: path.join(__dirname, '/dist'),

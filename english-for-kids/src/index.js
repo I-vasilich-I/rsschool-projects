@@ -17,7 +17,6 @@ playButton.img = helpers.create(
   ['src', 'assets/images/svg/play.svg'],
   ['alt', 'play']
 );
-
 function togglePlayButton() {
   if (!container.mainPage && !helpers.switchCheckbox.checked) {
     playButton.classList.add('play__button-play');
@@ -41,22 +40,33 @@ function eventHandler(elem) {
     )
       return;
     if (elem.disabled) return;
+    const indexOfElem = container.cardElements.indexOf(elem);
+    const statisticElement = helpers.cards[elem.cardFront.categoryNumber + 1];
     if (helpers.switchCheckbox.checked) {
       helpers.playAudio(elem.cardFront.audioSrc);
+      statisticElement[indexOfElem].inTrainClicked =
+        (statisticElement[indexOfElem].inTrainClicked || 0) + 1;
     } else {
       if (!playButton.clicked) return;
-      if (container.cardElements.indexOf(elem) === helpers.wordToPlayIndex) {
+      if (indexOfElem === helpers.wordToPlayIndex) {
+        statisticElement[indexOfElem].correct = (statisticElement[indexOfElem].correct || 0) + 1;
+        statisticElement[indexOfElem].incorrect = statisticElement[indexOfElem].incorrect || 0;
         elem.cardFront.card.classList.add('disabled');
         elem.disabled = true;
         helpers.playAudio('./assets/audio/correct2.mp3');
         helpers.addStar(true);
         helpers.nextWord(container, randomIntArray, playButton);
       } else {
+        statisticElement[helpers.wordToPlayIndex].incorrect =
+          (statisticElement[helpers.wordToPlayIndex].incorrect || 0) + 1;
+        statisticElement[helpers.wordToPlayIndex].correct =
+          statisticElement[helpers.wordToPlayIndex].correct || 0;
         helpers.addStar(false);
         helpers.playAudio('./assets/audio/error2.mp3');
         container.errors = container.errors + 1 || 1;
       }
     }
+    helpers.localStorage.set('cards', helpers.cards);
   };
 
   elem.cardDiv.onmouseleave = () => {
@@ -66,7 +76,7 @@ function eventHandler(elem) {
 
 function generateWordCards(categoryNumber) {
   container.mainPage = false;
-  helpers.categoryTitle.innerText = helpers.headerTitle(categoryNumber);
+  helpers.categoryTitle.innerText = helpers.setCategoryTitle(categoryNumber);
   togglePlayButton();
   if (!helpers.switchCheckbox.checked) {
     helpers.toggleScorePanel(-1);

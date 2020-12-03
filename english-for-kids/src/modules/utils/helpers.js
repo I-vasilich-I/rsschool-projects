@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
-import cards from '../../cards';
+import cardsArr from '../../cards';
 
 const { body } = document;
 const burger = document.getElementById('burger');
@@ -14,13 +14,36 @@ const footer = document.querySelector('footer');
 const logo = document.querySelector('.header__logo');
 const categoryTitleDiv = create('div', 'container__header', null, main);
 const categoryTitle = create('div', 'category__title', null, categoryTitleDiv);
-categoryTitle.innerText = headerTitle();
+categoryTitle.innerText = setCategoryTitle();
 const scoreDiv = create('div', 'main__score', null, categoryTitleDiv);
-
-export { body, burger, menuList, switchCheckbox, main, footer, categoryTitle, logo, scoreDiv };
-
 const audio = new Audio();
-// const statisticArray = deepCopyFunction(cards.slice(1));
+const localStorage = {
+  set: (name, value) => {
+    window.localStorage.setItem(name, JSON.stringify(value));
+  },
+  get: (name, absent = null) => {
+    return JSON.parse(window.localStorage.getItem(name)) || absent;
+  },
+  del: (name) => {
+    window.localStorage.removeItem(name);
+  },
+};
+const cards = getCardsArray();
+
+export {
+  body,
+  burger,
+  menuList,
+  switchCheckbox,
+  main,
+  footer,
+  categoryTitle,
+  logo,
+  scoreDiv,
+  cards,
+  localStorage,
+};
+
 // eslint-disable-next-line import/no-mutable-exports
 export let wordToPlayIndex;
 
@@ -65,7 +88,7 @@ export function create(el, classNames, child, parent, ...dataAttr) {
   return elem;
 }
 
-export function headerTitle(category = -1) {
+export function setCategoryTitle(category = -1) {
   if (category < 0) {
     return '';
   }
@@ -84,6 +107,7 @@ function gameOver(win, container, playButton) {
     playAudio('assets/audio/failure.mp3');
     create('img', 'img', null, container, ['src', 'assets/images/failure.jpg'], ['alt', 'win']);
   }
+  localStorage.set('cards', cards);
 }
 
 export function addStar(rightWord) {
@@ -152,8 +176,9 @@ export function nextWord(container, randomIntArray, playButton) {
   }
 }
 
-export function toggleScorePanel(on) {
+export function toggleScorePanel() {
   scoreDiv.innerHTML = '';
+  /*
   if (on === -1) {
     scoreDiv.classList.toggle('main__score-play');
   } else if (on) {
@@ -161,6 +186,7 @@ export function toggleScorePanel(on) {
   } else {
     scoreDiv.classList.remove('main__score-play');
   }
+  */
 }
 
 function initApp(container, playButton) {
@@ -189,6 +215,14 @@ function initApp(container, playButton) {
   );
   container.errors = 0;
   scoreDiv.innerHTML = '';
+}
+
+function getCardsArray() {
+  const data = localStorage.get('cards');
+  if (data === null) {
+    return cardsArr;
+  }
+  return data;
 }
 
 /*

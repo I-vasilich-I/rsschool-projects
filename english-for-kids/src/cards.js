@@ -1,4 +1,4 @@
-const cards = [
+const cardsArr = [
   ['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions'],
   [
     {
@@ -302,4 +302,4 @@ const cards = [
   ],
 ];
 
-export default cards;
+export default cardsArr;
