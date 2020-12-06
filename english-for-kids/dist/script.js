@@ -532,6 +532,15 @@ menuListArray.forEach(function (elem) {
       togglePlayButton();
       _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.main.innerHTML = '';
       _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.createStatisticPage();
+      _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.statRepeat.addEventListener('click', function () {
+        var arrWordsToRepeat = _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.generaterWordsToRepeat(_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.sortStatTable('errors', -1));
+        _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.initApp(container, playButton);
+        container.cardsContainer.innerHTML = '';
+        container.generateWordsToRepeat(arrWordsToRepeat);
+        container.cardElements.forEach(function (el) {
+          el.cardDiv.onmouseenter = eventHandler(el);
+        });
+      });
     }
 
     toggleMenu();
@@ -694,6 +703,29 @@ var CardsContainer = /*#__PURE__*/function () {
       });
       this.mainPage = false;
     }
+  }, {
+    key: "generateWordsToRepeat",
+    value: function generateWordsToRepeat(arr) {
+      var _this2 = this;
+
+      this.cardElements.length = 0;
+      arr.forEach(function (elem) {
+        var frontClassName = Checkbox.checked ? 'word__card word__card-front' : 'word__card word__card-front word__card-play';
+        var cardDiv = _utils_helpers__WEBPACK_IMPORTED_MODULE_3__.create('div', 'card', null, _this2.cardsContainer);
+        var cardFront = new _WordCard__WEBPACK_IMPORTED_MODULE_2__.default(frontClassName, [elem.image, elem.word], elem.word, cardDiv, elem.categoryNum, elem.audioSrc);
+        cardFront.init();
+        cardFront.addButton();
+        var cardBack = new _WordCard__WEBPACK_IMPORTED_MODULE_2__.default('word__card word__card-back', [elem.image, elem.translation], elem.translation, cardDiv, elem.categoryNum, elem.audioSrc);
+        cardBack.init();
+
+        _this2.cardElements.push({
+          cardDiv: cardDiv,
+          cardFront: cardFront,
+          cardBack: cardBack
+        });
+      });
+      this.mainPage = false;
+    }
   }]);
 
   return CardsContainer;
@@ -788,6 +820,7 @@ var WordCard = /*#__PURE__*/function (_Card) {
 /*! export createStatisticPage [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export footer [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export generateMenuList [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export generaterWordsToRepeat [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export getRandomIntArray [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export initApp [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export localStorage [provided] [no usage info] [missing usage info prevents renaming] */
@@ -798,6 +831,7 @@ var WordCard = /*#__PURE__*/function (_Card) {
 /*! export playAudio [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export scoreDiv [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export setCategoryTitle [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export sortStatTable [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export statRepeat [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export statReset [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export switchCheckbox [provided] [no usage info] [missing usage info prevents renaming] */
@@ -832,7 +866,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "nextWord": () => /* binding */ nextWord,
 /* harmony export */   "toggleScorePanel": () => /* binding */ toggleScorePanel,
 /* harmony export */   "initApp": () => /* binding */ initApp,
-/* harmony export */   "createStatisticPage": () => /* binding */ createStatisticPage
+/* harmony export */   "createStatisticPage": () => /* binding */ createStatisticPage,
+/* harmony export */   "sortStatTable": () => /* binding */ sortStatTable,
+/* harmony export */   "generaterWordsToRepeat": () => /* binding */ generaterWordsToRepeat
 /* harmony export */ });
 /* harmony import */ var _cards__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../cards */ "./src/cards.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -978,6 +1014,8 @@ function gameOver(win, container, playButton) {
   }
 
   localStorage.set('cards', cards);
+  var munuItemActive = document.querySelector('.menu__item-active');
+  munuItemActive.classList.remove('menu__item-active');
 }
 
 function addStar(rightWord) {
@@ -1135,9 +1173,6 @@ function createStatisticPage() {
     main.innerHTML = '';
     createStatisticPage();
   });
-  statRepeat.addEventListener('click', function () {
-    generaterWordsToRepeat(sortStatTable('errors', -1));
-  });
 }
 
 function setToZero() {
@@ -1199,10 +1234,9 @@ function generaterWordsToRepeat(arr) {
     if (elem.errors > 0) {
       arrWordsToRepeat.push(elem);
       i -= 1;
-      console.log(i);
     }
   });
-  console.log(arrWordsToRepeat);
+  return arrWordsToRepeat;
 }
 
 /***/ }),

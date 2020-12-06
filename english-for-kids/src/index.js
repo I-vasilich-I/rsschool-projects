@@ -185,6 +185,17 @@ menuListArray.forEach((elem) => {
       togglePlayButton();
       helpers.main.innerHTML = '';
       helpers.createStatisticPage();
+      helpers.statRepeat.addEventListener('click', () => {
+        const arrWordsToRepeat = helpers.generaterWordsToRepeat(
+          helpers.sortStatTable('errors', -1)
+        );
+        helpers.initApp(container, playButton);
+        container.cardsContainer.innerHTML = '';
+        container.generateWordsToRepeat(arrWordsToRepeat);
+        container.cardElements.forEach((el) => {
+          el.cardDiv.onmouseenter = eventHandler(el);
+        });
+      });
     }
     toggleMenu();
     if (!helpers.switchCheckbox.checked && !elem.main) {

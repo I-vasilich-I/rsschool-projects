@@ -116,6 +116,8 @@ function gameOver(win, container, playButton) {
     create('img', 'img', null, container, ['src', 'assets/images/failure.jpg'], ['alt', 'win']);
   }
   localStorage.set('cards', cards);
+  const munuItemActive = document.querySelector('.menu__item-active');
+  munuItemActive.classList.remove('menu__item-active');
 }
 
 export function addStar(rightWord) {
@@ -305,9 +307,6 @@ export function createStatisticPage() {
     main.innerHTML = '';
     createStatisticPage();
   });
-  statRepeat.addEventListener('click', () => {
-    generaterWordsToRepeat(sortStatTable('errors', -1));
-  });
 }
 
 function setToZero() {
@@ -322,7 +321,7 @@ function setToZero() {
   localStorage.set('word-cards', cards);
 }
 
-function sortStatTable(column, order = 1) {
+export function sortStatTable(column, order = 1) {
   const cardsStat = localStorage.get('word-cards');
   const arrToSort = [];
   if (!cardsStat) return;
@@ -353,7 +352,7 @@ function createTr(elem, tbody, elem2) {
   create('td', null, null, tr).innerText = elem.errors;
 }
 
-function generaterWordsToRepeat(arr) {
+export function generaterWordsToRepeat(arr) {
   let i = 7;
   const arrWordsToRepeat = [];
   arr.forEach((elem) => {
@@ -361,8 +360,7 @@ function generaterWordsToRepeat(arr) {
     if (elem.errors > 0) {
       arrWordsToRepeat.push(elem);
       i -= 1;
-      console.log(i);
     }
   });
-  console.log(arrWordsToRepeat);
+  return arrWordsToRepeat;
 }

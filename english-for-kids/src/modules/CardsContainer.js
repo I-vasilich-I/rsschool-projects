@@ -64,4 +64,35 @@ export default class CardsContainer {
     });
     this.mainPage = false;
   }
+
+  generateWordsToRepeat(arr) {
+    this.cardElements.length = 0;
+    arr.forEach((elem) => {
+      const frontClassName = Checkbox.checked
+        ? 'word__card word__card-front'
+        : 'word__card word__card-front word__card-play';
+      const cardDiv = helpers.create('div', 'card', null, this.cardsContainer);
+      const cardFront = new WordCard(
+        frontClassName,
+        [elem.image, elem.word],
+        elem.word,
+        cardDiv,
+        elem.categoryNum,
+        elem.audioSrc
+      );
+      cardFront.init();
+      cardFront.addButton();
+      const cardBack = new WordCard(
+        'word__card word__card-back',
+        [elem.image, elem.translation],
+        elem.translation,
+        cardDiv,
+        elem.categoryNum,
+        elem.audioSrc
+      );
+      cardBack.init();
+      this.cardElements.push({ cardDiv, cardFront, cardBack });
+    });
+    this.mainPage = false;
+  }
 }
