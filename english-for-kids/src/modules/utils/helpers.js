@@ -99,12 +99,16 @@ function gameOver(win, container, playButton) {
   if (win) {
     main.innerHTML = '';
     main.classList.add('main-over');
-    playAudio('assets/audio/success.mp3');
+    setTimeout(() => {
+      playAudio('assets/audio/success.mp3');
+    }, 1000);
     create('img', 'img', null, main, ['src', 'assets/images/success.jpg'], ['alt', 'win']);
   } else {
     container.innerHTML = '';
     main.removeChild(playButton);
-    playAudio('assets/audio/failure.mp3');
+    setTimeout(() => {
+      playAudio('assets/audio/failure.mp3');
+    }, 1000);
     create('img', 'img', null, container, ['src', 'assets/images/failure.jpg'], ['alt', 'win']);
   }
   localStorage.set('cards', cards);
@@ -128,11 +132,19 @@ export function addStar(rightWord) {
 export function generateMenuList() {
   const mainPage = {
     // domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
-    domElement: create('li', 'menu__item', null, menuList),
+    domElement: create('li', 'menu__item menu__item-active', null, menuList),
 
     main: true,
   };
   mainPage.domElement.innerText = 'Main Page';
+  mainPage.domElement.img = create(
+    'img',
+    null,
+    null,
+    mainPage.domElement,
+    ['src', '/dist/assets/images/svg/star.svg'],
+    ['alt', 'Main Page']
+  );
   const menuListArray = [mainPage];
   for (let i = 0; i < cards[0].length; i++) {
     const category = {
@@ -142,6 +154,14 @@ export function generateMenuList() {
       categoryNumber: i,
     };
     category.domElement.innerText = cards[0][i];
+    category.domElement.img = create(
+      'img',
+      null,
+      null,
+      category.domElement,
+      ['src', cards[i + 1][1].image],
+      ['alt', cards[0][i]]
+    );
     menuListArray.push(category);
   }
   return menuListArray;
@@ -224,29 +244,3 @@ function getCardsArray() {
   }
   return data;
 }
-
-/*
-// https://medium.com/javascript-in-plain-english/how-to-deep-copy-objects-and-arrays-in-javascript-7c911359b089
-function deepCopyFunction(inObject) {
-  let outObject;
-  let value;
-  let key;
-
-  if (typeof inObject !== 'object' || inObject === null) {
-    return inObject; // Return the value if inObject is not an object
-  }
-
-  // Create an array or object to hold the values
-  // eslint-disable-next-line prefer-const
-  outObject = Array.isArray(inObject) ? [] : {};
-
-  for (key in inObject) {
-    value = inObject[key];
-
-    // Recursively (deep) copy for nested objects, including arrays
-    outObject[key] = deepCopyFunction(value);
-  }
-
-  return outObject;
-}
-*/

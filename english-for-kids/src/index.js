@@ -19,11 +19,12 @@ playButton.img = helpers.create(
 );
 function togglePlayButton() {
   if (!container.mainPage && !helpers.switchCheckbox.checked) {
-    playButton.classList.add('play__button-play');
+    playButton.classList.add('play__button-start');
     playButton.img.src = 'assets/images/svg/play.svg';
     playButton.clicked = false;
   } else {
     playButton.classList.remove('play__button-play');
+    playButton.classList.remove('play__button-start');
   }
 }
 
@@ -52,7 +53,6 @@ function eventHandler(elem) {
         statisticElement[indexOfElem].correct = (statisticElement[indexOfElem].correct || 0) + 1;
         statisticElement[indexOfElem].incorrect = statisticElement[indexOfElem].incorrect || 0;
         elem.cardFront.card.classList.add('disabled');
-        elem.disabled = true;
         helpers.playAudio('./assets/audio/correct2.mp3');
         helpers.addStar(true);
         helpers.nextWord(container, randomIntArray, playButton);
@@ -156,6 +156,10 @@ helpers.burger.addEventListener('click', toggleMenu);
 // Activate links
 menuListArray.forEach((elem) => {
   elem.domElement.addEventListener('click', () => {
+    menuListArray.forEach((el) => {
+      el.domElement.classList.remove('menu__item-active');
+    });
+    elem.domElement.classList.add('menu__item-active');
     if (!elem.main) {
       generateWordCards(elem.categoryNumber);
     } else {
@@ -180,9 +184,13 @@ playButton.addEventListener('click', () => {
   if (!playButton.clicked) {
     playButton.img.src = 'assets/images/svg/replay.svg';
     playButton.clicked = true;
+    playButton.classList.remove('play__button-start');
+    playButton.classList.add('play__button-play');
     randomIntArray = helpers.getRandomIntArray(container.cardElements.length);
     helpers.nextWord(container, randomIntArray, playButton);
   } else if (helpers.wordToPlayIndex || helpers.wordToPlayIndex === 0) {
-    helpers.playAudio(container.cardElements[helpers.wordToPlayIndex].cardFront.audioSrc);
+    setTimeout(() => {
+      helpers.playAudio(container.cardElements[helpers.wordToPlayIndex].cardFront.audioSrc);
+    }, 1000);
   }
 });

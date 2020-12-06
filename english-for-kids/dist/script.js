@@ -16,7 +16,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-var cardsArr = [['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions'], [{
+var cardsArr = [['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions', 'Kitchen', 'School'], [{
   word: 'cry',
   translation: 'плакать',
   image: 'assets/images/cry.jpg',
@@ -256,6 +256,86 @@ var cardsArr = [['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (
   translation: 'смех',
   image: 'assets/images/laugh.jpg',
   audioSrc: 'assets/audio/laugh.mp3'
+}], [{
+  word: 'grater',
+  translation: 'тёрка',
+  image: 'assets/images/grater.jpg',
+  audioSrc: 'assets/audio/grater.mp3'
+}, {
+  word: 'cup',
+  translation: 'чашка',
+  image: 'assets/images/cup.jpg',
+  audioSrc: 'assets/audio/cup.mp3'
+}, {
+  word: 'pan',
+  translation: 'сковорода',
+  image: 'assets/images/pan.jpg',
+  audioSrc: 'assets/audio/pan.mp3'
+}, {
+  word: 'bowl',
+  translation: 'миска',
+  image: 'assets/images/bowl.jpg',
+  audioSrc: 'assets/audio/bowl.mp3'
+}, {
+  word: 'plate',
+  translation: 'тарелка',
+  image: 'assets/images/plate.jpg',
+  audioSrc: 'assets/audio/plate.mp3'
+}, {
+  word: 'knife',
+  translation: 'нож',
+  image: 'assets/images/knife.jpg',
+  audioSrc: 'assets/audio/knife.mp3'
+}, {
+  word: 'spoon',
+  translation: 'ложка',
+  image: 'assets/images/spoon.jpg',
+  audioSrc: 'assets/audio/spoon.mp3'
+}, {
+  word: 'fork',
+  translation: 'вилка',
+  image: 'assets/images/fork.jpg',
+  audioSrc: 'assets/audio/fork.mp3'
+}], [{
+  word: 'chalk',
+  translation: 'мел',
+  image: 'assets/images/chalk.jpg',
+  audioSrc: 'assets/audio/chalk.mp3'
+}, {
+  word: 'ruler',
+  translation: 'линейка',
+  image: 'assets/images/ruler.jpg',
+  audioSrc: 'assets/audio/ruler.mp3'
+}, {
+  word: 'rubber',
+  translation: 'стёрка',
+  image: 'assets/images/rubber.jpg',
+  audioSrc: 'assets/audio/rubber.mp3'
+}, {
+  word: 'notebook',
+  translation: 'тетрадь',
+  image: 'assets/images/notebook.jpg',
+  audioSrc: 'assets/audio/notebook.mp3'
+}, {
+  word: 'library',
+  translation: 'библиотека',
+  image: 'assets/images/library.jpg',
+  audioSrc: 'assets/audio/library.mp3'
+}, {
+  word: 'desk',
+  translation: 'парта',
+  image: 'assets/images/desk.jpg',
+  audioSrc: 'assets/audio/desk.mp3'
+}, {
+  word: 'book',
+  translation: 'книга',
+  image: 'assets/images/book.jpg',
+  audioSrc: 'assets/audio/book.mp3'
+}, {
+  word: 'calculator',
+  translation: 'калькулятор',
+  image: 'assets/images/calculator.jpg',
+  audioSrc: 'assets/audio/calculator.mp3'
 }]];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cardsArr);
 
@@ -287,11 +367,12 @@ playButton.img = _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.create('img
 
 function togglePlayButton() {
   if (!container.mainPage && !_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.switchCheckbox.checked) {
-    playButton.classList.add('play__button-play');
+    playButton.classList.add('play__button-start');
     playButton.img.src = 'assets/images/svg/play.svg';
     playButton.clicked = false;
   } else {
     playButton.classList.remove('play__button-play');
+    playButton.classList.remove('play__button-start');
   }
 }
 
@@ -316,7 +397,6 @@ function eventHandler(elem) {
         statisticElement[indexOfElem].correct = (statisticElement[indexOfElem].correct || 0) + 1;
         statisticElement[indexOfElem].incorrect = statisticElement[indexOfElem].incorrect || 0;
         elem.cardFront.card.classList.add('disabled');
-        elem.disabled = true;
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.playAudio('./assets/audio/correct2.mp3');
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.addStar(true);
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.nextWord(container, randomIntArray, playButton);
@@ -422,6 +502,11 @@ _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.burger.addEventListener('cli
 
 menuListArray.forEach(function (elem) {
   elem.domElement.addEventListener('click', function () {
+    menuListArray.forEach(function (el) {
+      el.domElement.classList.remove('menu__item-active');
+    });
+    elem.domElement.classList.add('menu__item-active');
+
     if (!elem.main) {
       generateWordCards(elem.categoryNumber);
     } else {
@@ -447,10 +532,14 @@ playButton.addEventListener('click', function () {
   if (!playButton.clicked) {
     playButton.img.src = 'assets/images/svg/replay.svg';
     playButton.clicked = true;
+    playButton.classList.remove('play__button-start');
+    playButton.classList.add('play__button-play');
     randomIntArray = _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.getRandomIntArray(container.cardElements.length);
     _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.nextWord(container, randomIntArray, playButton);
   } else if (_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex || _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex === 0) {
-    _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.playAudio(container.cardElements[_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex].cardFront.audioSrc);
+    setTimeout(function () {
+      _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.playAudio(container.cardElements[_modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.wordToPlayIndex].cardFront.audioSrc);
+    }, 1000);
   }
 });
 
@@ -849,12 +938,16 @@ function gameOver(win, container, playButton) {
   if (win) {
     main.innerHTML = '';
     main.classList.add('main-over');
-    playAudio('assets/audio/success.mp3');
+    setTimeout(function () {
+      playAudio('assets/audio/success.mp3');
+    }, 1000);
     create('img', 'img', null, main, ['src', 'assets/images/success.jpg'], ['alt', 'win']);
   } else {
     container.innerHTML = '';
     main.removeChild(playButton);
-    playAudio('assets/audio/failure.mp3');
+    setTimeout(function () {
+      playAudio('assets/audio/failure.mp3');
+    }, 1000);
     create('img', 'img', null, container, ['src', 'assets/images/failure.jpg'], ['alt', 'win']);
   }
 
@@ -871,10 +964,11 @@ function addStar(rightWord) {
 function generateMenuList() {
   var mainPage = {
     // domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
-    domElement: create('li', 'menu__item', null, menuList),
+    domElement: create('li', 'menu__item menu__item-active', null, menuList),
     main: true
   };
   mainPage.domElement.innerText = 'Main Page';
+  mainPage.domElement.img = create('img', null, null, mainPage.domElement, ['src', '/dist/assets/images/svg/star.svg'], ['alt', 'Main Page']);
   var menuListArray = [mainPage];
 
   for (var i = 0; i < cards[0].length; i++) {
@@ -885,6 +979,7 @@ function generateMenuList() {
       categoryNumber: i
     };
     category.domElement.innerText = cards[0][i];
+    category.domElement.img = create('img', null, null, category.domElement, ['src', cards[i + 1][1].image], ['alt', cards[0][i]]);
     menuListArray.push(category);
   }
 
@@ -962,31 +1057,6 @@ function getCardsArray() {
 
   return data;
 }
-/*
-// https://medium.com/javascript-in-plain-english/how-to-deep-copy-objects-and-arrays-in-javascript-7c911359b089
-function deepCopyFunction(inObject) {
-  let outObject;
-  let value;
-  let key;
-
-  if (typeof inObject !== 'object' || inObject === null) {
-    return inObject; // Return the value if inObject is not an object
-  }
-
-  // Create an array or object to hold the values
-  // eslint-disable-next-line prefer-const
-  outObject = Array.isArray(inObject) ? [] : {};
-
-  for (key in inObject) {
-    value = inObject[key];
-
-    // Recursively (deep) copy for nested objects, including arrays
-    outObject[key] = deepCopyFunction(value);
-  }
-
-  return outObject;
-}
-*/
 
 /***/ }),
 

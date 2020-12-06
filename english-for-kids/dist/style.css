@@ -1,4 +1,4 @@
-.menu__list, .burger, .burger-menu, .burger__line, .burger::after, .burger::before {
+.menu__list li:hover, .menu__list, .burger, .burger-menu, .burger__line, .burger::after, .burger::before {
   transition: all 0.5s ease-out;
 }
 
@@ -624,9 +624,26 @@ input:checked + .slider:before {
 }
 .menu__list li:hover {
   cursor: pointer;
+  color: white;
 }
 .menu__list-play {
   background-color: #ff9100;
+}
+
+.menu__item {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+.menu__item img {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.menu__item-active {
+  color: white;
 }
 
 .main {
@@ -812,15 +829,10 @@ input:checked + .slider:before {
 .play__button {
   display: none;
   width: 180px;
-  height: 80px;
+  height: 100px;
   border-radius: 20px;
   margin: 10px auto;
   border: 2px solid #ff9100;
-}
-.play__button img {
-  height: 85%;
-  width: 85%;
-  margin: auto;
 }
 .play__button-play {
   display: block;
@@ -829,6 +841,11 @@ input:checked + .slider:before {
   margin: 10px auto;
   border-radius: 50%;
 }
+.play__button-play img {
+  height: 85%;
+  width: 85%;
+  margin: auto;
+}
 .play__button-play:hover {
   cursor: pointer;
   transform: scale(1.2);
@@ -836,6 +853,19 @@ input:checked + .slider:before {
 }
 .play__button-start {
   display: block;
+  width: 200px;
+  border-radius: 20px;
+}
+.play__button-start::before {
+  content: "Start game";
+  font-size: 3rem;
+  width: 100px;
+  height: 20px;
+}
+.play__button-start img {
+  height: 70%;
+  width: 70%;
+  margin: auto;
 }
 
 .footer {

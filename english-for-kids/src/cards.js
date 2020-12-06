@@ -1,5 +1,14 @@
 const cardsArr = [
-  ['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions'],
+  [
+    'Action (set A)',
+    'Action (set B)',
+    'Animal (set A)',
+    'Animal (set B)',
+    'Clothes',
+    'Emotions',
+    'Kitchen',
+    'School',
+  ],
   [
     {
       word: 'cry',
@@ -298,6 +307,106 @@ const cardsArr = [
       translation: 'смех',
       image: 'assets/images/laugh.jpg',
       audioSrc: 'assets/audio/laugh.mp3',
+    },
+  ],
+  [
+    {
+      word: 'grater',
+      translation: 'тёрка',
+      image: 'assets/images/grater.jpg',
+      audioSrc: 'assets/audio/grater.mp3',
+    },
+    {
+      word: 'cup',
+      translation: 'чашка',
+      image: 'assets/images/cup.jpg',
+      audioSrc: 'assets/audio/cup.mp3',
+    },
+    {
+      word: 'pan',
+      translation: 'сковорода',
+      image: 'assets/images/pan.jpg',
+      audioSrc: 'assets/audio/pan.mp3',
+    },
+    {
+      word: 'bowl',
+      translation: 'миска',
+      image: 'assets/images/bowl.jpg',
+      audioSrc: 'assets/audio/bowl.mp3',
+    },
+    {
+      word: 'plate',
+      translation: 'тарелка',
+      image: 'assets/images/plate.jpg',
+      audioSrc: 'assets/audio/plate.mp3',
+    },
+    {
+      word: 'knife',
+      translation: 'нож',
+      image: 'assets/images/knife.jpg',
+      audioSrc: 'assets/audio/knife.mp3',
+    },
+    {
+      word: 'spoon',
+      translation: 'ложка',
+      image: 'assets/images/spoon.jpg',
+      audioSrc: 'assets/audio/spoon.mp3',
+    },
+    {
+      word: 'fork',
+      translation: 'вилка',
+      image: 'assets/images/fork.jpg',
+      audioSrc: 'assets/audio/fork.mp3',
+    },
+  ],
+  [
+    {
+      word: 'chalk',
+      translation: 'мел',
+      image: 'assets/images/chalk.jpg',
+      audioSrc: 'assets/audio/chalk.mp3',
+    },
+    {
+      word: 'ruler',
+      translation: 'линейка',
+      image: 'assets/images/ruler.jpg',
+      audioSrc: 'assets/audio/ruler.mp3',
+    },
+    {
+      word: 'rubber',
+      translation: 'стёрка',
+      image: 'assets/images/rubber.jpg',
+      audioSrc: 'assets/audio/rubber.mp3',
+    },
+    {
+      word: 'notebook',
+      translation: 'тетрадь',
+      image: 'assets/images/notebook.jpg',
+      audioSrc: 'assets/audio/notebook.mp3',
+    },
+    {
+      word: 'library',
+      translation: 'библиотека',
+      image: 'assets/images/library.jpg',
+      audioSrc: 'assets/audio/library.mp3',
+    },
+    {
+      word: 'desk',
+      translation: 'парта',
+      image: 'assets/images/desk.jpg',
+      audioSrc: 'assets/audio/desk.mp3',
+    },
+    {
+      word: 'book',
+      translation: 'книга',
+      image: 'assets/images/book.jpg',
+      audioSrc: 'assets/audio/book.mp3',
+    },
+    {
+      word: 'calculator',
+      translation: 'калькулятор',
+      image: 'assets/images/calculator.jpg',
+      audioSrc: 'assets/audio/calculator.mp3',
     },
   ],
 ];
