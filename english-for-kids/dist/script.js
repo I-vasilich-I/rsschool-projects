@@ -397,6 +397,7 @@ function eventHandler(elem) {
         statisticElement[indexOfElem].correct = (statisticElement[indexOfElem].correct || 0) + 1;
         statisticElement[indexOfElem].incorrect = statisticElement[indexOfElem].incorrect || 0;
         elem.cardFront.card.classList.add('disabled');
+        elem.disabled = true;
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.playAudio('./assets/audio/correct2.mp3');
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.addStar(true);
         _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.nextWord(container, randomIntArray, playButton);
@@ -409,7 +410,7 @@ function eventHandler(elem) {
       }
     }
 
-    _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.localStorage.set('cards', _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.cards);
+    _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.localStorage.set('word-cards', _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.cards);
   };
 
   elem.cardDiv.onmouseleave = function () {
@@ -481,6 +482,8 @@ _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.switchCheckbox.addEventListe
 
   container.cardElements.forEach(function (elem) {
     elem.cardFront.card.classList.toggle('word__card-play');
+    elem.disabled = false;
+    elem.cardFront.card.classList.remove('disabled');
   });
   container.cardCategories.forEach(function (elem) {
     elem.card.classList.toggle('category__card-play');
@@ -488,14 +491,17 @@ _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.switchCheckbox.addEventListe
 }); // Logo
 
 _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.logo.addEventListener('click', function () {
+  _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.initApp(container, playButton);
+  /*
   container.mainPage = true;
   togglePlayButton();
-  _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.categoryTitle.innerText = '';
+  helpers.categoryTitle.innerText = '';
   container.cardsContainer.innerHTML = '';
-  container.cardCategories.forEach(function (elem) {
+  container.cardCategories.forEach((elem) => {
     container.cardsContainer.appendChild(elem.card);
   });
-  _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.scoreDiv.innerHTML = '';
+  helpers.scoreDiv.innerHTML = '';
+  */
 }); // Menu
 
 _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.burger.addEventListener('click', toggleMenu); // Activate links
@@ -507,9 +513,11 @@ menuListArray.forEach(function (elem) {
     });
     elem.domElement.classList.add('menu__item-active');
 
-    if (!elem.main) {
+    if (!elem.main && !elem.statPage) {
+      _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.initApp(container, playButton);
       generateWordCards(elem.categoryNumber);
-    } else {
+    } else if (elem.main) {
+      _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.initApp(container, playButton);
       _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.toggleScorePanel(false);
       container.mainPage = true;
       togglePlayButton();
@@ -518,6 +526,12 @@ menuListArray.forEach(function (elem) {
       container.cardCategories.forEach(function (element) {
         container.cardsContainer.appendChild(element.card);
       });
+    } else if (elem.statPage) {
+      _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.toggleScorePanel(false);
+      container.mainPage = false;
+      togglePlayButton();
+      _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.main.innerHTML = '';
+      _modules_utils_helpers__WEBPACK_IMPORTED_MODULE_1__.createStatisticPage();
     }
 
     toggleMenu();
@@ -771,9 +785,11 @@ var WordCard = /*#__PURE__*/function (_Card) {
 /*! export cards [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export categoryTitle [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export create [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export createStatisticPage [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export footer [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export generateMenuList [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export getRandomIntArray [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export initApp [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export localStorage [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export logo [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export main [provided] [no usage info] [missing usage info prevents renaming] */
@@ -782,6 +798,8 @@ var WordCard = /*#__PURE__*/function (_Card) {
 /*! export playAudio [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export scoreDiv [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export setCategoryTitle [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export statRepeat [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export statReset [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export switchCheckbox [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export toggleScorePanel [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export wordToPlayIndex [provided] [no usage info] [missing usage info prevents renaming] */
@@ -803,6 +821,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "cards": () => /* binding */ cards,
 /* harmony export */   "localStorage": () => /* binding */ localStorage,
 /* harmony export */   "wordToPlayIndex": () => /* binding */ wordToPlayIndex,
+/* harmony export */   "statRepeat": () => /* binding */ statRepeat,
+/* harmony export */   "statReset": () => /* binding */ statReset,
 /* harmony export */   "create": () => /* binding */ create,
 /* harmony export */   "setCategoryTitle": () => /* binding */ setCategoryTitle,
 /* harmony export */   "addStar": () => /* binding */ addStar,
@@ -810,7 +830,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "playAudio": () => /* binding */ playAudio,
 /* harmony export */   "getRandomIntArray": () => /* binding */ getRandomIntArray,
 /* harmony export */   "nextWord": () => /* binding */ nextWord,
-/* harmony export */   "toggleScorePanel": () => /* binding */ toggleScorePanel
+/* harmony export */   "toggleScorePanel": () => /* binding */ toggleScorePanel,
+/* harmony export */   "initApp": () => /* binding */ initApp,
+/* harmony export */   "createStatisticPage": () => /* binding */ createStatisticPage
 /* harmony export */ });
 /* harmony import */ var _cards__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../cards */ "./src/cards.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -872,7 +894,11 @@ var localStorage = {
 var cards = getCardsArray();
  // eslint-disable-next-line import/no-mutable-exports
 
-var wordToPlayIndex;
+var wordToPlayIndex; // eslint-disable-next-line import/no-mutable-exports
+
+var statRepeat; // eslint-disable-next-line import/no-mutable-exports
+
+var statReset;
 function create(el, classNames, child, parent) {
   var _elem$classList;
 
@@ -965,6 +991,7 @@ function generateMenuList() {
   var mainPage = {
     // domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
     domElement: create('li', 'menu__item menu__item-active', null, menuList),
+    statPage: false,
     main: true
   };
   mainPage.domElement.innerText = 'Main Page';
@@ -976,6 +1003,7 @@ function generateMenuList() {
       // domElement: create('a', 'menu__item', null, menuList, ['href', '#/category']),
       domElement: create('li', 'menu__item', null, menuList),
       main: false,
+      statPage: false,
       categoryNumber: i
     };
     category.domElement.innerText = cards[0][i];
@@ -983,6 +1011,15 @@ function generateMenuList() {
     menuListArray.push(category);
   }
 
+  var statisticPage = {
+    // domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
+    domElement: create('li', 'menu__item', null, menuList),
+    statPage: true,
+    main: false
+  };
+  statisticPage.domElement.innerText = 'Statistic';
+  statisticPage.domElement.img = create('img', null, null, statisticPage.domElement, ['src', '/dist/assets/images/svg/star-win.svg'], ['alt', 'Statistic']);
+  menuListArray.push(statisticPage);
   return menuListArray;
 }
 function playAudio(src) {
@@ -1026,7 +1063,6 @@ function toggleScorePanel() {
   }
   */
 }
-
 function initApp(container, playButton) {
   main.innerHTML = '';
   main.classList.remove('main-over');
@@ -1042,20 +1078,131 @@ function initApp(container, playButton) {
   main.appendChild(playButton);
   playButton.clicked = false;
   playButton.innerHTML = '';
-  playButton.classList.toggle('play__button-play');
+  playButton.classList.remove('play__button-play');
   playButton.img = create('img', null, null, playButton, ['src', 'assets/images/svg/play.svg'], ['alt', 'play']);
   container.errors = 0;
   scoreDiv.innerHTML = '';
 }
 
 function getCardsArray() {
-  var data = localStorage.get('cards');
+  var data = localStorage.get('word-cards');
 
   if (data === null) {
     return _cards__WEBPACK_IMPORTED_MODULE_0__.default;
   }
 
   return data;
+}
+
+function createStatisticPage() {
+  var statButtons = create('div', 'stat__buttons', null);
+  statRepeat = create('button', null, null, statButtons);
+  statRepeat.innerText = 'Repeat difficult words';
+  statReset = create('button', null, null, statButtons);
+  statReset.innerText = 'Reset';
+  var statTable = create('table', 'stat__table', null);
+  var thead = create('thead', 'stat__table-thead', null, statTable);
+  var headtr = create('tr', 'stat__table-tr', null, thead);
+  var th1 = create('th', null, null, headtr);
+  th1.innerText = 'Category';
+  var th7 = create('th', null, null, headtr);
+  th7.innerText = 'Word';
+  var th2 = create('th', null, null, headtr);
+  th2.innerText = 'Translation';
+  var th3 = create('th', null, null, headtr);
+  th3.innerText = 'TrainClicks';
+  var th4 = create('th', null, null, headtr);
+  th4.innerText = 'Correct';
+  var th5 = create('th', null, null, headtr);
+  th5.innerText = 'Wrong';
+  var th6 = create('th', null, null, headtr);
+  th6.innerText = 'Errors, %';
+  var tbody = create('tbody', null, null, statTable);
+  create('tr', 'stat__table-tr', null, tbody);
+  var cardsStat = localStorage.get('word-cards');
+  if (!cardsStat) return;
+
+  for (var i = 0; i < cardsStat[0].length; i++) {
+    for (var j = 0; j < cardsStat[i + 1].length; j++) {
+      createTr(cardsStat[i + 1][j], tbody, cardsStat[0][i]);
+    }
+  }
+
+  main.appendChild(statButtons);
+  main.appendChild(statTable);
+  statReset.addEventListener('click', function () {
+    setToZero();
+    main.innerHTML = '';
+    createStatisticPage();
+  });
+  statRepeat.addEventListener('click', function () {
+    generaterWordsToRepeat(sortStatTable('errors', -1));
+  });
+}
+
+function setToZero() {
+  cards.forEach(function (elem, idx) {
+    if (!idx) return;
+    elem.forEach(function (element) {
+      element.correct = 0;
+      element.incorrect = 0;
+      element.inTrainClicked = 0;
+    });
+  });
+  localStorage.set('word-cards', cards);
+}
+
+function sortStatTable(column) {
+  var order = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  var cardsStat = localStorage.get('word-cards');
+  var arrToSort = [];
+  if (!cardsStat) return;
+
+  var _loop = function _loop(i) {
+    cardsStat[i].forEach(function (elem) {
+      elem.errors = (elem.incorrect / (elem.correct + elem.incorrect) * 100 || 0).toFixed(2);
+      elem.categoryNum = i - 1;
+      arrToSort.push(elem);
+    });
+  };
+
+  for (var i = 1; i < cardsStat.length; i++) {
+    _loop(i);
+  }
+
+  arrToSort.sort(function (a, b) {
+    if (a[column] < b[column]) return -1 * order;
+    return 1 * order;
+  }); // eslint-disable-next-line consistent-return
+
+  return arrToSort;
+}
+
+function createTr(elem, tbody, elem2) {
+  var tr = create('tr', 'stat__table-tr', null, tbody);
+  create('td', null, null, tr).innerText = elem2;
+  create('td', null, null, tr).innerText = elem.word;
+  create('td', null, null, tr).innerText = elem.translation;
+  create('td', null, null, tr).innerText = elem.inTrainClicked || 0;
+  create('td', null, null, tr).innerText = elem.correct || 0;
+  create('td', null, null, tr).innerText = elem.incorrect || 0;
+  elem.errors = (elem.incorrect / (elem.correct + elem.incorrect) * 100 || 0).toFixed(2);
+  create('td', null, null, tr).innerText = elem.errors;
+}
+
+function generaterWordsToRepeat(arr) {
+  var i = 7;
+  var arrWordsToRepeat = [];
+  arr.forEach(function (elem) {
+    if (!i) return;
+
+    if (elem.errors > 0) {
+      arrWordsToRepeat.push(elem);
+      i -= 1;
+      console.log(i);
+    }
+  });
+  console.log(arrWordsToRepeat);
 }
 
 /***/ }),

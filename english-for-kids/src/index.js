@@ -53,6 +53,7 @@ function eventHandler(elem) {
         statisticElement[indexOfElem].correct = (statisticElement[indexOfElem].correct || 0) + 1;
         statisticElement[indexOfElem].incorrect = statisticElement[indexOfElem].incorrect || 0;
         elem.cardFront.card.classList.add('disabled');
+        elem.disabled = true;
         helpers.playAudio('./assets/audio/correct2.mp3');
         helpers.addStar(true);
         helpers.nextWord(container, randomIntArray, playButton);
@@ -66,7 +67,7 @@ function eventHandler(elem) {
         container.errors = container.errors + 1 || 1;
       }
     }
-    helpers.localStorage.set('cards', helpers.cards);
+    helpers.localStorage.set('word-cards', helpers.cards);
   };
 
   elem.cardDiv.onmouseleave = () => {
@@ -132,6 +133,8 @@ helpers.switchCheckbox.addEventListener('click', () => {
   }
   container.cardElements.forEach((elem) => {
     elem.cardFront.card.classList.toggle('word__card-play');
+    elem.disabled = false;
+    elem.cardFront.card.classList.remove('disabled');
   });
   container.cardCategories.forEach((elem) => {
     elem.card.classList.toggle('category__card-play');
@@ -140,6 +143,8 @@ helpers.switchCheckbox.addEventListener('click', () => {
 
 // Logo
 helpers.logo.addEventListener('click', () => {
+  helpers.initApp(container, playButton);
+  /*
   container.mainPage = true;
   togglePlayButton();
   helpers.categoryTitle.innerText = '';
@@ -148,6 +153,7 @@ helpers.logo.addEventListener('click', () => {
     container.cardsContainer.appendChild(elem.card);
   });
   helpers.scoreDiv.innerHTML = '';
+  */
 });
 
 // Menu
@@ -160,9 +166,11 @@ menuListArray.forEach((elem) => {
       el.domElement.classList.remove('menu__item-active');
     });
     elem.domElement.classList.add('menu__item-active');
-    if (!elem.main) {
+    if (!elem.main && !elem.statPage) {
+      helpers.initApp(container, playButton);
       generateWordCards(elem.categoryNumber);
-    } else {
+    } else if (elem.main) {
+      helpers.initApp(container, playButton);
       helpers.toggleScorePanel(false);
       container.mainPage = true;
       togglePlayButton();
@@ -171,6 +179,12 @@ menuListArray.forEach((elem) => {
       container.cardCategories.forEach((element) => {
         container.cardsContainer.appendChild(element.card);
       });
+    } else if (elem.statPage) {
+      helpers.toggleScorePanel(false);
+      container.mainPage = false;
+      togglePlayButton();
+      helpers.main.innerHTML = '';
+      helpers.createStatisticPage();
     }
     toggleMenu();
     if (!helpers.switchCheckbox.checked && !elem.main) {

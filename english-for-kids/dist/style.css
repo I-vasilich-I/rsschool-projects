@@ -647,6 +647,8 @@ input:checked + .slider:before {
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 30px;
@@ -866,6 +868,52 @@ input:checked + .slider:before {
   height: 70%;
   width: 70%;
   margin: auto;
+}
+
+.stat__table {
+  display: block;
+  align-self: center;
+  justify-self: center;
+  font-size: 2rem;
+  margin: auto;
+  word-break: break-word;
+}
+.stat__table tr {
+  padding: 3px;
+  border: 1px solid black;
+}
+.stat__table td {
+  padding: 3px;
+  border: 1px solid black;
+}
+.stat__table th {
+  padding: 3px;
+  border: 1px solid black;
+}
+@media (max-width: 767px) {
+  .stat__table {
+    font-size: 1.6rem;
+  }
+}
+@media (max-width: 500px) {
+  .stat__table {
+    font-size: 1.3rem;
+  }
+}
+
+.stat__buttons {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2rem;
+  margin: 10px 0;
+}
+.stat__buttons button {
+  border-radius: 25px;
+  padding: 10px;
+  margin: 0 2px;
 }
 
 .footer {

@@ -46,6 +46,10 @@ export {
 
 // eslint-disable-next-line import/no-mutable-exports
 export let wordToPlayIndex;
+// eslint-disable-next-line import/no-mutable-exports
+export let statRepeat;
+// eslint-disable-next-line import/no-mutable-exports
+export let statReset;
 
 export function create(el, classNames, child, parent, ...dataAttr) {
   let elem = null;
@@ -133,7 +137,7 @@ export function generateMenuList() {
   const mainPage = {
     // domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
     domElement: create('li', 'menu__item menu__item-active', null, menuList),
-
+    statPage: false,
     main: true,
   };
   mainPage.domElement.innerText = 'Main Page';
@@ -151,6 +155,7 @@ export function generateMenuList() {
       // domElement: create('a', 'menu__item', null, menuList, ['href', '#/category']),
       domElement: create('li', 'menu__item', null, menuList),
       main: false,
+      statPage: false,
       categoryNumber: i,
     };
     category.domElement.innerText = cards[0][i];
@@ -164,6 +169,22 @@ export function generateMenuList() {
     );
     menuListArray.push(category);
   }
+  const statisticPage = {
+    // domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
+    domElement: create('li', 'menu__item', null, menuList),
+    statPage: true,
+    main: false,
+  };
+  statisticPage.domElement.innerText = 'Statistic';
+  statisticPage.domElement.img = create(
+    'img',
+    null,
+    null,
+    statisticPage.domElement,
+    ['src', '/dist/assets/images/svg/star-win.svg'],
+    ['alt', 'Statistic']
+  );
+  menuListArray.push(statisticPage);
   return menuListArray;
 }
 
@@ -209,7 +230,7 @@ export function toggleScorePanel() {
   */
 }
 
-function initApp(container, playButton) {
+export function initApp(container, playButton) {
   main.innerHTML = '';
   main.classList.remove('main-over');
   container.cardsContainer.innerHTML = '';
@@ -224,7 +245,7 @@ function initApp(container, playButton) {
   main.appendChild(playButton);
   playButton.clicked = false;
   playButton.innerHTML = '';
-  playButton.classList.toggle('play__button-play');
+  playButton.classList.remove('play__button-play');
   playButton.img = create(
     'img',
     null,
@@ -238,9 +259,110 @@ function initApp(container, playButton) {
 }
 
 function getCardsArray() {
-  const data = localStorage.get('cards');
+  const data = localStorage.get('word-cards');
   if (data === null) {
     return cardsArr;
   }
   return data;
+}
+
+export function createStatisticPage() {
+  const statButtons = create('div', 'stat__buttons', null);
+  statRepeat = create('button', null, null, statButtons);
+  statRepeat.innerText = 'Repeat difficult words';
+  statReset = create('button', null, null, statButtons);
+  statReset.innerText = 'Reset';
+  const statTable = create('table', 'stat__table', null);
+  const thead = create('thead', 'stat__table-thead', null, statTable);
+  const headtr = create('tr', 'stat__table-tr', null, thead);
+  const th1 = create('th', null, null, headtr);
+  th1.innerText = 'Category';
+  const th7 = create('th', null, null, headtr);
+  th7.innerText = 'Word';
+  const th2 = create('th', null, null, headtr);
+  th2.innerText = 'Translation';
+  const th3 = create('th', null, null, headtr);
+  th3.innerText = 'TrainClicks';
+  const th4 = create('th', null, null, headtr);
+  th4.innerText = 'Correct';
+  const th5 = create('th', null, null, headtr);
+  th5.innerText = 'Wrong';
+  const th6 = create('th', null, null, headtr);
+  th6.innerText = 'Errors, %';
+  const tbody = create('tbody', null, null, statTable);
+  create('tr', 'stat__table-tr', null, tbody);
+  const cardsStat = localStorage.get('word-cards');
+  if (!cardsStat) return;
+  for (let i = 0; i < cardsStat[0].length; i++) {
+    for (let j = 0; j < cardsStat[i + 1].length; j++) {
+      createTr(cardsStat[i + 1][j], tbody, cardsStat[0][i]);
+    }
+  }
+  main.appendChild(statButtons);
+  main.appendChild(statTable);
+  statReset.addEventListener('click', () => {
+    setToZero();
+    main.innerHTML = '';
+    createStatisticPage();
+  });
+  statRepeat.addEventListener('click', () => {
+    generaterWordsToRepeat(sortStatTable('errors', -1));
+  });
+}
+
+function setToZero() {
+  cards.forEach((elem, idx) => {
+    if (!idx) return;
+    elem.forEach((element) => {
+      element.correct = 0;
+      element.incorrect = 0;
+      element.inTrainClicked = 0;
+    });
+  });
+  localStorage.set('word-cards', cards);
+}
+
+function sortStatTable(column, order = 1) {
+  const cardsStat = localStorage.get('word-cards');
+  const arrToSort = [];
+  if (!cardsStat) return;
+  for (let i = 1; i < cardsStat.length; i++) {
+    cardsStat[i].forEach((elem) => {
+      elem.errors = ((elem.incorrect / (elem.correct + elem.incorrect)) * 100 || 0).toFixed(2);
+      elem.categoryNum = i - 1;
+      arrToSort.push(elem);
+    });
+  }
+  arrToSort.sort((a, b) => {
+    if (a[column] < b[column]) return -1 * order;
+    return 1 * order;
+  });
+  // eslint-disable-next-line consistent-return
+  return arrToSort;
+}
+
+function createTr(elem, tbody, elem2) {
+  const tr = create('tr', 'stat__table-tr', null, tbody);
+  create('td', null, null, tr).innerText = elem2;
+  create('td', null, null, tr).innerText = elem.word;
+  create('td', null, null, tr).innerText = elem.translation;
+  create('td', null, null, tr).innerText = elem.inTrainClicked || 0;
+  create('td', null, null, tr).innerText = elem.correct || 0;
+  create('td', null, null, tr).innerText = elem.incorrect || 0;
+  elem.errors = ((elem.incorrect / (elem.correct + elem.incorrect)) * 100 || 0).toFixed(2);
+  create('td', null, null, tr).innerText = elem.errors;
+}
+
+function generaterWordsToRepeat(arr) {
+  let i = 7;
+  const arrWordsToRepeat = [];
+  arr.forEach((elem) => {
+    if (!i) return;
+    if (elem.errors > 0) {
+      arrWordsToRepeat.push(elem);
+      i -= 1;
+      console.log(i);
+    }
+  });
+  console.log(arrWordsToRepeat);
 }
