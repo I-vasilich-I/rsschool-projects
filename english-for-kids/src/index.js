@@ -17,18 +17,18 @@ playButton.img = helpers.create(
   ['src', 'assets/images/svg/play.svg'],
   ['alt', 'play']
 );
-
 function togglePlayButton() {
   if (!container.mainPage && !helpers.switchCheckbox.checked) {
-    playButton.classList.add('play__button-play');
+    playButton.classList.add('play__button-start');
     playButton.img.src = 'assets/images/svg/play.svg';
     playButton.clicked = false;
   } else {
     playButton.classList.remove('play__button-play');
+    playButton.classList.remove('play__button-start');
   }
 }
 
-function eventHandler(elem) {
+function eventHandler(elem, repeat = false) {
   elem.cardFront.button.onclick = () => {
     elem.cardDiv.classList.add('flipped');
   };
@@ -41,22 +41,40 @@ function eventHandler(elem) {
     )
       return;
     if (elem.disabled) return;
+    let indexOfElem = container.cardElements.indexOf(elem);
+    const statisticElement = helpers.cards[elem.cardFront.categoryNumber + 1];
+    if (repeat) {
+      indexOfElem = statisticElement.findIndex((el) => el.word === elem.cardFront.front);
+    }
     if (helpers.switchCheckbox.checked) {
       helpers.playAudio(elem.cardFront.audioSrc);
+      statisticElement[indexOfElem].inTrainClicked =
+        (statisticElement[indexOfElem].inTrainClicked || 0) + 1;
     } else {
       if (!playButton.clicked) return;
-      if (container.cardElements.indexOf(elem) === helpers.wordToPlayIndex) {
+      indexOfElem = container.cardElements.indexOf(elem);
+      if (indexOfElem === helpers.wordToPlayIndex) {
+        if (repeat) {
+          indexOfElem = statisticElement.findIndex((el) => el.word === elem.cardFront.front);
+        }
+        statisticElement[indexOfElem].correct = (statisticElement[indexOfElem].correct || 0) + 1;
+        statisticElement[indexOfElem].incorrect = statisticElement[indexOfElem].incorrect || 0;
         elem.cardFront.card.classList.add('disabled');
         elem.disabled = true;
         helpers.playAudio('./assets/audio/correct2.mp3');
         helpers.addStar(true);
         helpers.nextWord(container, randomIntArray, playButton);
       } else {
+        statisticElement[helpers.wordToPlayIndex].incorrect =
+          (statisticElement[helpers.wordToPlayIndex].incorrect || 0) + 1;
+        statisticElement[helpers.wordToPlayIndex].correct =
+          statisticElement[helpers.wordToPlayIndex].correct || 0;
         helpers.addStar(false);
         helpers.playAudio('./assets/audio/error2.mp3');
         container.errors = container.errors + 1 || 1;
       }
     }
+    helpers.localStorage.set('word-cards', helpers.cards);
   };
 
   elem.cardDiv.onmouseleave = () => {
@@ -66,7 +84,7 @@ function eventHandler(elem) {
 
 function generateWordCards(categoryNumber) {
   container.mainPage = false;
-  helpers.categoryTitle.innerText = helpers.headerTitle(categoryNumber);
+  helpers.categoryTitle.innerText = helpers.setCategoryTitle(categoryNumber);
   togglePlayButton();
   if (!helpers.switchCheckbox.checked) {
     helpers.toggleScorePanel(-1);
@@ -105,6 +123,8 @@ function toggleMenu() {
 
 container.cardCategories.forEach((elem) => {
   elem.card.addEventListener('click', () => {
+    menuListArray[0].domElement.classList.remove('menu__item-active');
+    menuListArray[elem.categoryNumber + 1].domElement.classList.add('menu__item-active');
     generateWordCards(elem.categoryNumber);
   });
 });
@@ -122,6 +142,8 @@ helpers.switchCheckbox.addEventListener('click', () => {
   }
   container.cardElements.forEach((elem) => {
     elem.cardFront.card.classList.toggle('word__card-play');
+    elem.disabled = false;
+    elem.cardFront.card.classList.remove('disabled');
   });
   container.cardCategories.forEach((elem) => {
     elem.card.classList.toggle('category__card-play');
@@ -130,6 +152,8 @@ helpers.switchCheckbox.addEventListener('click', () => {
 
 // Logo
 helpers.logo.addEventListener('click', () => {
+  helpers.initApp(container, playButton);
+  /*
   container.mainPage = true;
   togglePlayButton();
   helpers.categoryTitle.innerText = '';
@@ -138,6 +162,7 @@ helpers.logo.addEventListener('click', () => {
     container.cardsContainer.appendChild(elem.card);
   });
   helpers.scoreDiv.innerHTML = '';
+  */
 });
 
 // Menu
@@ -146,9 +171,15 @@ helpers.burger.addEventListener('click', toggleMenu);
 // Activate links
 menuListArray.forEach((elem) => {
   elem.domElement.addEventListener('click', () => {
-    if (!elem.main) {
+    menuListArray.forEach((el) => {
+      el.domElement.classList.remove('menu__item-active');
+    });
+    elem.domElement.classList.add('menu__item-active');
+    if (!elem.main && !elem.statPage) {
+      helpers.initApp(container, playButton);
       generateWordCards(elem.categoryNumber);
-    } else {
+    } else if (elem.main) {
+      helpers.initApp(container, playButton);
       helpers.toggleScorePanel(false);
       container.mainPage = true;
       togglePlayButton();
@@ -156,6 +187,24 @@ menuListArray.forEach((elem) => {
       container.cardsContainer.innerHTML = '';
       container.cardCategories.forEach((element) => {
         container.cardsContainer.appendChild(element.card);
+      });
+    } else if (elem.statPage) {
+      helpers.toggleScorePanel(false);
+      container.mainPage = false;
+      togglePlayButton();
+      helpers.main.innerHTML = '';
+      helpers.createStatisticPage();
+      helpers.statRepeat.addEventListener('click', () => {
+        helpers.main.innerHTML = '';
+        const arrWordsToRepeat = helpers.generaterWordsToRepeat(
+          helpers.sortStatTable('errors', -1)
+        );
+        helpers.initApp(container, playButton);
+        container.cardsContainer.innerHTML = '';
+        container.generateWordsToRepeat(arrWordsToRepeat);
+        container.cardElements.forEach((el) => {
+          el.cardDiv.onmouseenter = eventHandler(el, true);
+        });
       });
     }
     toggleMenu();
@@ -170,9 +219,13 @@ playButton.addEventListener('click', () => {
   if (!playButton.clicked) {
     playButton.img.src = 'assets/images/svg/replay.svg';
     playButton.clicked = true;
+    playButton.classList.remove('play__button-start');
+    playButton.classList.add('play__button-play');
     randomIntArray = helpers.getRandomIntArray(container.cardElements.length);
     helpers.nextWord(container, randomIntArray, playButton);
   } else if (helpers.wordToPlayIndex || helpers.wordToPlayIndex === 0) {
-    helpers.playAudio(container.cardElements[helpers.wordToPlayIndex].cardFront.audioSrc);
+    setTimeout(() => {
+      helpers.playAudio(container.cardElements[helpers.wordToPlayIndex].cardFront.audioSrc);
+    }, 1000);
   }
 });

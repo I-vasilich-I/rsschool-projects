@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
-import cards from '../../cards';
+import cardsArr from '../../cards';
 
 const { body } = document;
 const burger = document.getElementById('burger');
@@ -14,16 +14,43 @@ const footer = document.querySelector('footer');
 const logo = document.querySelector('.header__logo');
 const categoryTitleDiv = create('div', 'container__header', null, main);
 const categoryTitle = create('div', 'category__title', null, categoryTitleDiv);
-categoryTitle.innerText = headerTitle();
+categoryTitle.innerText = setCategoryTitle();
 const scoreDiv = create('div', 'main__score', null, categoryTitleDiv);
-
-export { body, burger, menuList, switchCheckbox, main, footer, categoryTitle, logo, scoreDiv };
-
 const audio = new Audio();
-// const statisticArray = deepCopyFunction(cards.slice(1));
+const localStorage = {
+  set: (name, value) => {
+    window.localStorage.setItem(name, JSON.stringify(value));
+  },
+  get: (name, absent = null) => {
+    return JSON.parse(window.localStorage.getItem(name)) || absent;
+  },
+  del: (name) => {
+    window.localStorage.removeItem(name);
+  },
+};
+const cards = getCardsArray();
+
+export {
+  body,
+  burger,
+  menuList,
+  switchCheckbox,
+  main,
+  footer,
+  categoryTitle,
+  logo,
+  scoreDiv,
+  cards,
+  localStorage,
+};
+
 // eslint-disable-next-line import/no-mutable-exports
 export let wordToPlayIndex;
-
+// eslint-disable-next-line import/no-mutable-exports
+export let statRepeat;
+// eslint-disable-next-line import/no-mutable-exports
+export let statReset;
+let inOrder = 1;
 export function create(el, classNames, child, parent, ...dataAttr) {
   let elem = null;
   try {
@@ -65,7 +92,7 @@ export function create(el, classNames, child, parent, ...dataAttr) {
   return elem;
 }
 
-export function headerTitle(category = -1) {
+export function setCategoryTitle(category = -1) {
   if (category < 0) {
     return '';
   }
@@ -76,14 +103,21 @@ function gameOver(win, container, playButton) {
   if (win) {
     main.innerHTML = '';
     main.classList.add('main-over');
-    playAudio('assets/audio/success.mp3');
+    setTimeout(() => {
+      playAudio('assets/audio/success.mp3');
+    }, 1000);
     create('img', 'img', null, main, ['src', 'assets/images/success.jpg'], ['alt', 'win']);
   } else {
     container.innerHTML = '';
     main.removeChild(playButton);
-    playAudio('assets/audio/failure.mp3');
+    setTimeout(() => {
+      playAudio('assets/audio/failure.mp3');
+    }, 1000);
     create('img', 'img', null, container, ['src', 'assets/images/failure.jpg'], ['alt', 'win']);
   }
+  localStorage.set('word-cards', cards);
+  const munuItemActive = document.querySelector('.menu__item-active');
+  munuItemActive.classList.remove('menu__item-active');
 }
 
 export function addStar(rightWord) {
@@ -104,22 +138,55 @@ export function addStar(rightWord) {
 export function generateMenuList() {
   const mainPage = {
     // domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
-    domElement: create('li', 'menu__item', null, menuList),
-
+    domElement: create('li', 'menu__item menu__item-active', null, menuList),
+    statPage: false,
     main: true,
   };
   mainPage.domElement.innerText = 'Main Page';
+  mainPage.domElement.img = create(
+    'img',
+    null,
+    null,
+    mainPage.domElement,
+    ['src', '/dist/assets/images/svg/star.svg'],
+    ['alt', 'Main Page']
+  );
   const menuListArray = [mainPage];
   for (let i = 0; i < cards[0].length; i++) {
     const category = {
       // domElement: create('a', 'menu__item', null, menuList, ['href', '#/category']),
       domElement: create('li', 'menu__item', null, menuList),
       main: false,
+      statPage: false,
       categoryNumber: i,
     };
     category.domElement.innerText = cards[0][i];
+    category.domElement.img = create(
+      'img',
+      null,
+      null,
+      category.domElement,
+      ['src', cards[i + 1][1].image],
+      ['alt', cards[0][i]]
+    );
     menuListArray.push(category);
   }
+  const statisticPage = {
+    // domElement: create('a', 'menu__item', null, menuList, ['href', '#/']),
+    domElement: create('li', 'menu__item', null, menuList),
+    statPage: true,
+    main: false,
+  };
+  statisticPage.domElement.innerText = 'Statistic';
+  statisticPage.domElement.img = create(
+    'img',
+    null,
+    null,
+    statisticPage.domElement,
+    ['src', '/dist/assets/images/svg/star-win.svg'],
+    ['alt', 'Statistic']
+  );
+  menuListArray.push(statisticPage);
   return menuListArray;
 }
 
@@ -152,8 +219,9 @@ export function nextWord(container, randomIntArray, playButton) {
   }
 }
 
-export function toggleScorePanel(on) {
+export function toggleScorePanel() {
   scoreDiv.innerHTML = '';
+  /*
   if (on === -1) {
     scoreDiv.classList.toggle('main__score-play');
   } else if (on) {
@@ -161,9 +229,10 @@ export function toggleScorePanel(on) {
   } else {
     scoreDiv.classList.remove('main__score-play');
   }
+  */
 }
 
-function initApp(container, playButton) {
+export function initApp(container, playButton) {
   main.innerHTML = '';
   main.classList.remove('main-over');
   container.cardsContainer.innerHTML = '';
@@ -178,7 +247,7 @@ function initApp(container, playButton) {
   main.appendChild(playButton);
   playButton.clicked = false;
   playButton.innerHTML = '';
-  playButton.classList.toggle('play__button-play');
+  playButton.classList.remove('play__button-play');
   playButton.img = create(
     'img',
     null,
@@ -191,28 +260,145 @@ function initApp(container, playButton) {
   scoreDiv.innerHTML = '';
 }
 
-/*
-// https://medium.com/javascript-in-plain-english/how-to-deep-copy-objects-and-arrays-in-javascript-7c911359b089
-function deepCopyFunction(inObject) {
-  let outObject;
-  let value;
-  let key;
-
-  if (typeof inObject !== 'object' || inObject === null) {
-    return inObject; // Return the value if inObject is not an object
+function getCardsArray() {
+  const data = localStorage.get('word-cards');
+  if (data === null) {
+    return cardsArr;
   }
-
-  // Create an array or object to hold the values
-  // eslint-disable-next-line prefer-const
-  outObject = Array.isArray(inObject) ? [] : {};
-
-  for (key in inObject) {
-    value = inObject[key];
-
-    // Recursively (deep) copy for nested objects, including arrays
-    outObject[key] = deepCopyFunction(value);
-  }
-
-  return outObject;
+  return data;
 }
-*/
+
+export function createStatisticPage() {
+  const statButtons = create('div', 'stat__buttons', null);
+  statRepeat = create('button', null, null, statButtons);
+  statRepeat.innerText = 'Repeat difficult words';
+  statReset = create('button', null, null, statButtons);
+  statReset.innerText = 'Reset';
+  const statTable = create('table', 'stat__table', null);
+  const thead = create('thead', 'stat__table-thead', null, statTable);
+  const headtr = create('tr', 'stat__table-tr', null, thead);
+  const th1 = create('th', null, null, headtr);
+  th1.innerText = 'Category';
+  th1.addEventListener('click', () => {
+    thClickHandler('categoryNum', statTable);
+  });
+  const th7 = create('th', null, null, headtr);
+  th7.innerText = 'Word';
+  th7.addEventListener('click', () => {
+    thClickHandler('word', statTable);
+  });
+  const th2 = create('th', null, null, headtr);
+  th2.innerText = 'Translation';
+  th2.addEventListener('click', () => {
+    thClickHandler('translation', statTable);
+  });
+  const th3 = create('th', null, null, headtr);
+  th3.innerText = 'TrainClicks';
+  th3.addEventListener('click', () => {
+    thClickHandler('inTrainClicked', statTable);
+  });
+  const th4 = create('th', null, null, headtr);
+  th4.innerText = 'Correct';
+  th4.addEventListener('click', () => {
+    thClickHandler('correct', statTable);
+  });
+  const th5 = create('th', null, null, headtr);
+  th5.innerText = 'Wrong';
+  th5.addEventListener('click', () => {
+    thClickHandler('incorrect', statTable);
+  });
+  const th6 = create('th', null, null, headtr);
+  th6.innerText = 'Errors, %';
+  th6.addEventListener('click', () => {
+    thClickHandler('errors', statTable);
+  });
+  const cardsStat = localStorage.get('word-cards');
+  if (!cardsStat) return;
+  fillTbody(cardsStat, statTable);
+  main.appendChild(statButtons);
+  main.appendChild(statTable);
+  statReset.addEventListener('click', () => {
+    setToZero();
+    main.innerHTML = '';
+    createStatisticPage();
+  });
+}
+
+function setToZero() {
+  cards.forEach((elem, idx) => {
+    if (!idx) return;
+    elem.forEach((element) => {
+      element.correct = 0;
+      element.incorrect = 0;
+      element.inTrainClicked = 0;
+    });
+  });
+  localStorage.set('word-cards', cards);
+}
+
+export function sortStatTable(column, order = 1) {
+  const cardsStat = localStorage.get('word-cards');
+  const arrToSort = [];
+  if (!cardsStat) return;
+  for (let i = 1; i < cardsStat.length; i++) {
+    cardsStat[i].forEach((elem) => {
+      elem.errors = ((elem.incorrect / (elem.correct + elem.incorrect)) * 100 || 0).toFixed(2);
+      elem.categoryNum = i - 1;
+      arrToSort.push(elem);
+    });
+  }
+  arrToSort.sort((a, b) => {
+    if (a[column] < b[column]) return -1 * order;
+    return 1 * order;
+  });
+  // eslint-disable-next-line consistent-return
+  return arrToSort;
+}
+
+function createTr(elem, tbody, elem2) {
+  const tr = create('tr', 'stat__table-tr', null, tbody);
+  create('td', null, null, tr).innerText = elem2;
+  create('td', null, null, tr).innerText = elem.word;
+  create('td', null, null, tr).innerText = elem.translation;
+  create('td', null, null, tr).innerText = elem.inTrainClicked || 0;
+  create('td', null, null, tr).innerText = elem.correct || 0;
+  create('td', null, null, tr).innerText = elem.incorrect || 0;
+  elem.errors = ((elem.incorrect / (elem.correct + elem.incorrect)) * 100 || 0).toFixed(2);
+  create('td', null, null, tr).innerText = elem.errors;
+}
+
+function fillTbody(array, statTable, sort = false) {
+  let tbody;
+  if (sort) {
+    tbody = document.getElementsByTagName('tbody');
+    tbody[0].innerHTML = '';
+    array.forEach((elem) => {
+      createTr(elem, tbody[0], cards[0][elem.categoryNum]);
+    });
+  } else {
+    tbody = create('tbody', null, null, statTable);
+    for (let i = 0; i < array[0].length; i++) {
+      for (let j = 0; j < array[i + 1].length; j++) {
+        createTr(array[i + 1][j], tbody, array[0][i]);
+      }
+    }
+  }
+}
+export function generaterWordsToRepeat(arr) {
+  let i = 7;
+  const arrWordsToRepeat = [];
+  arr.forEach((elem) => {
+    if (!i) return;
+    if (elem.errors > 0) {
+      arrWordsToRepeat.push(elem);
+      i -= 1;
+    }
+  });
+  return arrWordsToRepeat;
+}
+
+function thClickHandler(column, statTable) {
+  inOrder *= -1;
+  const sortedArray = sortStatTable(column, inOrder);
+  fillTbody(sortedArray, statTable, true);
+}

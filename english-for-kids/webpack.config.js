@@ -26,6 +26,9 @@ module.exports = (env, options) => {
     mode: isProd ? 'production' : 'development',
     devtool: isProd ? false : 'source-map',
     watch: !isProd,
+    watchOptions: {
+      aggregateTimeout: 6000,
+    },
     entry: ['./src/index.js', './src/assets/sass/style.scss'],
     output: {
       path: path.join(__dirname, '/dist'),
@@ -88,6 +91,7 @@ module.exports = (env, options) => {
           // { from: 'src/assets/audio/shifting.wav'},
           { from: 'src/assets/audio/', to: 'assets/audio/' },
           { from: 'src/assets/images/svg/favicon.svg' },
+          { from: 'rs_school_js.svg' },
           { from: 'src/assets/images/', to: 'assets/images/' },
           // { from: 'src/assets/fonts/', to: 'assets/fonts/'},
         ],
