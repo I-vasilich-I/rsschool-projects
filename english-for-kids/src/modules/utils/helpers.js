@@ -50,7 +50,7 @@ export let wordToPlayIndex;
 export let statRepeat;
 // eslint-disable-next-line import/no-mutable-exports
 export let statReset;
-
+let inOrder = 1;
 export function create(el, classNames, child, parent, ...dataAttr) {
   let elem = null;
   try {
@@ -115,7 +115,7 @@ function gameOver(win, container, playButton) {
     }, 1000);
     create('img', 'img', null, container, ['src', 'assets/images/failure.jpg'], ['alt', 'win']);
   }
-  localStorage.set('cards', cards);
+  localStorage.set('word-cards', cards);
   const munuItemActive = document.querySelector('.menu__item-active');
   munuItemActive.classList.remove('menu__item-active');
 }
@@ -279,27 +279,42 @@ export function createStatisticPage() {
   const headtr = create('tr', 'stat__table-tr', null, thead);
   const th1 = create('th', null, null, headtr);
   th1.innerText = 'Category';
+  th1.addEventListener('click', () => {
+    thClickHandler('categoryNum', statTable);
+  });
   const th7 = create('th', null, null, headtr);
   th7.innerText = 'Word';
+  th7.addEventListener('click', () => {
+    thClickHandler('word', statTable);
+  });
   const th2 = create('th', null, null, headtr);
   th2.innerText = 'Translation';
+  th2.addEventListener('click', () => {
+    thClickHandler('translation', statTable);
+  });
   const th3 = create('th', null, null, headtr);
   th3.innerText = 'TrainClicks';
+  th3.addEventListener('click', () => {
+    thClickHandler('inTrainClicked', statTable);
+  });
   const th4 = create('th', null, null, headtr);
   th4.innerText = 'Correct';
+  th4.addEventListener('click', () => {
+    thClickHandler('correct', statTable);
+  });
   const th5 = create('th', null, null, headtr);
   th5.innerText = 'Wrong';
+  th5.addEventListener('click', () => {
+    thClickHandler('incorrect', statTable);
+  });
   const th6 = create('th', null, null, headtr);
   th6.innerText = 'Errors, %';
-  const tbody = create('tbody', null, null, statTable);
-  create('tr', 'stat__table-tr', null, tbody);
+  th6.addEventListener('click', () => {
+    thClickHandler('errors', statTable);
+  });
   const cardsStat = localStorage.get('word-cards');
   if (!cardsStat) return;
-  for (let i = 0; i < cardsStat[0].length; i++) {
-    for (let j = 0; j < cardsStat[i + 1].length; j++) {
-      createTr(cardsStat[i + 1][j], tbody, cardsStat[0][i]);
-    }
-  }
+  fillTbody(cardsStat, statTable);
   main.appendChild(statButtons);
   main.appendChild(statTable);
   statReset.addEventListener('click', () => {
@@ -352,6 +367,23 @@ function createTr(elem, tbody, elem2) {
   create('td', null, null, tr).innerText = elem.errors;
 }
 
+function fillTbody(array, statTable, sort = false) {
+  let tbody;
+  if (sort) {
+    tbody = document.getElementsByTagName('tbody');
+    tbody[0].innerHTML = '';
+    array.forEach((elem) => {
+      createTr(elem, tbody[0], cards[0][elem.categoryNum]);
+    });
+  } else {
+    tbody = create('tbody', null, null, statTable);
+    for (let i = 0; i < array[0].length; i++) {
+      for (let j = 0; j < array[i + 1].length; j++) {
+        createTr(array[i + 1][j], tbody, array[0][i]);
+      }
+    }
+  }
+}
 export function generaterWordsToRepeat(arr) {
   let i = 7;
   const arrWordsToRepeat = [];
@@ -363,4 +395,10 @@ export function generaterWordsToRepeat(arr) {
     }
   });
   return arrWordsToRepeat;
+}
+
+function thClickHandler(column, statTable) {
+  inOrder *= -1;
+  const sortedArray = sortStatTable(column, inOrder);
+  fillTbody(sortedArray, statTable, true);
 }

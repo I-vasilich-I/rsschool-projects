@@ -28,7 +28,7 @@ function togglePlayButton() {
   }
 }
 
-function eventHandler(elem) {
+function eventHandler(elem, repeat = false) {
   elem.cardFront.button.onclick = () => {
     elem.cardDiv.classList.add('flipped');
   };
@@ -41,15 +41,22 @@ function eventHandler(elem) {
     )
       return;
     if (elem.disabled) return;
-    const indexOfElem = container.cardElements.indexOf(elem);
+    let indexOfElem = container.cardElements.indexOf(elem);
     const statisticElement = helpers.cards[elem.cardFront.categoryNumber + 1];
+    if (repeat) {
+      indexOfElem = statisticElement.findIndex((el) => el.word === elem.cardFront.front);
+    }
     if (helpers.switchCheckbox.checked) {
       helpers.playAudio(elem.cardFront.audioSrc);
       statisticElement[indexOfElem].inTrainClicked =
         (statisticElement[indexOfElem].inTrainClicked || 0) + 1;
     } else {
       if (!playButton.clicked) return;
+      indexOfElem = container.cardElements.indexOf(elem);
       if (indexOfElem === helpers.wordToPlayIndex) {
+        if (repeat) {
+          indexOfElem = statisticElement.findIndex((el) => el.word === elem.cardFront.front);
+        }
         statisticElement[indexOfElem].correct = (statisticElement[indexOfElem].correct || 0) + 1;
         statisticElement[indexOfElem].incorrect = statisticElement[indexOfElem].incorrect || 0;
         elem.cardFront.card.classList.add('disabled');
@@ -116,6 +123,8 @@ function toggleMenu() {
 
 container.cardCategories.forEach((elem) => {
   elem.card.addEventListener('click', () => {
+    menuListArray[0].domElement.classList.remove('menu__item-active');
+    menuListArray[elem.categoryNumber + 1].domElement.classList.add('menu__item-active');
     generateWordCards(elem.categoryNumber);
   });
 });
@@ -186,6 +195,7 @@ menuListArray.forEach((elem) => {
       helpers.main.innerHTML = '';
       helpers.createStatisticPage();
       helpers.statRepeat.addEventListener('click', () => {
+        helpers.main.innerHTML = '';
         const arrWordsToRepeat = helpers.generaterWordsToRepeat(
           helpers.sortStatTable('errors', -1)
         );
@@ -193,7 +203,7 @@ menuListArray.forEach((elem) => {
         container.cardsContainer.innerHTML = '';
         container.generateWordsToRepeat(arrWordsToRepeat);
         container.cardElements.forEach((el) => {
-          el.cardDiv.onmouseenter = eventHandler(el);
+          el.cardDiv.onmouseenter = eventHandler(el, true);
         });
       });
     }

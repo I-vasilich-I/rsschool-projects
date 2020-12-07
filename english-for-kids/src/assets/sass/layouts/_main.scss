@@ -240,6 +240,7 @@
   tr {
     padding: 3px;
     border: 1px solid black;
+    text-align: center;
   }
   td {
     padding: 3px;
@@ -247,7 +248,13 @@
   }
   th {
     padding: 3px;
+    color: $color-text-light;
     border: 1px solid black;
+    background-color: $color-primary;
+    &:hover {
+      cursor: pointer;
+      opacity: .7;
+    }
   }
   @include media-tablet {
     font-size: 1.6rem;
