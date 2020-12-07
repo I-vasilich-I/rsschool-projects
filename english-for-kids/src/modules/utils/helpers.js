@@ -148,7 +148,7 @@ export function generateMenuList() {
     null,
     null,
     mainPage.domElement,
-    ['src', '/dist/assets/images/svg/star.svg'],
+    ['src', './assets/images/svg/star.svg'],
     ['alt', 'Main Page']
   );
   const menuListArray = [mainPage];
@@ -183,7 +183,7 @@ export function generateMenuList() {
     null,
     null,
     statisticPage.domElement,
-    ['src', '/dist/assets/images/svg/star-win.svg'],
+    ['src', './assets/images/svg/star-win.svg'],
     ['alt', 'Statistic']
   );
   menuListArray.push(statisticPage);
