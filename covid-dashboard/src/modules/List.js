@@ -1,3 +1,4 @@
+import Keyboard from 'simple-keyboard';
 import { getPropertiesByType } from './Table';
 import { createDomElement, sortByProperty } from './utils/helpers';
 import { createListCountryContainer, list, listCountries } from './createList';
@@ -7,10 +8,10 @@ import {
   //  table,
   tableCountries,
 } from './createTable';
-import { BUTTONS_ID, LIST_STATES } from './Constants';
+import { BUTTONS_ID, LIST_STATES, TABLE_COUNTRY_STATES } from './Constants';
 
 const { BUTTON_CONFIRMED_ID, BUTTON_DEATHS_ID, BUTTON_RECOVERED_ID, BUTTON_TOTAL_ID } = BUTTONS_ID;
-
+let that;
 export default class List {
   constructor(covidData) {
     this.countries = covidData.Countries;
@@ -32,9 +33,83 @@ export default class List {
       this.listCountriesArray.push(createListCountryContainer(country));
     });
     this.generateSelectPanel();
+    this.generateSearchInputAndKeyBoard();
+    this.parent.appendChild(this.searchContainer);
     this.parent.appendChild(list);
     this.parent.appendChild(this.select);
+    that = this;
     return this;
+  }
+
+  generateSearchInputAndKeyBoard() {
+    this.searchContainer = createDomElement({ elementName: 'div', className: 'search-container' });
+    this.inputL = createDomElement({
+      elementName: 'input',
+      className: 'input',
+      parent: this.searchContainer,
+      attributes: [['placeholder', 'Search country by name...']],
+    });
+    this.keyboardBtn = createDomElement({
+      elementName: 'img',
+      parent: this.searchContainer,
+      attributes: [['src', 'assets/images/keyboard-key.svg']],
+    });
+    this.keyboardDiv = document.querySelector('.simple-keyboard');
+    this.keyboardDiv.classList.add('hidden');
+
+    this.keyboard = new Keyboard({
+      // eslint-disable-next-line no-use-before-define
+      onChange: (input) => onChange(input),
+      // eslint-disable-next-line no-use-before-define
+      onKeyPress: (button) => onKeyPress(button),
+      theme: 'hg-theme-default myTheme1',
+    });
+
+    function onChange(input) {
+      document.querySelector('.input').value = input;
+      that.filterCountries(that.table.tableCountriesArray, input);
+      that.filterCountries(that.listCountriesArray, input);
+    }
+
+    function onKeyPress(button) {
+      // eslint-disable-next-line no-use-before-define
+      if (button === '{shift}' || button === '{lock}') handleShift();
+    }
+
+    function handleShift() {
+      const currentLayout = this.keyboard.options.layoutName;
+      const shiftToggle = currentLayout === 'default' ? 'shift' : 'default';
+
+      this.keyboard.setOptions({
+        layoutName: shiftToggle,
+      });
+    }
+
+    this.searchHandler();
+  }
+
+  filterCountries(array, value) {
+    array
+      .map((elem) => {
+        elem.classList.add('country__container-hidden');
+        return elem;
+      })
+      .filter((div) => div.country.Country.toUpperCase().includes(value.toUpperCase()))
+      .map((country) => country.classList.remove('country__container-hidden'));
+    return this;
+  }
+
+  searchHandler() {
+    this.keyboardDiv.classList.add('hidden');
+    this.keyboardBtn.addEventListener('click', () => {
+      this.keyboardDiv.classList.toggle('hidden');
+    });
+
+    this.inputL.addEventListener('input', (event) => {
+      this.keyboard.setInput(event.target.value);
+      this.filterCountries(this.listCountriesArray, event.target.value);
+      this.filterCountries(this.table.tableCountriesArray, event.target.value);
+    });
   }
 
   generateSelectPanel() {
@@ -195,6 +270,12 @@ export default class List {
     );
     if (target === null) {
       listTarget = this.listCountriesArray.find((elem) => elem.country === country);
+      // 200px from top of scroll div;
+      listCountries.scroll({
+        top: listTarget.offsetTop - 200,
+        left: 100,
+        behavior: 'smooth',
+      });
     }
     listTarget.classList.add('country__container-active');
     this.targetCountry = country;
@@ -206,7 +287,12 @@ export default class List {
       element.classList.remove('country__container-active')
     );
     tableTarget.classList.add('country__container-active');
-    tableTarget.scroll(100, 100); // DOESN'T WORK!
+    // 200px from top of scroll div;
+    tableCountries.scroll({
+      top: tableTarget.offsetTop - 200,
+      left: 100,
+      behavior: 'smooth',
+    });
   }
 
   listCountriesEventHandler() {
@@ -226,14 +312,25 @@ export default class List {
     this.select.onclick = () => {
       const isSameAsSelected = this.selectValue === this.select.value;
       if (isSameAsSelected) return;
-
-      // const propertys = getPropertiesByType(this.getButtonIdBySelectedOption());
-      // tableCountries.innerHTML = '';
-      // tableCountries.className = `table__countries ${propertys.className}`;
-      // this.table.tableCountriesArray.length = 0;
-
-      listCountries.innerHTML = '';
       this.selectValue = this.select.value;
+      const countryStateKey = Object.keys(TABLE_COUNTRY_STATES).find(
+        (key) => TABLE_COUNTRY_STATES[key].title === this.selectValue
+      );
+      const countryState = TABLE_COUNTRY_STATES[countryStateKey];
+      let propertys;
+      if (countryState) {
+        const { countryBtns } = this.table.tabs;
+        const button = countryBtns.find((btn) => btn.id === countryState.buttonId);
+        this.table.deactivateButtons(countryBtns, 'tabs__button-active');
+        this.table.hideDetailButtons();
+        button.classList.add('tabs__button-active');
+        propertys = getPropertiesByType(this.getButtonIdBySelectedOption());
+        tableCountries.innerHTML = '';
+        tableCountries.className = `table__countries ${propertys.className}`;
+        this.table.tableCountriesArray.length = 0;
+      }
+      listCountries.innerHTML = '';
+
       const { mapType } = Object.values(LIST_STATES).find(
         (elem) => elem.inList === this.selectValue
       );
@@ -241,7 +338,8 @@ export default class List {
       sortByProperty(this.countries, this.selectValue, -1);
       this.countries.forEach((country) => {
         this.listCountriesArray.push(createListCountryContainer(country, this.selectValue));
-        // this.table.tableCountriesArray.push(createCountryContainer(country, propertys));
+        if (countryState)
+          this.table.tableCountriesArray.push(createCountryContainer(country, propertys));
       });
       listCountries.scrollTop = 0;
       this.handleTable(null);

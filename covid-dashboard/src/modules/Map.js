@@ -1,8 +1,15 @@
-/* eslint-disable no-console */
-
 import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import * as Constants from './Constants';
+import { getPropertiesByType } from './Table';
+import { sortByProperty } from './utils/helpers';
+import {
+  createCountryContainer,
+  createDetailContainer,
+  // table,
+  tableCountries,
+} from './createTable';
 
+import { createListCountryContainer, listCountries } from './createList';
 /*
  * Map.clickLegendButton() - show/hide legend
  *
@@ -22,6 +29,7 @@ export default class Map {
     this.mapboxgl = mapboxgl;
     this.markers = [];
     this.popups = [];
+    this.isFullscreen = false;
   }
 
   init() {
@@ -120,37 +128,28 @@ export default class Map {
     if (!element) {
       return;
     }
-
-    // console.log(element);
     switch (element.id) {
       case 'map-button-cases':
-        console.log('cases');
-        // eslint-disable-next-line no-return-assign
         this.changeMarkersColor(Constants.TYPE_CASE);
+        this.handleTabs(`#${element.id}`);
         break;
       case 'map-button-deaths':
-        console.log('deaths');
         this.changeMarkersColor(Constants.TYPE_DEATH);
-
+        this.handleTabs(`#${element.id}`);
         break;
       case 'map-button-recovered':
-        console.log('recovered');
         this.changeMarkersColor(Constants.TYPE_RECOVERED);
-
+        this.handleTabs(`#${element.id}`);
         break;
       case 'legend-button':
-        console.log('legend');
         Map.clickLegendButton();
         e.stopImmediatePropagation();
-
         break;
       case 'marker':
         {
           const countryName = Map.getCountryNameByMarkerElement(element);
           const country = this.findCountryByName(countryName);
           // this.hideAllPopups();
-
-          console.log(Map.getCountryNameByMarkerElement(element));
           this.handleTable(country);
           e.stopImmediatePropagation();
         }
@@ -167,6 +166,20 @@ export default class Map {
   changeMarkersColor(markerType) {
     this.showMarkers(markerType);
     Map.createLegend(markerType);
+    Map.deactivateTabButtons();
+    Map.activateTabButton(markerType);
+  }
+
+  static activateTabButton(markerType) {
+    const id = Constants.MAP_TAB_BUTTONS_ID[markerType];
+    const button = document.querySelector(id);
+
+    button.classList.add('button-checked');
+  }
+
+  static deactivateTabButtons() {
+    const buttons = document.querySelectorAll('button.map-button');
+    [].map.call(buttons, (element) => element.classList.remove('button-checked'));
   }
 
   static clickLegendButton() {
@@ -251,15 +264,12 @@ export default class Map {
         break;
       case Constants.TYPE_DEATH:
         range = Constants.DEATHS_RANGE;
-
         break;
       case Constants.TYPE_RECOVERED:
         range = Constants.RECOVERED_RANGE;
-
         break;
       default:
         range = Constants.CASES_RANGE;
-
         break;
     }
 
@@ -278,17 +288,14 @@ export default class Map {
       case Constants.TYPE_DEATH:
         range = Constants.DEATHS_RANGE;
         count = country.TotalDeaths;
-
         break;
       case Constants.TYPE_RECOVERED:
         range = Constants.RECOVERED_RANGE;
         count = country.TotalRecovered;
-
         break;
       default:
         range = Constants.CASES_RANGE;
         count = country.TotalConfirmed;
-
         break;
     }
 
@@ -306,10 +313,8 @@ export default class Map {
         return 'marker_cases';
       case Constants.TYPE_DEATH:
         return 'marker_deaths';
-
       case Constants.TYPE_RECOVERED:
         return 'marker_recovered';
-
       default:
         return 'marker_cases';
     }
@@ -322,6 +327,34 @@ export default class Map {
   handleTable(country) {
     this.list.activateListCoutnry(country);
     this.list.activateTableCoutnry(country);
+  }
+
+  handleTabs(mapButtonId) {
+    let buttonId;
+    const id = Constants.MAP_TAB_BUTTONS_ID.indexOf(mapButtonId);
+    if (id === 0) buttonId = 'tab-confirmed';
+    if (id === 1) buttonId = 'tab-deaths';
+    if (id === 2) buttonId = 'tab-recovered';
+    const { countryBtns } = this.table.tabs;
+    const button = countryBtns.find((btn) => btn.id === buttonId);
+    this.table.deactivateButtons(countryBtns, 'tabs__button-active');
+    this.table.hideDetailButtons();
+    button.classList.add('tabs__button-active');
+    const propertys = getPropertiesByType(button.id);
+    sortByProperty(this.table.countries, propertys.property, -1);
+    tableCountries.innerHTML = '';
+    tableCountries.className = `table__countries ${propertys.className}`;
+    listCountries.innerHTML = '';
+    listCountries.className = `list__countries`;
+    this.list.listCountriesArray.length = 0;
+    this.table.countries.forEach((country) => {
+      this.table.tableCountriesArray.push(createCountryContainer(country, propertys));
+      this.list.listCountriesArray.push(createListCountryContainer(country, propertys.property));
+    });
+    this.list.select.value = propertys.property;
+    createDetailContainer(this.table.global);
+    this.targetCountry = null;
+    tableCountries.scrollTop = 0;
   }
 
   eventHandler(blocks) {
